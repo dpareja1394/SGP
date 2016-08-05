@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.dsdsoft.sgp.modelo.TipoActividad" table="tipo_actividad" schema="public">
+        <id name="tiacId" type="java.lang.Integer">
+            <column name="tiac_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="descripcionTiact" type="java.lang.String">
+            <column name="descripcion_tiact" length="150" not-null="true" />
+        </property>
+        <property name="nombreCorto" type="java.lang.String">
+            <column name="nombre_corto" length="3" not-null="true" />
+        </property>
+        <set name="actividads" table="actividad" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tiac_id" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.Actividad" />
+        </set>
+    </class>
+</hibernate-mapping>

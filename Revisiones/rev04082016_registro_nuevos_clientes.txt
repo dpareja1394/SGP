@@ -1,0 +1,6 @@
+- Poner los campos con mayor ancho para poder ver bien los datos escritos.
+- Impedir que se guarden dos empresas con el mismo nombre.
+- Validar que haya por lo menos un teléfono, sea celular o sea teléfono.
+- Cambiar los botones a español.
+- No puede haber dos empresas con el mismo nit.
+- Los campos obligatorios son: Nombre de la empresa, Nit de la empresa, Nombre del contacto, algún teléfono y dirección del contacto o de la empresa.

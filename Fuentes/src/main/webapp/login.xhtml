@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>Signin SGP</title>
+		<meta name="content-type" content="text/html; charset=UTF-8"/>
+		<link REL="SHORTCUT ICON" href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/sgp_logo1616.png"/>
+		<link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/bootstrap.min.css" />
+		<link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/stylelogin.css" />
+    </h:head>
+	<h:body>
+		
+		<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+		<p:dialog modal="true" widgetVar="statusDialog" header="Cargando Información"
+			draggable="false" closable="false" resizable="false">
+			<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+		</p:dialog>
+	
+		<div class="container">
+
+	      <h:form class="form-signin">
+	      
+	      <p:growl id="msgGrowl" autoUpdate="true" showDetail="false" escape="false"/>
+	      		<div align="center">
+	      		<h1>SGP</h1>
+	      		<h2>Sistema de Gestión de Proyectos</h2>
+	      		</div>
+
+				<div align="center">
+				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/sgp_logo.png"/>
+				<br></br>
+				<br></br>
+                <p:inputText id="usernameField" name="j_username" value="#{loginView.userId}" placeholder="Email" styleClass="Container80 Fnone MarAuto Fs18" class="form-control" />
+
+                <p:password id="passwordField" name="j_password" value="#{loginView.password}" placeholder="Password" styleClass="Container80 Fnone MarAuto Fs18" class="form-control" feedback="false"/>
+                
+                <p:commandButton value="Ingresar" action="#{loginView.loginAction}" class="btn btn-lg btn-primary btn-block" />
+                <p:link
+				href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/registrarUsuario.xhtml"
+				value="¿Aún no tienes cuenta? Crea una nueva cuenta aquí" />
+                </div>
+                
+	      </h:form>
+	      
+	      <div align="center">
+	      	<a type="text">Desarrollado por DSDSoft Colombia</a>
+	      	<h3 class="form-signin-heading">
+				<h:outputText rendered="${param.authfailed eq 'true'}" value="Credenciales Invalidas" />
+				<h:outputText rendered="${param.loggedout eq 'true'}" value="Desconectado" />
+				<h:outputText rendered="${param.exceededAllowed eq 'true'}" value="Tiempo permitido excedido" />
+			</h3>
+			
+		 </div>
+	      
+    	</div>
+	</h:body>
+</html>

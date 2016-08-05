@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.dsdsoft.sgp.modelo.Actividad" table="actividad" schema="public">
+        <id name="actiId" type="java.lang.Integer">
+            <column name="acti_id" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="usuario" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usua_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoActividad" class="com.dsdsoft.sgp.modelo.TipoActividad" fetch="select">
+            <column name="tiac_id" not-null="true" />
+        </many-to-one>
+        <property name="descripcionActividad" type="java.lang.String">
+            <column name="descripcion_actividad" length="2000" not-null="true" />
+        </property>
+        <property name="fechaHoraInicio" type="java.util.Date">
+            <column name="fecha_hora_inicio" length="13" not-null="true" />
+        </property>
+        <property name="fechaHoraFin" type="java.util.Date">
+            <column name="fecha_hora_fin" length="13" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

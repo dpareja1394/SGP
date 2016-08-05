@@ -1,0 +1,27 @@
+<jsp:root jsfc="f:view" xmlns:jsp="http://java.sun.com/JSP/Page"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+   
+   <html>
+		<body>
+			<f:view>
+				<ui:composition>
+					<!-- Beging header -->
+						<div class="jumbotron">
+					      <div class="container" align="center">
+					        <h1>SGP</h1>
+	      					<h2>Sistema de Gestion de Proyectos</h2>
+					        <h3>#{usuarioView.saludoUsuario}</h3>
+					        <a type="text">Desarrollado por DSDSoft Colombia</a>
+					      </div>
+    					</div>
+					<!-- end header -->
+				</ui:composition>
+			</f:view>
+		</body>
+	</html>
+</jsp:root>
