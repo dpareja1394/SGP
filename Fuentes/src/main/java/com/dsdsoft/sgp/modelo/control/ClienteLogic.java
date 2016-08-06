@@ -510,4 +510,100 @@ public class ClienteLogic implements IClienteLogic {
 
         return list;
     }
+    
+    //DPL20160806 Registro de nuevo cliente con la lógica pedida en las revisiones
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void registrarNuevoCliente(Cliente cliente) throws Exception {
+        log.info("Registrando un nuevo cliente, "+cliente.getNombreEmpresa());
+        Cliente clienteTemporal;
+        try {
+        	
+        	if(cliente.getNombreEmpresa()==null){
+        		throw new ZMessManager().new EmptyFieldException(
+                        "Nombre de la Empresa");
+        	}
+        	
+        	if((cliente.getNombreEmpresa()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getNombreEmpresa(), 200)==false){
+        		throw new ZMessManager().new NotValidFormatException("Nombre de la Empresa");
+        	}
+        	
+        	clienteTemporal = clienteDAO.findEntityByProperty("nombreEmpresa", cliente.getNombreEmpresa());
+        	if(clienteTemporal != null){
+        		throw new Exception("Ya existe una empresa con el nombre: "+clienteTemporal.getNombreEmpresa());
+        	}
+        	
+        	if(cliente.getNit()==null){
+        		throw new ZMessManager().new EmptyFieldException(
+                        "Nit de la Empresa");
+        	}
+        	
+        	if((cliente.getNit()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getNit(), 30)==false){
+        		throw new ZMessManager().new NotValidFormatException("Nit de la Empresa");
+        	}
+        	
+        	clienteTemporal = clienteDAO.findEntityByProperty("nit", cliente.getNit());
+        	if(clienteTemporal != null){
+        		throw new Exception("Ya existe una empresa con el nit: "+clienteTemporal.getNit());
+        	}
+        	
+        	if((cliente.getEnlaceWeb()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getEnlaceWeb(), 200)==false){
+        		throw new ZMessManager().new NotValidFormatException("Enlace Web");
+        	}
+        	
+        	if(cliente.getNombreContacto()==null){
+        		throw new ZMessManager().new EmptyFieldException(
+                        "Nombre Contacto");
+        	}
+        	
+        	if((cliente.getNombreContacto()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getNombreContacto(), 200)==false){
+        		throw new ZMessManager().new NotValidFormatException("Nombre Contacto");
+        	}
+        	
+        	if(cliente.getCelularContacto()==null){
+        		throw new ZMessManager().new EmptyFieldException(
+                        "Celular Contacto");
+        	}
+        	
+        	if((cliente.getCelularContacto()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getCelularContacto(), 200)==false){
+        		throw new ZMessManager().new NotValidFormatException("Celular Contacto");
+        	}
+        	
+        	if(cliente.getTelefonoContacto()==null){
+        		throw new ZMessManager().new EmptyFieldException(
+                        "Tel&eacute; Contacto");
+        	}
+        	
+        	if((cliente.getTelefonoContacto()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getTelefonoContacto(), 20)==false){
+        		throw new ZMessManager().new NotValidFormatException("Tel&eacute; Contacto");
+        	}
+        	
+        	if(cliente.getDireccionContacto()==null){
+        		throw new ZMessManager().new EmptyFieldException(
+                        "Direcci&oacute;n Contacto");
+        	}
+        	
+        	if((cliente.getDireccionContacto()!=null)&&
+        			Utilities.checkWordAndCheckWithlength(cliente.getDireccionContacto(), 200)==false){
+        		throw new ZMessManager().new NotValidFormatException("Direcci&oacute;n Contacto");
+        	}
+  
+//        	DPL 20160806 Llamado al DAO para registrar el nuevo cliente despues 
+//        	de haber pasado las validaciones en la lógica
+            clienteDAO.save(cliente);
+            clienteTemporal = null;
+            log.info("Se ha registrado el cliente, "+cliente.getNombreEmpresa());
+        } catch (Exception e) {
+            log.error("Error guardando el cliente, "+cliente.getNombreEmpresa(), e);
+            clienteTemporal = null;
+            throw e;
+        } finally {
+        }
+    }
+    
 }

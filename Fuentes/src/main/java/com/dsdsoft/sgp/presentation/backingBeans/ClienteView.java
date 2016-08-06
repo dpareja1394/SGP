@@ -65,6 +65,8 @@ public class ClienteView implements Serializable {
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
+    private CommandButton btnRegistrarNuevoCliente;    
+    
     public ClienteView() {
         super();
     }
@@ -558,7 +560,15 @@ public class ClienteView implements Serializable {
         this.showDialog = showDialog;
     }
     
-    //DPL 20160703 Método para crear un nuevo cliente.
+    public CommandButton getBtnRegistrarNuevoCliente() {
+		return btnRegistrarNuevoCliente;
+	}
+
+	public void setBtnRegistrarNuevoCliente(CommandButton btnRegistrarNuevoCliente) {
+		this.btnRegistrarNuevoCliente = btnRegistrarNuevoCliente;
+	}
+
+	//DPL 20160703 Método para crear un nuevo cliente.
     public String registrarNuevoCliente() {
         try {
             entity = new Cliente();
@@ -573,15 +583,28 @@ public class ClienteView implements Serializable {
             entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
             entity.setTelefonoContacto(FacesUtils.checkString(
                     txtTelefonoContacto));
-            businessDelegatorView.saveCliente(entity);
+            businessDelegatorView.registrarNuevoCliente(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            action_clear();
+            limpiarRegistrarNuevoCliente();
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
         }
 
         return "";
+    }
+    
+    public void limpiarRegistrarNuevoCliente(){
+    	entity = null;
+    	txtCelularContacto.setValue(null);
+    	txtDireccionContacto.setValue(null);
+    	txtEnlaceWeb.setValue(null);
+    	txtNit.setValue(null);
+    	txtNombreContacto.setValue(null);
+    	txtNombreEmpresa.setValue(null);
+    	txtTelefonoContacto.setValue(null);
+    	
+    	FacesUtils.addInfoMessage("Pantalla limpia");
     }
 
     

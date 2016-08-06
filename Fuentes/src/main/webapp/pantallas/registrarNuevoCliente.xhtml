@@ -39,32 +39,33 @@
 
 							<h:outputText id="msgNombreEmpresa"
 								value=" Nombre de la Empresa:*" />
-							<p:inputText id="txtNombreEmpresa"
+							<p:inputText id="txtNombreEmpresa" style="width:700px;"
 								binding="#{clienteView.txtNombreEmpresa}" />
 
 							<h:outputText id="msgNit" value=" Nit de la Empresa:*" />
-							<p:inputText id="txtNit" binding="#{clienteView.txtNit}" />
+							<p:inputText id="txtNit" style="width:250px;"
+							 binding="#{clienteView.txtNit}" />
 
 							<h:outputText id="msgEnlaceWeb" value=" Enlace Web:" />
-							<p:inputText id="txtEnlaceWeb"
+							<p:inputText id="txtEnlaceWeb" style="width:700px;"
 								binding="#{clienteView.txtEnlaceWeb}" />
 
 							<h:outputText id="msgNombreContacto" value=" Nombre Contacto:*" />
-							<p:inputText id="txtNombreContacto"
+							<p:inputText id="txtNombreContacto" style="width:700px;"
 								binding="#{clienteView.txtNombreContacto}" />
 
 							<h:outputText id="msgCelularContacto" value=" Celular Contacto:" />
-							<p:inputText id="txtCelularContacto"
+							<p:inputText id="txtCelularContacto" style="width:250px;"
 								binding="#{clienteView.txtCelularContacto}" />
 
 							<h:outputText id="msgTelefonoContacto"
 								value=" Telefono Contacto:" />
-							<p:inputText id="txtTelefonoContacto"
+							<p:inputText id="txtTelefonoContacto" style="width:250px;"
 								binding="#{clienteView.txtTelefonoContacto}" />
 
 							<h:outputText id="msgDireccionContacto"
 								value=" Direccion Contacto:" />
-							<p:inputText id="txtDireccionContacto"
+							<p:inputText id="txtDireccionContacto" style="width:700px;"
 								binding="#{clienteView.txtDireccionContacto}" />
 
 
@@ -75,12 +76,12 @@
 					</p:panel>
 					<p:panel id="panelBotones">
 						<div align="center">
-							<p:commandButton id="btnSave" binding="#{clienteView.btnSave}"
-								value="Save" action="#{clienteView.registrarNuevoCliente}"
+							<p:commandButton id="btnRegistrarNuevoCliente" binding="#{clienteView.btnRegistrarNuevoCliente}"
+								value="Registrar Cliente" action="#{clienteView.registrarNuevoCliente}"
 								update="panelCliente,msg,panelBotones" />
-							<p:commandButton id="btnClear" value="Clear"
-								action="#{clienteView.action_clear()}"
-								update="panelCliente,msg,panelBotones" />
+							<p:commandButton id="btnLimpiarRegistrarNuevoCliente" value="Limpiar pantalla"
+								action="#{clienteView.limpiarRegistrarNuevoCliente()}"
+								update="panelCliente,panelBotones,men" />
 						</div>
 					</p:panel>
 				</h:form>

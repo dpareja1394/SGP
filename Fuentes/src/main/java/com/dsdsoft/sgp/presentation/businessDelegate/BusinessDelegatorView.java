@@ -888,4 +888,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     public List<UsuarioDTO> getDataUsuario() throws Exception {
         return usuarioLogic.getDataUsuario();
     }
+
+	@Override
+	public void registrarNuevoCliente(Cliente cliente) throws Exception {
+		clienteLogic.registrarNuevoCliente(cliente);
+	}
 }

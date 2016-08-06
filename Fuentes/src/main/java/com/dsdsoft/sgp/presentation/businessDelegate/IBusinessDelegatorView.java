@@ -422,4 +422,6 @@ public interface IBusinessDelegatorView {
     public Long findTotalNumberUsuario() throws Exception;
 
     public List<UsuarioDTO> getDataUsuario() throws Exception;
+    
+    public void registrarNuevoCliente(Cliente cliente) throws Exception;
 }

@@ -53,4 +53,6 @@ public interface IClienteLogic {
     public Long findTotalNumberCliente() throws Exception;
 
     public List<ClienteDTO> getDataCliente() throws Exception;
+    
+    public void registrarNuevoCliente(Cliente cliente) throws Exception;
 }
