@@ -5,7 +5,7 @@ OK DPL20160806 Campos con mayor ancho en la pantalla.
 OK DPL20160806
 
 - Validar que haya por lo menos un teléfono, sea celular o sea teléfono.
-
+No se puede, ya está definido por BD que los dos campos son not null.
 
 - Cambiar los botones a español.
  OK DPL20160806 Botones en español.
@@ -17,3 +17,4 @@ OK DPL20160806
 OK DPL20160806
 
 - Cuando la empresa exista, traer los datos y permitir modificar únicamente los teléfonos, nombre del cliente y enlace web.
+OK DPL20160806
