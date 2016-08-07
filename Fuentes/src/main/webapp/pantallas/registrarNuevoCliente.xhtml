@@ -37,36 +37,39 @@
 					<p:panel id="panelCliente" header="Cliente">
 						<h:panelGrid columns="2" id="panelGrid">
 
+							<h:outputText id="msgNit" value=" Nit de la Empresa:*" />
+							<p:inputText id="txtNit" style="width:250px;"
+								binding="#{clienteView.txtNit}" disabled="false">
+								<p:ajax update="panelCliente,msg,panelBotones"
+									listener="#{clienteView.listenerNit}" />
+							</p:inputText>
+
 							<h:outputText id="msgNombreEmpresa"
 								value=" Nombre de la Empresa:*" />
 							<p:inputText id="txtNombreEmpresa" style="width:700px;"
-								binding="#{clienteView.txtNombreEmpresa}" />
-
-							<h:outputText id="msgNit" value=" Nit de la Empresa:*" />
-							<p:inputText id="txtNit" style="width:250px;"
-							 binding="#{clienteView.txtNit}" />
+								binding="#{clienteView.txtNombreEmpresa}" disabled="true" />
 
 							<h:outputText id="msgEnlaceWeb" value=" Enlace Web:" />
 							<p:inputText id="txtEnlaceWeb" style="width:700px;"
-								binding="#{clienteView.txtEnlaceWeb}" />
+								binding="#{clienteView.txtEnlaceWeb}" disabled="true" />
 
 							<h:outputText id="msgNombreContacto" value=" Nombre Contacto:*" />
 							<p:inputText id="txtNombreContacto" style="width:700px;"
-								binding="#{clienteView.txtNombreContacto}" />
+								binding="#{clienteView.txtNombreContacto}" disabled="true" />
 
 							<h:outputText id="msgCelularContacto" value=" Celular Contacto:" />
 							<p:inputText id="txtCelularContacto" style="width:250px;"
-								binding="#{clienteView.txtCelularContacto}" />
+								binding="#{clienteView.txtCelularContacto}" disabled="true" />
 
 							<h:outputText id="msgTelefonoContacto"
 								value=" Telefono Contacto:" />
 							<p:inputText id="txtTelefonoContacto" style="width:250px;"
-								binding="#{clienteView.txtTelefonoContacto}" />
+								binding="#{clienteView.txtTelefonoContacto}" disabled="true" />
 
 							<h:outputText id="msgDireccionContacto"
 								value=" Direccion Contacto:" />
 							<p:inputText id="txtDireccionContacto" style="width:700px;"
-								binding="#{clienteView.txtDireccionContacto}" />
+								binding="#{clienteView.txtDireccionContacto}" disabled="true" />
 
 
 
@@ -76,10 +79,21 @@
 					</p:panel>
 					<p:panel id="panelBotones">
 						<div align="center">
-							<p:commandButton id="btnRegistrarNuevoCliente" binding="#{clienteView.btnRegistrarNuevoCliente}"
-								value="Registrar Cliente" action="#{clienteView.registrarNuevoCliente}"
+							<p:commandButton id="btnRegistrarNuevoCliente" disabled="true"
+								binding="#{clienteView.btnRegistrarNuevoCliente}"
+								value="Registrar Cliente"
+								action="#{clienteView.registrarNuevoCliente}"
 								update="panelCliente,msg,panelBotones" />
-							<p:commandButton id="btnLimpiarRegistrarNuevoCliente" value="Limpiar pantalla"
+
+							<p:commandButton id="btnModificarCliente" disabled="true"
+								binding="#{clienteView.btnModificarCliente}"
+								value="Actualizar Datos"
+								action="#{clienteView.actualizarCliente()}"
+								update="panelCliente,msg,panelBotones" />
+
+							<p:commandButton id="btnLimpiarRegistrarNuevoCliente"
+								disabled="true" binding="#{clienteView.btnLimpiarPantalla}"
+								value="Limpiar pantalla"
 								action="#{clienteView.limpiarRegistrarNuevoCliente()}"
 								update="panelCliente,panelBotones,men" />
 						</div>

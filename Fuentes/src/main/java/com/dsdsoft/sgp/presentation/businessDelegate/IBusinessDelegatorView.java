@@ -424,4 +424,6 @@ public interface IBusinessDelegatorView {
     public List<UsuarioDTO> getDataUsuario() throws Exception;
     
     public void registrarNuevoCliente(Cliente cliente) throws Exception;
+    
+    public Cliente buscarClientePorNit(String nit) throws Exception;
 }

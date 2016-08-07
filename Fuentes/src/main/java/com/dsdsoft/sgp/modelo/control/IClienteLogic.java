@@ -55,4 +55,6 @@ public interface IClienteLogic {
     public List<ClienteDTO> getDataCliente() throws Exception;
     
     public void registrarNuevoCliente(Cliente cliente) throws Exception;
+    
+    public Cliente buscarClientePorNit(String nit) throws Exception;
 }

@@ -35,532 +35,520 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
-
 /**
  * @author Zathura Code Generator http://code.google.com/p/zathura
- * www.zathuracode.org
+ *         www.zathuracode.org
  *
  */
 @ManagedBean
 @ViewScoped
 public class ClienteView implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private static final Logger log = LoggerFactory.getLogger(ClienteView.class);
-    private InputText txtCelularContacto;
-    private InputText txtDireccionContacto;
-    private InputText txtEnlaceWeb;
-    private InputText txtNit;
-    private InputText txtNombreContacto;
-    private InputText txtNombreEmpresa;
-    private InputText txtTelefonoContacto;
-    private InputText txtClieId;
-    private CommandButton btnSave;
-    private CommandButton btnModify;
-    private CommandButton btnDelete;
-    private CommandButton btnClear;
-    private List<ClienteDTO> data;
-    private ClienteDTO selectedCliente;
-    private Cliente entity;
-    private boolean showDialog;
-    @ManagedProperty(value = "#{BusinessDelegatorView}")
-    private IBusinessDelegatorView businessDelegatorView;
-
-    private CommandButton btnRegistrarNuevoCliente;    
-    
-    public ClienteView() {
-        super();
-    }
-
-    public void rowEventListener(RowEditEvent e) {
-        try {
-            ClienteDTO clienteDTO = (ClienteDTO) e.getObject();
-
-            if (txtCelularContacto == null) {
-                txtCelularContacto = new InputText();
-            }
-
-            txtCelularContacto.setValue(clienteDTO.getCelularContacto());
-
-            if (txtDireccionContacto == null) {
-                txtDireccionContacto = new InputText();
-            }
-
-            txtDireccionContacto.setValue(clienteDTO.getDireccionContacto());
-
-            if (txtEnlaceWeb == null) {
-                txtEnlaceWeb = new InputText();
-            }
-
-            txtEnlaceWeb.setValue(clienteDTO.getEnlaceWeb());
-
-            if (txtNit == null) {
-                txtNit = new InputText();
-            }
-
-            txtNit.setValue(clienteDTO.getNit());
-
-            if (txtNombreContacto == null) {
-                txtNombreContacto = new InputText();
-            }
-
-            txtNombreContacto.setValue(clienteDTO.getNombreContacto());
-
-            if (txtNombreEmpresa == null) {
-                txtNombreEmpresa = new InputText();
-            }
-
-            txtNombreEmpresa.setValue(clienteDTO.getNombreEmpresa());
-
-            if (txtTelefonoContacto == null) {
-                txtTelefonoContacto = new InputText();
-            }
-
-            txtTelefonoContacto.setValue(clienteDTO.getTelefonoContacto());
-
-            if (txtClieId == null) {
-                txtClieId = new InputText();
-            }
-
-            txtClieId.setValue(clienteDTO.getClieId());
-
-            Integer clieId = FacesUtils.checkInteger(txtClieId);
-            entity = businessDelegatorView.getCliente(clieId);
-
-            action_modify();
-        } catch (Exception ex) {
-        }
-    }
-
-    public String action_new() {
-        action_clear();
-        selectedCliente = null;
-        setShowDialog(true);
-
-        return "";
-    }
-
-    public String action_clear() {
-        entity = null;
-        selectedCliente = null;
-
-        if (txtCelularContacto != null) {
-            txtCelularContacto.setValue(null);
-            txtCelularContacto.setDisabled(true);
-        }
-
-        if (txtDireccionContacto != null) {
-            txtDireccionContacto.setValue(null);
-            txtDireccionContacto.setDisabled(true);
-        }
-
-        if (txtEnlaceWeb != null) {
-            txtEnlaceWeb.setValue(null);
-            txtEnlaceWeb.setDisabled(true);
-        }
-
-        if (txtNit != null) {
-            txtNit.setValue(null);
-            txtNit.setDisabled(true);
-        }
-
-        if (txtNombreContacto != null) {
-            txtNombreContacto.setValue(null);
-            txtNombreContacto.setDisabled(true);
-        }
-
-        if (txtNombreEmpresa != null) {
-            txtNombreEmpresa.setValue(null);
-            txtNombreEmpresa.setDisabled(true);
-        }
-
-        if (txtTelefonoContacto != null) {
-            txtTelefonoContacto.setValue(null);
-            txtTelefonoContacto.setDisabled(true);
-        }
-
-        if (txtClieId != null) {
-            txtClieId.setValue(null);
-            txtClieId.setDisabled(false);
-        }
-
-        /*if (btnSave != null) {
-            btnSave.setDisabled(true);
-        }*/
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
-
-        return "";
-    }
-
-    public void listener_txtId() {
-        try {
-            Integer clieId = FacesUtils.checkInteger(txtClieId);
-            entity = (clieId != null)
-                ? businessDelegatorView.getCliente(clieId) : null;
-        } catch (Exception e) {
-            entity = null;
-        }
-
-        if (entity == null) {
-            txtCelularContacto.setDisabled(false);
-            txtDireccionContacto.setDisabled(false);
-            txtEnlaceWeb.setDisabled(false);
-            txtNit.setDisabled(false);
-            txtNombreContacto.setDisabled(false);
-            txtNombreEmpresa.setDisabled(false);
-            txtTelefonoContacto.setDisabled(false);
-            txtClieId.setDisabled(false);
-            btnSave.setDisabled(false);
-        } else {
-            txtCelularContacto.setValue(entity.getCelularContacto());
-            txtCelularContacto.setDisabled(false);
-            txtDireccionContacto.setValue(entity.getDireccionContacto());
-            txtDireccionContacto.setDisabled(false);
-            txtEnlaceWeb.setValue(entity.getEnlaceWeb());
-            txtEnlaceWeb.setDisabled(false);
-            txtNit.setValue(entity.getNit());
-            txtNit.setDisabled(false);
-            txtNombreContacto.setValue(entity.getNombreContacto());
-            txtNombreContacto.setDisabled(false);
-            txtNombreEmpresa.setValue(entity.getNombreEmpresa());
-            txtNombreEmpresa.setDisabled(false);
-            txtTelefonoContacto.setValue(entity.getTelefonoContacto());
-            txtTelefonoContacto.setDisabled(false);
-            txtClieId.setValue(entity.getClieId());
-            txtClieId.setDisabled(true);
-            btnSave.setDisabled(false);
-
-            if (btnDelete != null) {
-                btnDelete.setDisabled(false);
-            }
-        }
-    }
-
-    public String action_edit(ActionEvent evt) {
-        selectedCliente = (ClienteDTO) (evt.getComponent().getAttributes()
-                                           .get("selectedCliente"));
-        txtCelularContacto.setValue(selectedCliente.getCelularContacto());
-        txtCelularContacto.setDisabled(false);
-        txtDireccionContacto.setValue(selectedCliente.getDireccionContacto());
-        txtDireccionContacto.setDisabled(false);
-        txtEnlaceWeb.setValue(selectedCliente.getEnlaceWeb());
-        txtEnlaceWeb.setDisabled(false);
-        txtNit.setValue(selectedCliente.getNit());
-        txtNit.setDisabled(false);
-        txtNombreContacto.setValue(selectedCliente.getNombreContacto());
-        txtNombreContacto.setDisabled(false);
-        txtNombreEmpresa.setValue(selectedCliente.getNombreEmpresa());
-        txtNombreEmpresa.setDisabled(false);
-        txtTelefonoContacto.setValue(selectedCliente.getTelefonoContacto());
-        txtTelefonoContacto.setDisabled(false);
-        txtClieId.setValue(selectedCliente.getClieId());
-        txtClieId.setDisabled(true);
-        btnSave.setDisabled(false);
-        setShowDialog(true);
-
-        return "";
-    }
-
-    public String action_save() {
-        try {
-            if ((selectedCliente == null) && (entity == null)) {
-                action_create();
-            } else {
-                action_modify();
-            }
-
-            data = null;
-        } catch (Exception e) {
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
-    }
-
-    public String action_create() {
-        try {
-            entity = new Cliente();
-
-            Integer clieId = FacesUtils.checkInteger(txtClieId);
-
-            entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
-            entity.setClieId(clieId);
-            entity.setDireccionContacto(FacesUtils.checkString(
-                    txtDireccionContacto));
-            entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
-            entity.setNit(FacesUtils.checkString(txtNit));
-            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
-            entity.setTelefonoContacto(FacesUtils.checkString(
-                    txtTelefonoContacto));
-            businessDelegatorView.saveCliente(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            action_clear();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
-    }
-
-    public String action_modify() {
-        try {
-            if (entity == null) {
-                Integer clieId = new Integer(selectedCliente.getClieId());
-                entity = businessDelegatorView.getCliente(clieId);
-            }
-
-            entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
-            entity.setDireccionContacto(FacesUtils.checkString(
-                    txtDireccionContacto));
-            entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
-            entity.setNit(FacesUtils.checkString(txtNit));
-            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
-            entity.setTelefonoContacto(FacesUtils.checkString(
-                    txtTelefonoContacto));
-            businessDelegatorView.updateCliente(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
-    }
-
-    public String action_delete_datatable(ActionEvent evt) {
-        try {
-            selectedCliente = (ClienteDTO) (evt.getComponent().getAttributes()
-                                               .get("selectedCliente"));
-
-            Integer clieId = new Integer(selectedCliente.getClieId());
-            entity = businessDelegatorView.getCliente(clieId);
-            action_delete();
-        } catch (Exception e) {
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
-    }
-
-    public String action_delete_master() {
-        try {
-            Integer clieId = FacesUtils.checkInteger(txtClieId);
-            entity = businessDelegatorView.getCliente(clieId);
-            action_delete();
-        } catch (Exception e) {
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
-    }
-
-    public void action_delete() throws Exception {
-        try {
-            businessDelegatorView.deleteCliente(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
-            action_clear();
-            data = null;
-        } catch (Exception e) {
-            throw e;
-        }
-    }
-
-    public String action_closeDialog() {
-        setShowDialog(false);
-        action_clear();
-
-        return "";
-    }
-
-    public String actionDeleteDataTableEditable(ActionEvent evt) {
-        try {
-            selectedCliente = (ClienteDTO) (evt.getComponent().getAttributes()
-                                               .get("selectedCliente"));
-
-            Integer clieId = new Integer(selectedCliente.getClieId());
-            entity = businessDelegatorView.getCliente(clieId);
-            businessDelegatorView.deleteCliente(entity);
-            data.remove(selectedCliente);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
-            action_clear();
-        } catch (Exception e) {
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
-    }
-
-    public String action_modifyWitDTO(String celularContacto, Integer clieId,
-        String direccionContacto, String enlaceWeb, String nit,
-        String nombreContacto, String nombreEmpresa, String telefonoContacto)
-        throws Exception {
-        try {
-            entity.setCelularContacto(FacesUtils.checkString(celularContacto));
-            entity.setDireccionContacto(FacesUtils.checkString(
-                    direccionContacto));
-            entity.setEnlaceWeb(FacesUtils.checkString(enlaceWeb));
-            entity.setNit(FacesUtils.checkString(nit));
-            entity.setNombreContacto(FacesUtils.checkString(nombreContacto));
-            entity.setNombreEmpresa(FacesUtils.checkString(nombreEmpresa));
-            entity.setTelefonoContacto(FacesUtils.checkString(telefonoContacto));
-            businessDelegatorView.updateCliente(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-        } catch (Exception e) {
-            //renderManager.getOnDemandRenderer("ClienteView").requestRender();
-            FacesUtils.addErrorMessage(e.getMessage());
-            throw e;
-        }
-
-        return "";
-    }
-
-    public InputText getTxtCelularContacto() {
-        return txtCelularContacto;
-    }
-
-    public void setTxtCelularContacto(InputText txtCelularContacto) {
-        this.txtCelularContacto = txtCelularContacto;
-    }
-
-    public InputText getTxtDireccionContacto() {
-        return txtDireccionContacto;
-    }
-
-    public void setTxtDireccionContacto(InputText txtDireccionContacto) {
-        this.txtDireccionContacto = txtDireccionContacto;
-    }
-
-    public InputText getTxtEnlaceWeb() {
-        return txtEnlaceWeb;
-    }
-
-    public void setTxtEnlaceWeb(InputText txtEnlaceWeb) {
-        this.txtEnlaceWeb = txtEnlaceWeb;
-    }
-
-    public InputText getTxtNit() {
-        return txtNit;
-    }
-
-    public void setTxtNit(InputText txtNit) {
-        this.txtNit = txtNit;
-    }
-
-    public InputText getTxtNombreContacto() {
-        return txtNombreContacto;
-    }
-
-    public void setTxtNombreContacto(InputText txtNombreContacto) {
-        this.txtNombreContacto = txtNombreContacto;
-    }
-
-    public InputText getTxtNombreEmpresa() {
-        return txtNombreEmpresa;
-    }
-
-    public void setTxtNombreEmpresa(InputText txtNombreEmpresa) {
-        this.txtNombreEmpresa = txtNombreEmpresa;
-    }
-
-    public InputText getTxtTelefonoContacto() {
-        return txtTelefonoContacto;
-    }
-
-    public void setTxtTelefonoContacto(InputText txtTelefonoContacto) {
-        this.txtTelefonoContacto = txtTelefonoContacto;
-    }
-
-    public InputText getTxtClieId() {
-        return txtClieId;
-    }
-
-    public void setTxtClieId(InputText txtClieId) {
-        this.txtClieId = txtClieId;
-    }
-
-    public List<ClienteDTO> getData() {
-        try {
-            if (data == null) {
-                data = businessDelegatorView.getDataCliente();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return data;
-    }
-
-    public void setData(List<ClienteDTO> clienteDTO) {
-        this.data = clienteDTO;
-    }
-
-    public ClienteDTO getSelectedCliente() {
-        return selectedCliente;
-    }
-
-    public void setSelectedCliente(ClienteDTO cliente) {
-        this.selectedCliente = cliente;
-    }
-
-    public CommandButton getBtnSave() {
-        return btnSave;
-    }
-
-    public void setBtnSave(CommandButton btnSave) {
-        this.btnSave = btnSave;
-    }
-
-    public CommandButton getBtnModify() {
-        return btnModify;
-    }
-
-    public void setBtnModify(CommandButton btnModify) {
-        this.btnModify = btnModify;
-    }
-
-    public CommandButton getBtnDelete() {
-        return btnDelete;
-    }
-
-    public void setBtnDelete(CommandButton btnDelete) {
-        this.btnDelete = btnDelete;
-    }
-
-    public CommandButton getBtnClear() {
-        return btnClear;
-    }
-
-    public void setBtnClear(CommandButton btnClear) {
-        this.btnClear = btnClear;
-    }
-
-    public TimeZone getTimeZone() {
-        return java.util.TimeZone.getDefault();
-    }
-
-    public IBusinessDelegatorView getBusinessDelegatorView() {
-        return businessDelegatorView;
-    }
-
-    public void setBusinessDelegatorView(
-        IBusinessDelegatorView businessDelegatorView) {
-        this.businessDelegatorView = businessDelegatorView;
-    }
-
-    public boolean isShowDialog() {
-        return showDialog;
-    }
-
-    public void setShowDialog(boolean showDialog) {
-        this.showDialog = showDialog;
-    }
-    
-    public CommandButton getBtnRegistrarNuevoCliente() {
+	private static final long serialVersionUID = 1L;
+	private static final Logger log = LoggerFactory.getLogger(ClienteView.class);
+	private InputText txtCelularContacto;
+	private InputText txtDireccionContacto;
+	private InputText txtEnlaceWeb;
+	private InputText txtNit;
+	private InputText txtNombreContacto;
+	private InputText txtNombreEmpresa;
+	private InputText txtTelefonoContacto;
+	private InputText txtClieId;
+	private CommandButton btnSave;
+	private CommandButton btnModify;
+	private CommandButton btnDelete;
+	private CommandButton btnClear;
+	private List<ClienteDTO> data;
+	private ClienteDTO selectedCliente;
+	private Cliente entity;
+	private boolean showDialog;
+	@ManagedProperty(value = "#{BusinessDelegatorView}")
+	private IBusinessDelegatorView businessDelegatorView;
+
+	private CommandButton btnRegistrarNuevoCliente, btnModificarCliente, btnLimpiarPantalla;
+
+	public ClienteView() {
+		super();
+	}
+
+	public void rowEventListener(RowEditEvent e) {
+		try {
+			ClienteDTO clienteDTO = (ClienteDTO) e.getObject();
+
+			if (txtCelularContacto == null) {
+				txtCelularContacto = new InputText();
+			}
+
+			txtCelularContacto.setValue(clienteDTO.getCelularContacto());
+
+			if (txtDireccionContacto == null) {
+				txtDireccionContacto = new InputText();
+			}
+
+			txtDireccionContacto.setValue(clienteDTO.getDireccionContacto());
+
+			if (txtEnlaceWeb == null) {
+				txtEnlaceWeb = new InputText();
+			}
+
+			txtEnlaceWeb.setValue(clienteDTO.getEnlaceWeb());
+
+			if (txtNit == null) {
+				txtNit = new InputText();
+			}
+
+			txtNit.setValue(clienteDTO.getNit());
+
+			if (txtNombreContacto == null) {
+				txtNombreContacto = new InputText();
+			}
+
+			txtNombreContacto.setValue(clienteDTO.getNombreContacto());
+
+			if (txtNombreEmpresa == null) {
+				txtNombreEmpresa = new InputText();
+			}
+
+			txtNombreEmpresa.setValue(clienteDTO.getNombreEmpresa());
+
+			if (txtTelefonoContacto == null) {
+				txtTelefonoContacto = new InputText();
+			}
+
+			txtTelefonoContacto.setValue(clienteDTO.getTelefonoContacto());
+
+			if (txtClieId == null) {
+				txtClieId = new InputText();
+			}
+
+			txtClieId.setValue(clienteDTO.getClieId());
+
+			Integer clieId = FacesUtils.checkInteger(txtClieId);
+			entity = businessDelegatorView.getCliente(clieId);
+
+			action_modify();
+		} catch (Exception ex) {
+		}
+	}
+
+	public String action_new() {
+		action_clear();
+		selectedCliente = null;
+		setShowDialog(true);
+
+		return "";
+	}
+
+	public String action_clear() {
+		entity = null;
+		selectedCliente = null;
+
+		if (txtCelularContacto != null) {
+			txtCelularContacto.setValue(null);
+			txtCelularContacto.setDisabled(true);
+		}
+
+		if (txtDireccionContacto != null) {
+			txtDireccionContacto.setValue(null);
+			txtDireccionContacto.setDisabled(true);
+		}
+
+		if (txtEnlaceWeb != null) {
+			txtEnlaceWeb.setValue(null);
+			txtEnlaceWeb.setDisabled(true);
+		}
+
+		if (txtNit != null) {
+			txtNit.setValue(null);
+			txtNit.setDisabled(true);
+		}
+
+		if (txtNombreContacto != null) {
+			txtNombreContacto.setValue(null);
+			txtNombreContacto.setDisabled(true);
+		}
+
+		if (txtNombreEmpresa != null) {
+			txtNombreEmpresa.setValue(null);
+			txtNombreEmpresa.setDisabled(true);
+		}
+
+		if (txtTelefonoContacto != null) {
+			txtTelefonoContacto.setValue(null);
+			txtTelefonoContacto.setDisabled(true);
+		}
+
+		if (txtClieId != null) {
+			txtClieId.setValue(null);
+			txtClieId.setDisabled(false);
+		}
+
+		/*
+		 * if (btnSave != null) { btnSave.setDisabled(true); }
+		 */
+
+		if (btnDelete != null) {
+			btnDelete.setDisabled(true);
+		}
+
+		return "";
+	}
+
+	public void listener_txtId() {
+		try {
+			Integer clieId = FacesUtils.checkInteger(txtClieId);
+			entity = (clieId != null) ? businessDelegatorView.getCliente(clieId) : null;
+		} catch (Exception e) {
+			entity = null;
+		}
+
+		if (entity == null) {
+			txtCelularContacto.setDisabled(false);
+			txtDireccionContacto.setDisabled(false);
+			txtEnlaceWeb.setDisabled(false);
+			txtNit.setDisabled(false);
+			txtNombreContacto.setDisabled(false);
+			txtNombreEmpresa.setDisabled(false);
+			txtTelefonoContacto.setDisabled(false);
+			txtClieId.setDisabled(false);
+			btnSave.setDisabled(false);
+		} else {
+			txtCelularContacto.setValue(entity.getCelularContacto());
+			txtCelularContacto.setDisabled(false);
+			txtDireccionContacto.setValue(entity.getDireccionContacto());
+			txtDireccionContacto.setDisabled(false);
+			txtEnlaceWeb.setValue(entity.getEnlaceWeb());
+			txtEnlaceWeb.setDisabled(false);
+			txtNit.setValue(entity.getNit());
+			txtNit.setDisabled(false);
+			txtNombreContacto.setValue(entity.getNombreContacto());
+			txtNombreContacto.setDisabled(false);
+			txtNombreEmpresa.setValue(entity.getNombreEmpresa());
+			txtNombreEmpresa.setDisabled(false);
+			txtTelefonoContacto.setValue(entity.getTelefonoContacto());
+			txtTelefonoContacto.setDisabled(false);
+			txtClieId.setValue(entity.getClieId());
+			txtClieId.setDisabled(true);
+			btnSave.setDisabled(false);
+
+			if (btnDelete != null) {
+				btnDelete.setDisabled(false);
+			}
+		}
+	}
+
+	public String action_edit(ActionEvent evt) {
+		selectedCliente = (ClienteDTO) (evt.getComponent().getAttributes().get("selectedCliente"));
+		txtCelularContacto.setValue(selectedCliente.getCelularContacto());
+		txtCelularContacto.setDisabled(false);
+		txtDireccionContacto.setValue(selectedCliente.getDireccionContacto());
+		txtDireccionContacto.setDisabled(false);
+		txtEnlaceWeb.setValue(selectedCliente.getEnlaceWeb());
+		txtEnlaceWeb.setDisabled(false);
+		txtNit.setValue(selectedCliente.getNit());
+		txtNit.setDisabled(false);
+		txtNombreContacto.setValue(selectedCliente.getNombreContacto());
+		txtNombreContacto.setDisabled(false);
+		txtNombreEmpresa.setValue(selectedCliente.getNombreEmpresa());
+		txtNombreEmpresa.setDisabled(false);
+		txtTelefonoContacto.setValue(selectedCliente.getTelefonoContacto());
+		txtTelefonoContacto.setDisabled(false);
+		txtClieId.setValue(selectedCliente.getClieId());
+		txtClieId.setDisabled(true);
+		btnSave.setDisabled(false);
+		setShowDialog(true);
+
+		return "";
+	}
+
+	public String action_save() {
+		try {
+			if ((selectedCliente == null) && (entity == null)) {
+				action_create();
+			} else {
+				action_modify();
+			}
+
+			data = null;
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public String action_create() {
+		try {
+			entity = new Cliente();
+
+			Integer clieId = FacesUtils.checkInteger(txtClieId);
+
+			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
+			entity.setClieId(clieId);
+			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
+			entity.setNit(FacesUtils.checkString(txtNit));
+			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
+			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
+			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			businessDelegatorView.saveCliente(entity);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+			action_clear();
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public String action_modify() {
+		try {
+			if (entity == null) {
+				Integer clieId = new Integer(selectedCliente.getClieId());
+				entity = businessDelegatorView.getCliente(clieId);
+			}
+
+			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
+			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
+			entity.setNit(FacesUtils.checkString(txtNit));
+			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
+			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
+			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			businessDelegatorView.updateCliente(entity);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public String action_delete_datatable(ActionEvent evt) {
+		try {
+			selectedCliente = (ClienteDTO) (evt.getComponent().getAttributes().get("selectedCliente"));
+
+			Integer clieId = new Integer(selectedCliente.getClieId());
+			entity = businessDelegatorView.getCliente(clieId);
+			action_delete();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public String action_delete_master() {
+		try {
+			Integer clieId = FacesUtils.checkInteger(txtClieId);
+			entity = businessDelegatorView.getCliente(clieId);
+			action_delete();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public void action_delete() throws Exception {
+		try {
+			businessDelegatorView.deleteCliente(entity);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
+			action_clear();
+			data = null;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+	public String action_closeDialog() {
+		setShowDialog(false);
+		action_clear();
+
+		return "";
+	}
+
+	public String actionDeleteDataTableEditable(ActionEvent evt) {
+		try {
+			selectedCliente = (ClienteDTO) (evt.getComponent().getAttributes().get("selectedCliente"));
+
+			Integer clieId = new Integer(selectedCliente.getClieId());
+			entity = businessDelegatorView.getCliente(clieId);
+			businessDelegatorView.deleteCliente(entity);
+			data.remove(selectedCliente);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
+			action_clear();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public String action_modifyWitDTO(String celularContacto, Integer clieId, String direccionContacto,
+			String enlaceWeb, String nit, String nombreContacto, String nombreEmpresa, String telefonoContacto)
+			throws Exception {
+		try {
+			entity.setCelularContacto(FacesUtils.checkString(celularContacto));
+			entity.setDireccionContacto(FacesUtils.checkString(direccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(enlaceWeb));
+			entity.setNit(FacesUtils.checkString(nit));
+			entity.setNombreContacto(FacesUtils.checkString(nombreContacto));
+			entity.setNombreEmpresa(FacesUtils.checkString(nombreEmpresa));
+			entity.setTelefonoContacto(FacesUtils.checkString(telefonoContacto));
+			businessDelegatorView.updateCliente(entity);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+		} catch (Exception e) {
+			// renderManager.getOnDemandRenderer("ClienteView").requestRender();
+			FacesUtils.addErrorMessage(e.getMessage());
+			throw e;
+		}
+
+		return "";
+	}
+
+	public InputText getTxtCelularContacto() {
+		return txtCelularContacto;
+	}
+
+	public void setTxtCelularContacto(InputText txtCelularContacto) {
+		this.txtCelularContacto = txtCelularContacto;
+	}
+
+	public InputText getTxtDireccionContacto() {
+		return txtDireccionContacto;
+	}
+
+	public void setTxtDireccionContacto(InputText txtDireccionContacto) {
+		this.txtDireccionContacto = txtDireccionContacto;
+	}
+
+	public InputText getTxtEnlaceWeb() {
+		return txtEnlaceWeb;
+	}
+
+	public void setTxtEnlaceWeb(InputText txtEnlaceWeb) {
+		this.txtEnlaceWeb = txtEnlaceWeb;
+	}
+
+	public InputText getTxtNit() {
+		return txtNit;
+	}
+
+	public void setTxtNit(InputText txtNit) {
+		this.txtNit = txtNit;
+	}
+
+	public InputText getTxtNombreContacto() {
+		return txtNombreContacto;
+	}
+
+	public void setTxtNombreContacto(InputText txtNombreContacto) {
+		this.txtNombreContacto = txtNombreContacto;
+	}
+
+	public InputText getTxtNombreEmpresa() {
+		return txtNombreEmpresa;
+	}
+
+	public void setTxtNombreEmpresa(InputText txtNombreEmpresa) {
+		this.txtNombreEmpresa = txtNombreEmpresa;
+	}
+
+	public InputText getTxtTelefonoContacto() {
+		return txtTelefonoContacto;
+	}
+
+	public void setTxtTelefonoContacto(InputText txtTelefonoContacto) {
+		this.txtTelefonoContacto = txtTelefonoContacto;
+	}
+
+	public InputText getTxtClieId() {
+		return txtClieId;
+	}
+
+	public void setTxtClieId(InputText txtClieId) {
+		this.txtClieId = txtClieId;
+	}
+
+	public List<ClienteDTO> getData() {
+		try {
+			if (data == null) {
+				data = businessDelegatorView.getDataCliente();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return data;
+	}
+
+	public void setData(List<ClienteDTO> clienteDTO) {
+		this.data = clienteDTO;
+	}
+
+	public ClienteDTO getSelectedCliente() {
+		return selectedCliente;
+	}
+
+	public void setSelectedCliente(ClienteDTO cliente) {
+		this.selectedCliente = cliente;
+	}
+
+	public CommandButton getBtnSave() {
+		return btnSave;
+	}
+
+	public void setBtnSave(CommandButton btnSave) {
+		this.btnSave = btnSave;
+	}
+
+	public CommandButton getBtnModify() {
+		return btnModify;
+	}
+
+	public void setBtnModify(CommandButton btnModify) {
+		this.btnModify = btnModify;
+	}
+
+	public CommandButton getBtnDelete() {
+		return btnDelete;
+	}
+
+	public void setBtnDelete(CommandButton btnDelete) {
+		this.btnDelete = btnDelete;
+	}
+
+	public CommandButton getBtnClear() {
+		return btnClear;
+	}
+
+	public void setBtnClear(CommandButton btnClear) {
+		this.btnClear = btnClear;
+	}
+
+	public TimeZone getTimeZone() {
+		return java.util.TimeZone.getDefault();
+	}
+
+	public IBusinessDelegatorView getBusinessDelegatorView() {
+		return businessDelegatorView;
+	}
+
+	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
+		this.businessDelegatorView = businessDelegatorView;
+	}
+
+	public boolean isShowDialog() {
+		return showDialog;
+	}
+
+	public void setShowDialog(boolean showDialog) {
+		this.showDialog = showDialog;
+	}
+
+	public CommandButton getBtnRegistrarNuevoCliente() {
 		return btnRegistrarNuevoCliente;
 	}
 
@@ -568,44 +556,148 @@ public class ClienteView implements Serializable {
 		this.btnRegistrarNuevoCliente = btnRegistrarNuevoCliente;
 	}
 
-	//DPL 20160703 Método para crear un nuevo cliente.
-    public String registrarNuevoCliente() {
-        try {
-            entity = new Cliente();
+	public CommandButton getBtnModificarCliente() {
+		return btnModificarCliente;
+	}
 
-            entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
-            entity.setClieId(null);
-            entity.setDireccionContacto(FacesUtils.checkString(
-                    txtDireccionContacto));
-            entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
-            entity.setNit(FacesUtils.checkString(txtNit));
-            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
-            entity.setTelefonoContacto(FacesUtils.checkString(
-                    txtTelefonoContacto));
-            businessDelegatorView.registrarNuevoCliente(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            limpiarRegistrarNuevoCliente();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+	public void setBtnModificarCliente(CommandButton btnModificarCliente) {
+		this.btnModificarCliente = btnModificarCliente;
+	}
 
-        return "";
-    }
-    
-    public void limpiarRegistrarNuevoCliente(){
-    	entity = null;
-    	txtCelularContacto.setValue(null);
-    	txtDireccionContacto.setValue(null);
-    	txtEnlaceWeb.setValue(null);
-    	txtNit.setValue(null);
-    	txtNombreContacto.setValue(null);
-    	txtNombreEmpresa.setValue(null);
-    	txtTelefonoContacto.setValue(null);
-    	
-    	FacesUtils.addInfoMessage("Pantalla limpia");
-    }
+	public CommandButton getBtnLimpiarPantalla() {
+		return btnLimpiarPantalla;
+	}
 
-    
+	public void setBtnLimpiarPantalla(CommandButton btnLimpiarPantalla) {
+		this.btnLimpiarPantalla = btnLimpiarPantalla;
+	}
+
+	// DPL 20160703 Método para crear un nuevo cliente.
+	public String registrarNuevoCliente() {
+		try {
+			entity = new Cliente();
+
+			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
+			entity.setClieId(null);
+			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
+			entity.setNit(FacesUtils.checkString(txtNit));
+			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
+			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
+			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			businessDelegatorView.registrarNuevoCliente(entity);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+			limpiarRegistrarNuevoCliente();
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	public void limpiarRegistrarNuevoCliente() {
+		entity = null;
+		txtCelularContacto.setValue(null);
+		txtDireccionContacto.setValue(null);
+		txtEnlaceWeb.setValue(null);
+		txtNit.setValue(null);
+		txtNombreContacto.setValue(null);
+		txtNombreEmpresa.setValue(null);
+		txtTelefonoContacto.setValue(null);
+
+		txtCelularContacto.setDisabled(true);
+		txtDireccionContacto.setDisabled(true);
+		txtEnlaceWeb.setDisabled(true);
+		txtNombreContacto.setDisabled(true);
+		txtNombreEmpresa.setDisabled(true);
+		txtTelefonoContacto.setDisabled(true);
+		txtNit.setDisabled(false);
+
+		btnLimpiarPantalla.setDisabled(true);
+		btnModificarCliente.setDisabled(true);
+		btnRegistrarNuevoCliente.setDisabled(true);
+
+		FacesUtils.addInfoMessage("Pantalla limpia");
+	}
+
+	public void listenerNit() {
+		try {
+			String nit = FacesUtils.checkString(txtNit);
+			entity = (nit != null) ? businessDelegatorView.buscarClientePorNit(nit) : null;
+		} catch (Exception e) {
+			entity = null;
+		}
+
+		btnLimpiarPantalla.setDisabled(false);
+
+		if (entity == null) {
+			// DPL 20160806 Poner los campos del formulario en null y habilitar
+			// todos los campos para editar
+			txtNit.setDisabled(false);
+			txtCelularContacto.setValue(null);
+			txtCelularContacto.setDisabled(false);
+			txtDireccionContacto.setValue(null);
+			txtDireccionContacto.setDisabled(false);
+			txtEnlaceWeb.setValue(null);
+			txtEnlaceWeb.setDisabled(false);
+			txtNombreContacto.setValue(null);
+			txtNombreContacto.setDisabled(false);
+			txtNombreEmpresa.setValue(null);
+			txtNombreEmpresa.setDisabled(false);
+			txtTelefonoContacto.setValue(null);
+			txtTelefonoContacto.setDisabled(false);
+			btnRegistrarNuevoCliente.setDisabled(false);
+			btnModificarCliente.setDisabled(true);
+			btnLimpiarPantalla.setDisabled(false);
+
+		} else {
+			btnRegistrarNuevoCliente.setDisabled(true);
+			btnModificarCliente.setDisabled(false);
+
+			txtNit.setDisabled(true);
+			txtNombreEmpresa.setDisabled(true);
+			txtEnlaceWeb.setDisabled(false);
+			txtNombreContacto.setDisabled(false);
+			txtCelularContacto.setDisabled(false);
+			txtTelefonoContacto.setDisabled(false);
+			txtDireccionContacto.setDisabled(false);
+
+			txtNit.setValue(entity.getNit());
+			txtNombreEmpresa.setValue(entity.getNombreEmpresa());
+			txtEnlaceWeb.setValue(entity.getEnlaceWeb());
+			txtNombreContacto.setValue(entity.getNombreContacto());
+			txtCelularContacto.setValue(entity.getCelularContacto());
+			txtTelefonoContacto.setValue(entity.getTelefonoContacto());
+			txtDireccionContacto.setValue(entity.getDireccionContacto());
+
+		}
+	}
+
+	public void actualizarCliente() {
+		try {
+			try {
+				String nit = FacesUtils.checkString(txtNit);
+				entity = (nit != null) ? businessDelegatorView.buscarClientePorNit(nit) : null;
+			} catch (Exception e) {
+				entity = null;
+			}
+			
+			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
+			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
+
+			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
+
+			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			businessDelegatorView.updateCliente(entity);
+			FacesUtils.addInfoMessage("Se ha actualizado los datos del cliente");
+			limpiarRegistrarNuevoCliente();
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+	}
+
 }

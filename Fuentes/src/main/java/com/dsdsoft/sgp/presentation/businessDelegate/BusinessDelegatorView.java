@@ -893,4 +893,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public void registrarNuevoCliente(Cliente cliente) throws Exception {
 		clienteLogic.registrarNuevoCliente(cliente);
 	}
+
+	@Override
+	public Cliente buscarClientePorNit(String nit) throws Exception {
+		return clienteLogic.buscarClientePorNit(nit);
+	}
 }
