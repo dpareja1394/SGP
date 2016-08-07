@@ -67,6 +67,7 @@ public class UsuarioView implements Serializable {
     
     //DPL 20160701 cadena para saludar al usuario que inició sesión
     private String saludoUsuario;
+    private String nombreProyecto = "Sistema de Gestión de Proyectos";
     
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
@@ -605,5 +606,13 @@ public class UsuarioView implements Serializable {
 
 	public void setSaludoUsuario(String saludoUsuario) {
 		this.saludoUsuario = saludoUsuario;
+	}
+
+	public String getNombreProyecto() {
+		return nombreProyecto;
+	}
+
+	public void setNombreProyecto(String nombreProyecto) {
+		this.nombreProyecto = nombreProyecto;
 	}
 }

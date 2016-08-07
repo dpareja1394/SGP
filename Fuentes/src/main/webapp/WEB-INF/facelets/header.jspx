@@ -14,7 +14,7 @@
 						<div class="jumbotron">
 					      <div class="container" align="center">
 					        <h1>SGP</h1>
-	      					<h2>Sistema de Gestion de Proyectos</h2>
+	      					<h2>#{usuarioView.nombreProyecto}</h2>
 					        <h3>#{usuarioView.saludoUsuario}</h3>
 					        <a type="text">Desarrollado por DSDSoft Colombia</a>
 					      </div>
