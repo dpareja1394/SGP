@@ -415,4 +415,8 @@ public class TipoActividadView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+    
+    public void estoNoHaceNada(){
+    	log.info("Entró al método que no hace nada");
+    }
 }
