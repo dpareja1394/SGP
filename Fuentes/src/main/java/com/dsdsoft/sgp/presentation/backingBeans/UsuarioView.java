@@ -584,6 +584,20 @@ public class UsuarioView implements Serializable {
 		}
 		return "";
 	}
+	
+	/**
+	 * @author DPAREJA
+	 * @date 25 de Mayo 2017
+	 */
+	public void limpiarPantallaCreacionUsuario(){
+		txtApellidoUsuario.setValue(null);
+		txtNombreUsuario.setValue(null);
+		txtNudocUsuario.setValue(null);
+		txtEmailUsuario.setValue(null);
+		pswPasswordUsuario.setValue(null);
+		pswPasswordUsuarioConfirma.setValue(null);
+		
+	}
 
 
 	//DPL 20160703 Método para obtener el nombre para el saludo en la página de inicio

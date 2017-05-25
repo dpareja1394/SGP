@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>.::REGISTRO USUARIOS SGP::.</title>
 	<link REL="SHORTCUT ICON"
-		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/icon.png" />
+		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/sgp_logo1616.png" />
 	<link rel="stylesheet" type="text/css"
 		href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/css/style.css" />
 	<link rel="stylesheet" type="text/css"
@@ -43,8 +43,14 @@
 				<div align="center">
 				
 					<p:panel id="panelUsuario" style="border: none">
+					
+					<p:link
+					href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/login.xhtml"
+					value="Regresar a Iniciar Sesión" />
+					
 					<h1 class="form-signin-heading" align="center">Registro de
 							Usuario</h1>
+							
 						<h:panelGrid columns="2" id="panelGrid">
 
 
@@ -76,6 +82,9 @@
 						<p:commandButton id="btnSaveUsuario" value="Registrar Usuario"
 							binding="#{usuarioView.btnSave}"
 							action="#{usuarioView.registroNuevoUsuario}" update="msg, men" />
+						<p:commandButton id="btnLimpiarPantalla" value="Limpiar Pantalla"
+							binding="#{usuarioView.btnClear}"
+							action="#{usuarioView.limpiarPantallaCreacionUsuario}" update="msg, men, panelUsuario" />
 					</div>
 				</p:panel>
 			</h:form>
