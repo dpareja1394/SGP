@@ -1,0 +1,4 @@
+- Validar que haya por lo menos un teléfono, sea celular o sea teléfono.
+- Controlar cambios para, agregar en la dirección los campos para País, Departamento, Ciudad.
+- Agregar Placeholder a la pantalla de registro de clientes.
+- Agregar validación para la URL de la empresa contacto, si no tiene la palabra http agregarla al principio y validar.
