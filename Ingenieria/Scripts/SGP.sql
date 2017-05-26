@@ -64,10 +64,10 @@ create table CLIENTE (
    CLIE_ID              SERIAL               not null,
    NOMBRE_EMPRESA       CHARACTER VARYING(200)         null,
    NIT                  CHARACTER VARYING(30)          null,
-   TELEFONO_CONTACTO    CHARACTER VARYING(20)          not null,
+   TELEFONO_CONTACTO    CHARACTER VARYING(20)          null,
    DIRECCION_CONTACTO   CHARACTER VARYING(200)         null,
    NOMBRE_CONTACTO      CHARACTER VARYING(200)         not null,
-   CELULAR_CONTACTO     CHARACTER VARYING(200)         not null,
+   CELULAR_CONTACTO     CHARACTER VARYING(200)         null,
    ENLACE_WEB           CHARACTER VARYING(200)         null,
    constraint PK_CLIENTE primary key (CLIE_ID)
 );
