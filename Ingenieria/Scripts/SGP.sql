@@ -69,6 +69,7 @@ create table CLIENTE (
    NOMBRE_CONTACTO      CHARACTER VARYING(200)         not null,
    CELULAR_CONTACTO     CHARACTER VARYING(200)         null,
    ENLACE_WEB           CHARACTER VARYING(200)         null,
+   CIUD_ID				BIGINT						   not null,
    constraint PK_CLIENTE primary key (CLIE_ID)
 );
 
@@ -194,6 +195,36 @@ create table USUARIO (
    constraint PK_USUARIO primary key (USUA_ID)
 );
 
+/*==============================================================*/
+/* Table: CIUDAD                                                */
+/*==============================================================*/
+create table CIUDAD(
+    CIUD_ID		SERIAL			not null,
+    NOMBRE_CIUDAD	CHARACTER VARYING(200)		not null,
+    DEPA_ID		BIGINT			not null,
+    constraint PK_CIUDAD primary key (CIUD_ID)
+);
+
+/*==============================================================*/
+/* Table: DEPARTAMENTO                                          */
+/*==============================================================*/
+create table DEPARTAMENTO(
+    DEPA_ID		SERIAL			not null,
+    NOMBRE_DEPARTAMENTO	CHARACTER VARYING(200)		not null,
+    PAIS_ID		BIGINT			not null,
+    constraint PK_DEPARTAMENTO primary key (DEPA_ID)
+);
+
+/*==============================================================*/
+/* Table: PAIS                                                  */
+/*==============================================================*/
+create table PAIS(
+    PAIS_ID		SERIAL			not null,
+    NOMBRE_PAIS		CHARACTER VARYING(200)		not null,
+    constraint PK_PAIS primary key (PAIS_ID)
+);
+
+
 alter table ACTIVIDAD
    add constraint FK_ACTIVIDA_REFERENCE_TIPO_ACT foreign key (TIAC_ID)
       references TIPO_ACTIVIDAD (TIAC_ID)
@@ -268,4 +299,18 @@ alter table SEGUIMIENTO_CASO
    add constraint FK_SEGUIMIE_REFERENCE_USUARIO foreign key (USUARIO_ACTIVIDAD)
       references USUARIO (USUA_ID)
       on delete restrict on update restrict;
+      
+alter table DEPARTAMENTO
+   add constraint FK_DEPA_REFERENCE_PAIS foreign key (PAIS_ID)
+      references PAIS (PAIS_ID)
+      on delete restrict on update restrict;
 
+alter table CIUDAD
+   add constraint FK_CIUD_REFERENCE_DEPA foreign key (DEPA_ID)
+      references DEPARTAMENTO (DEPA_ID)
+      on delete restrict on update restrict;
+
+alter table CLIENTE
+   add constraint FK_CLIE_REFERENCE_CIUD foreign key (CIUD_ID)
+      references CIUDAD (CIUD_ID)
+      on delete restrict on update restrict;
