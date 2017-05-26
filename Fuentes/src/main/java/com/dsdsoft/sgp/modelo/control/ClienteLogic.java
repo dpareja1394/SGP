@@ -217,13 +217,13 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Teléfono Contacto");
 			}
 
-			if(entity.getEnlaceWeb()!=null){
+			if (entity.getEnlaceWeb() != null) {
 				UrlValidator urlValidator = new UrlValidator();
-	        	if(urlValidator.isValid(entity.getEnlaceWeb())==false){
-	        		throw new Exception("Enlace Web no es correcto");
-	        	}
+				if (urlValidator.isValid(entity.getEnlaceWeb()) == false) {
+					throw new Exception("Enlace Web no es correcto");
+				}
 			}
-			
+
 			clienteDAO.update(entity);
 
 			log.debug("Cliente actualizado correctamente");
@@ -521,25 +521,12 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Nombre Contacto");
 			}
 
-			if (cliente.getCelularContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("Celular Contacto");
+			// DPL 26 Mayo 2017 Validación de teléfonos, debe haber alguno de los dos
+			if ((cliente.getTelefonoContacto() == null || cliente.getTelefonoContacto().trim().equals(""))
+					&& (cliente.getCelularContacto() == null || cliente.getCelularContacto().trim().equals(""))) {
+				throw new Exception("Debe ingresar un teléfono o un celular");
 			}
 
-			if ((cliente.getCelularContacto() != null)
-					&& Utilities.checkWordAndCheckWithlength(cliente.getCelularContacto(), 200) == false) {
-				throw new ZMessManager().new NotValidFormatException("Celular Contacto");
-			}
-
-			if (cliente.getTelefonoContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("Teléfono Contacto");
-			}
-
-			if ((cliente.getTelefonoContacto() != null)
-					&& Utilities.checkWordAndCheckWithlength(cliente.getTelefonoContacto(), 20) == false) {
-				throw new ZMessManager().new NotValidFormatException("Teléfono Contacto");
-			}
-
-			
 			if (cliente.getDireccionContacto() == null) {
 				throw new ZMessManager().new EmptyFieldException("Dirección Contacto");
 			}
@@ -548,12 +535,12 @@ public class ClienteLogic implements IClienteLogic {
 					&& Utilities.checkWordAndCheckWithlength(cliente.getDireccionContacto(), 200) == false) {
 				throw new ZMessManager().new NotValidFormatException("Dirección Contacto");
 			}
-			
-			if(cliente.getEnlaceWeb()!=null){
+
+			if (cliente.getEnlaceWeb() != null) {
 				UrlValidator urlValidator = new UrlValidator();
-	        	if(urlValidator.isValid(cliente.getEnlaceWeb())==false){
-	        		throw new Exception("Enlace Web no es correcto");
-	        	}
+				if (urlValidator.isValid(cliente.getEnlaceWeb()) == false) {
+					throw new Exception("Enlace Web no es correcto");
+				}
 			}
 
 			// DPL 20160806 Llamado al DAO para registrar el nuevo cliente

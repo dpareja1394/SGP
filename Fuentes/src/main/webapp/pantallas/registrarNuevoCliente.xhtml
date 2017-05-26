@@ -38,7 +38,7 @@
 						<h:panelGrid columns="2" id="panelGrid">
 
 							<h:outputText id="msgNit" value=" Nit de la Empresa:*" />
-							<p:inputText id="txtNit" style="width:250px;"
+							<p:inputText id="txtNit" style="width:250px;" placeholder="Ingrese el Nit"
 								binding="#{clienteView.txtNit}" disabled="false">
 								<p:ajax update="panelCliente,msg,panelBotones"
 									listener="#{clienteView.listenerNit}" />
@@ -46,29 +46,29 @@
 
 							<h:outputText id="msgNombreEmpresa"
 								value=" Nombre de la Empresa:*" />
-							<p:inputText id="txtNombreEmpresa" style="width:700px;"
+							<p:inputText id="txtNombreEmpresa" style="width:700px;" placeholder="Ingrese el Nombre de la Empresa"
 								binding="#{clienteView.txtNombreEmpresa}" disabled="true" />
 
 							<h:outputText id="msgEnlaceWeb" value=" Enlace Web:" />
-							<p:inputText id="txtEnlaceWeb" style="width:700px;"
+							<p:inputText id="txtEnlaceWeb" style="width:700px;" placeholder="Ingrese el Enlace"
 								binding="#{clienteView.txtEnlaceWeb}" disabled="true" />
 
 							<h:outputText id="msgNombreContacto" value=" Nombre Contacto:*" />
-							<p:inputText id="txtNombreContacto" style="width:700px;"
+							<p:inputText id="txtNombreContacto" style="width:700px;" placeholder="Ingrese el Nombre del Contacto"
 								binding="#{clienteView.txtNombreContacto}" disabled="true" />
 
 							<h:outputText id="msgCelularContacto" value=" Celular Contacto:" />
-							<p:inputText id="txtCelularContacto" style="width:250px;"
+							<p:inputText id="txtCelularContacto" style="width:250px;" placeholder="Ingrese el Celular del Contacto"
 								binding="#{clienteView.txtCelularContacto}" disabled="true" />
 
 							<h:outputText id="msgTelefonoContacto"
 								value=" Telefono Contacto:" />
-							<p:inputText id="txtTelefonoContacto" style="width:250px;"
+							<p:inputText id="txtTelefonoContacto" style="width:250px;" placeholder="Ingrese el Teléfono del Contacto"
 								binding="#{clienteView.txtTelefonoContacto}" disabled="true" />
 
 							<h:outputText id="msgDireccionContacto"
 								value=" Direccion Contacto:" />
-							<p:inputText id="txtDireccionContacto" style="width:700px;"
+							<p:inputText id="txtDireccionContacto" style="width:700px;" placeholder="Ingrese la Dirección del Contacto"
 								binding="#{clienteView.txtDireccionContacto}" disabled="true" />
 
 

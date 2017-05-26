@@ -15,7 +15,7 @@
             <column name="nit" length="30" />
         </property>
         <property name="telefonoContacto" type="java.lang.String">
-            <column name="telefono_contacto" length="20" not-null="true" />
+            <column name="telefono_contacto" length="20" />
         </property>
         <property name="direccionContacto" type="java.lang.String">
             <column name="direccion_contacto" length="200" />
@@ -24,7 +24,7 @@
             <column name="nombre_contacto" length="200" not-null="true" />
         </property>
         <property name="celularContacto" type="java.lang.String">
-            <column name="celular_contacto" length="200" not-null="true" />
+            <column name="celular_contacto" length="200"  />
         </property>
         <property name="enlaceWeb" type="java.lang.String">
             <column name="enlace_web" length="200" />
