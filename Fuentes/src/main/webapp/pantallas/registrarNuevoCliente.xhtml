@@ -82,13 +82,13 @@
 							<h:panelGrid columns="3">
 								<p:selectOneMenu id="somPaises"
 									binding="#{clienteView.somPaises}" disabled ="true">
-									<p:ajax listener="#{clienteView.listenerPaisSeleccionado}" update="msg, men, panelCliente"/>
+									<p:ajax listener="#{clienteView.listenerPaisSeleccionado}" update="@([id$=somDepartamentos])"/>
 									<f:selectItems value="#{clienteView.listaPaises}" />
 								</p:selectOneMenu>
 
 								<p:selectOneMenu id="somDepartamentos"
 									binding="#{clienteView.somDepartamentos}" disabled="true">
-									<p:ajax listener="#{clienteView.listenerDepartamentoSeleccionado}" update="msg, men, panelCliente"/>
+									<p:ajax listener="#{clienteView.listenerDepartamentoSeleccionado}" update="@([id$=somCiudades])"/>
 									<f:selectItems value="#{clienteView.listaDepartamentos}" />
 								</p:selectOneMenu>
 								
