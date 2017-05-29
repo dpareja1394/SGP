@@ -653,7 +653,7 @@ public class ClienteView implements Serializable {
 			entity.setEnlaceWeb(txtEnlaceWeb.getValue().toString());
 			entity.setNit(txtNit.getValue().toString());
 			entity.setNombreContacto(txtNombreContacto.getValue().toString());
-			entity.setNombreEmpresa(txtNombreContacto.getValue().toString());
+			entity.setNombreEmpresa(txtNombreEmpresa.getValue().toString());
 			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString());
 			
 			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
@@ -832,6 +832,9 @@ public class ClienteView implements Serializable {
 			somPaises.setDisabled(false);
 			somDepartamentos.setDisabled(false);
 			somCiudades.setDisabled(false);
+			listaPaises = null;
+			listaDepartamentos = null;
+			listaCiudades = null;
 			
 			getListaPaises();
 			somPaises.setValue(pais.getPaisId());
