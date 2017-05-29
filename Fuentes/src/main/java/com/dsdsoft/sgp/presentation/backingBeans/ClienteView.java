@@ -1,39 +1,31 @@
 package com.dsdsoft.sgp.presentation.backingBeans;
 
-import com.dsdsoft.sgp.exceptions.*;
-import com.dsdsoft.sgp.modelo.*;
-import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
-import com.dsdsoft.sgp.presentation.businessDelegate.*;
-import com.dsdsoft.sgp.utilities.*;
-
-import org.primefaces.component.calendar.*;
-import org.primefaces.component.commandbutton.CommandButton;
-import org.primefaces.component.inputtext.InputText;
-
-import org.primefaces.event.RowEditEvent;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
-
-import java.sql.*;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.TimeZone;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
+
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
+import org.primefaces.event.RowEditEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.dsdsoft.sgp.exceptions.ZMessManager;
+import com.dsdsoft.sgp.modelo.Ciudad;
+import com.dsdsoft.sgp.modelo.Cliente;
+import com.dsdsoft.sgp.modelo.Departamento;
+import com.dsdsoft.sgp.modelo.Pais;
+import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
+import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
+import com.dsdsoft.sgp.utilities.FacesUtils;
 
 /**
  * @author Zathura Code Generator http://code.google.com/p/zathura
@@ -65,6 +57,8 @@ public class ClienteView implements Serializable {
 	private IBusinessDelegatorView businessDelegatorView;
 
 	private CommandButton btnRegistrarNuevoCliente, btnModificarCliente, btnLimpiarPantalla;
+	private SelectOneMenu somPaises, somDepartamentos, somCiudades;
+	private List<SelectItem> listaPaises, listaDepartamentos, listaCiudades;
 
 	public ClienteView() {
 		super();
@@ -572,19 +566,100 @@ public class ClienteView implements Serializable {
 		this.btnLimpiarPantalla = btnLimpiarPantalla;
 	}
 
+	public SelectOneMenu getSomPaises() {
+		return somPaises;
+	}
+
+	public void setSomPaises(SelectOneMenu somPaises) {
+		this.somPaises = somPaises;
+	}
+
+	public SelectOneMenu getSomDepartamentos() {
+		return somDepartamentos;
+	}
+
+	public void setSomDepartamentos(SelectOneMenu somDepartamentos) {
+		this.somDepartamentos = somDepartamentos;
+	}
+
+	public SelectOneMenu getSomCiudades() {
+		return somCiudades;
+	}
+
+	public void setSomCiudades(SelectOneMenu somCiudades) {
+		this.somCiudades = somCiudades;
+	}
+
+	public List<SelectItem> getListaPaises() {
+		try {
+			if (listaPaises == null) {
+				listaPaises = new ArrayList<SelectItem>();
+				listaPaises.add(new SelectItem(Integer.parseInt("0"), "SELECCIONE UN PAIS"));
+				List<Pais> lista = businessDelegatorView.getPais();
+				for (Pais pais : lista) {
+					listaPaises.add(new SelectItem(pais.getPaisId(), pais.getNombrePais()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaPaises;
+	}
+
+	public void setListaPaises(List<SelectItem> listaPaises) {
+		this.listaPaises = listaPaises;
+	}
+
+	public List<SelectItem> getListaDepartamentos() {
+		try {
+			if (listaDepartamentos == null) {
+				listaDepartamentos = new ArrayList<SelectItem>();
+				listaDepartamentos.add(new SelectItem(Integer.parseInt("0"), "SELECCIONE UN DEPARTAMENTO"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaDepartamentos;
+	}
+
+	public void setListaDepartamentos(List<SelectItem> listaDepartamentos) {
+		this.listaDepartamentos = listaDepartamentos;
+	}
+
+	public List<SelectItem> getListaCiudades() {
+		try {
+			if (listaCiudades == null) {
+				listaCiudades = new ArrayList<SelectItem>();
+				listaCiudades.add(new SelectItem(Integer.parseInt("0"), "SELECCIONE UN MUNICIPIO"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaCiudades;
+	}
+
+	public void setListaCiudades(List<SelectItem> listaCiudades) {
+		this.listaCiudades = listaCiudades;
+	}
+
 	// DPL 20160703 Método para crear un nuevo cliente.
 	public String registrarNuevoCliente() {
 		try {
 			entity = new Cliente();
 
-			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
+			entity.setCelularContacto(txtCelularContacto.getValue().toString());
 			entity.setClieId(null);
-			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
-			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
-			entity.setNit(FacesUtils.checkString(txtNit));
-			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
-			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			entity.setDireccionContacto(txtDireccionContacto.getValue().toString());
+			entity.setEnlaceWeb(txtEnlaceWeb.getValue().toString());
+			entity.setNit(txtNit.getValue().toString());
+			entity.setNombreContacto(txtNombreContacto.getValue().toString());
+			entity.setNombreEmpresa(txtNombreContacto.getValue().toString());
+			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString());
+			
+			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
+			
+			entity.setCiudad(ciudad);
+			
 			businessDelegatorView.registrarNuevoCliente(entity);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
 			limpiarRegistrarNuevoCliente();
@@ -605,6 +680,10 @@ public class ClienteView implements Serializable {
 		txtNombreContacto.setValue(null);
 		txtNombreEmpresa.setValue(null);
 		txtTelefonoContacto.setValue(null);
+		somCiudades.setValue(null);
+		somDepartamentos.setValue(null);
+		somPaises.setValue(null);
+		
 
 		txtCelularContacto.setDisabled(true);
 		txtDireccionContacto.setDisabled(true);
@@ -613,6 +692,9 @@ public class ClienteView implements Serializable {
 		txtNombreEmpresa.setDisabled(true);
 		txtTelefonoContacto.setDisabled(true);
 		txtNit.setDisabled(false);
+		somCiudades.setDisabled(true);
+		somDepartamentos.setDisabled(true);
+		somPaises.setDisabled(true);
 
 		btnLimpiarPantalla.setDisabled(true);
 		btnModificarCliente.setDisabled(true);
@@ -623,73 +705,84 @@ public class ClienteView implements Serializable {
 
 	public void listenerNit() {
 		try {
-			String nit = FacesUtils.checkString(txtNit);
+			String nit = txtNit.getValue().toString().trim();
 			entity = (nit != null) ? businessDelegatorView.buscarClientePorNit(nit) : null;
+
+			if (entity == null) {
+				// DPL 20160806 Poner los campos del formulario en null y
+				// habilitar
+				// todos los campos para editar
+				txtNit.setDisabled(false);
+				txtCelularContacto.setValue(null);
+				txtCelularContacto.setDisabled(false);
+				txtDireccionContacto.setValue(null);
+				txtDireccionContacto.setDisabled(false);
+				txtEnlaceWeb.setValue(null);
+				txtEnlaceWeb.setDisabled(false);
+				txtNombreContacto.setValue(null);
+				txtNombreContacto.setDisabled(false);
+				txtNombreEmpresa.setValue(null);
+				txtNombreEmpresa.setDisabled(false);
+				txtTelefonoContacto.setValue(null);
+				txtTelefonoContacto.setDisabled(false);
+				somPaises.setDisabled(false);
+				btnRegistrarNuevoCliente.setDisabled(false);
+				btnModificarCliente.setDisabled(true);
+				btnLimpiarPantalla.setDisabled(false);
+
+			} else {
+				btnRegistrarNuevoCliente.setDisabled(true);
+				btnModificarCliente.setDisabled(false);
+
+				txtNit.setDisabled(true);
+				txtNombreEmpresa.setDisabled(true);
+				txtEnlaceWeb.setDisabled(false);
+				txtNombreContacto.setDisabled(false);
+				txtCelularContacto.setDisabled(false);
+				txtTelefonoContacto.setDisabled(false);
+				txtDireccionContacto.setDisabled(false);
+				
+
+				txtNit.setValue(entity.getNit());
+				txtNombreEmpresa.setValue(entity.getNombreEmpresa());
+				txtEnlaceWeb.setValue(entity.getEnlaceWeb());
+				txtNombreContacto.setValue(entity.getNombreContacto());
+				txtCelularContacto.setValue(entity.getCelularContacto());
+				txtTelefonoContacto.setValue(entity.getTelefonoContacto());
+				txtDireccionContacto.setValue(entity.getDireccionContacto());
+
+				cargarUbicacion(entity.getCiudad().getCiudId());
+
+			}
+
 		} catch (Exception e) {
 			entity = null;
 		}
 
 		btnLimpiarPantalla.setDisabled(false);
 
-		if (entity == null) {
-			// DPL 20160806 Poner los campos del formulario en null y habilitar
-			// todos los campos para editar
-			txtNit.setDisabled(false);
-			txtCelularContacto.setValue(null);
-			txtCelularContacto.setDisabled(false);
-			txtDireccionContacto.setValue(null);
-			txtDireccionContacto.setDisabled(false);
-			txtEnlaceWeb.setValue(null);
-			txtEnlaceWeb.setDisabled(false);
-			txtNombreContacto.setValue(null);
-			txtNombreContacto.setDisabled(false);
-			txtNombreEmpresa.setValue(null);
-			txtNombreEmpresa.setDisabled(false);
-			txtTelefonoContacto.setValue(null);
-			txtTelefonoContacto.setDisabled(false);
-			btnRegistrarNuevoCliente.setDisabled(false);
-			btnModificarCliente.setDisabled(true);
-			btnLimpiarPantalla.setDisabled(false);
-
-		} else {
-			btnRegistrarNuevoCliente.setDisabled(true);
-			btnModificarCliente.setDisabled(false);
-
-			txtNit.setDisabled(true);
-			txtNombreEmpresa.setDisabled(true);
-			txtEnlaceWeb.setDisabled(false);
-			txtNombreContacto.setDisabled(false);
-			txtCelularContacto.setDisabled(false);
-			txtTelefonoContacto.setDisabled(false);
-			txtDireccionContacto.setDisabled(false);
-
-			txtNit.setValue(entity.getNit());
-			txtNombreEmpresa.setValue(entity.getNombreEmpresa());
-			txtEnlaceWeb.setValue(entity.getEnlaceWeb());
-			txtNombreContacto.setValue(entity.getNombreContacto());
-			txtCelularContacto.setValue(entity.getCelularContacto());
-			txtTelefonoContacto.setValue(entity.getTelefonoContacto());
-			txtDireccionContacto.setValue(entity.getDireccionContacto());
-
-		}
 	}
 
 	public void actualizarCliente() {
 		try {
 			try {
-				String nit = FacesUtils.checkString(txtNit);
+				String nit = txtNit.getValue().toString().trim();
 				entity = (nit != null) ? businessDelegatorView.buscarClientePorNit(nit) : null;
 			} catch (Exception e) {
 				entity = null;
 			}
+
+			entity.setCelularContacto(txtCelularContacto.getValue().toString().trim());
+			entity.setDireccionContacto(txtDireccionContacto.getValue().toString().trim());
+			entity.setEnlaceWeb(txtEnlaceWeb.getValue().toString().trim());
+
+			entity.setNombreContacto(txtNombreContacto.getValue().toString().trim());
+
+			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString().trim());
+			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
 			
-			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
-			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
-			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
-
-			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-
-			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			entity.setCiudad(ciudad);
+			
 			businessDelegatorView.updateCliente(entity);
 			FacesUtils.addInfoMessage("Se ha actualizado los datos del cliente");
 			limpiarRegistrarNuevoCliente();
@@ -700,4 +793,57 @@ public class ClienteView implements Serializable {
 
 	}
 
+	public void listenerPaisSeleccionado() {
+		try {
+			somDepartamentos.setDisabled(false);
+			getListaDepartamentos();
+			List<Departamento> lista = businessDelegatorView
+					.buscarDepartamentoPorPais(Integer.parseInt(somPaises.getValue().toString()));
+
+			for (Departamento departamento : lista) {
+				listaDepartamentos.add(new SelectItem(departamento.getDepaId(), departamento.getNombreDepartamento()));
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void listenerDepartamentoSeleccionado() {
+		try {
+			somCiudades.setDisabled(false);
+			getListaCiudades();
+			List<Ciudad> lista = businessDelegatorView
+					.buscarCiudadPorDepartamento(Integer.parseInt(somDepartamentos.getValue().toString()));
+
+			for (Ciudad ciudad : lista) {
+				listaCiudades.add(new SelectItem(ciudad.getCiudId(), ciudad.getNombreCiudad()));
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void cargarUbicacion(Integer ciudId){
+		try {
+			Ciudad ciudad = businessDelegatorView.getCiudad(ciudId);
+			Departamento departamento = businessDelegatorView.getDepartamento(ciudad.getDepartamento().getDepaId());
+			Pais pais = businessDelegatorView.getPais(departamento.getPais().getPaisId());
+			
+			somPaises.setDisabled(false);
+			somDepartamentos.setDisabled(false);
+			somCiudades.setDisabled(false);
+			
+			getListaPaises();
+			somPaises.setValue(pais.getPaisId());
+			
+			listenerPaisSeleccionado();
+			somDepartamentos.setValue(departamento.getDepaId());
+			
+			listenerDepartamentoSeleccionado();
+			somCiudades.setValue(ciudad.getCiudId());
+			
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
 }

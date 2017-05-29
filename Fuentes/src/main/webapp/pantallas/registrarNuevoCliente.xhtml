@@ -38,42 +38,66 @@
 						<h:panelGrid columns="2" id="panelGrid">
 
 							<h:outputText id="msgNit" value=" Nit de la Empresa:*" />
-							<p:inputText id="txtNit" style="width:250px;" placeholder="Ingrese el Nit"
-								binding="#{clienteView.txtNit}" disabled="false">
+							<p:inputText id="txtNit" style="width:250px;"
+								placeholder="Ingrese el Nit" binding="#{clienteView.txtNit}"
+								disabled="false">
 								<p:ajax update="panelCliente,msg,panelBotones"
 									listener="#{clienteView.listenerNit}" />
 							</p:inputText>
 
 							<h:outputText id="msgNombreEmpresa"
 								value=" Nombre de la Empresa:*" />
-							<p:inputText id="txtNombreEmpresa" style="width:700px;" placeholder="Ingrese el Nombre de la Empresa"
+							<p:inputText id="txtNombreEmpresa" style="width:700px;"
+								placeholder="Ingrese el Nombre de la Empresa"
 								binding="#{clienteView.txtNombreEmpresa}" disabled="true" />
 
 							<h:outputText id="msgEnlaceWeb" value=" Enlace Web:" />
-							<p:inputText id="txtEnlaceWeb" style="width:700px;" placeholder="Ingrese el Enlace"
+							<p:inputText id="txtEnlaceWeb" style="width:700px;"
+								placeholder="Ingrese el Enlace"
 								binding="#{clienteView.txtEnlaceWeb}" disabled="true" />
 
 							<h:outputText id="msgNombreContacto" value=" Nombre Contacto:*" />
-							<p:inputText id="txtNombreContacto" style="width:700px;" placeholder="Ingrese el Nombre del Contacto"
+							<p:inputText id="txtNombreContacto" style="width:700px;"
+								placeholder="Ingrese el Nombre del Contacto"
 								binding="#{clienteView.txtNombreContacto}" disabled="true" />
 
 							<h:outputText id="msgCelularContacto" value=" Celular Contacto:" />
-							<p:inputText id="txtCelularContacto" style="width:250px;" placeholder="Ingrese el Celular del Contacto"
+							<p:inputText id="txtCelularContacto" style="width:250px;"
+								placeholder="Ingrese el Celular del Contacto"
 								binding="#{clienteView.txtCelularContacto}" disabled="true" />
 
 							<h:outputText id="msgTelefonoContacto"
 								value=" Telefono Contacto:" />
-							<p:inputText id="txtTelefonoContacto" style="width:250px;" placeholder="Ingrese el Teléfono del Contacto"
+							<p:inputText id="txtTelefonoContacto" style="width:250px;"
+								placeholder="Ingrese el Teléfono del Contacto"
 								binding="#{clienteView.txtTelefonoContacto}" disabled="true" />
 
 							<h:outputText id="msgDireccionContacto"
 								value=" Direccion Contacto:" />
-							<p:inputText id="txtDireccionContacto" style="width:700px;" placeholder="Ingrese la Dirección del Contacto"
+							<p:inputText id="txtDireccionContacto" style="width:700px;"
+								placeholder="Ingrese la Dirección del Contacto"
 								binding="#{clienteView.txtDireccionContacto}" disabled="true" />
 
+							<h:outputText id="msgUbicacionCliente" value=" Ubicación" />
+							<h:panelGrid columns="3">
+								<p:selectOneMenu id="somPaises"
+									binding="#{clienteView.somPaises}" disabled ="true">
+									<p:ajax listener="#{clienteView.listenerPaisSeleccionado}" update="msg, men, panelCliente"/>
+									<f:selectItems value="#{clienteView.listaPaises}" />
+								</p:selectOneMenu>
 
+								<p:selectOneMenu id="somDepartamentos"
+									binding="#{clienteView.somDepartamentos}" disabled="true">
+									<p:ajax listener="#{clienteView.listenerDepartamentoSeleccionado}" update="msg, men, panelCliente"/>
+									<f:selectItems value="#{clienteView.listaDepartamentos}" />
+								</p:selectOneMenu>
+								
+								<p:selectOneMenu id="somCiudades"
+									binding="#{clienteView.somCiudades}" disabled="true">
+									<f:selectItems value="#{clienteView.listaCiudades}" />
+								</p:selectOneMenu>
 
-
+							</h:panelGrid>
 
 						</h:panelGrid>
 					</p:panel>
@@ -82,7 +106,7 @@
 							<p:commandButton id="btnRegistrarNuevoCliente" disabled="true"
 								binding="#{clienteView.btnRegistrarNuevoCliente}"
 								value="Registrar Cliente"
-								action="#{clienteView.registrarNuevoCliente}"
+								action="#{clienteView.registrarNuevoCliente()}"
 								update="panelCliente,msg,panelBotones" />
 
 							<p:commandButton id="btnModificarCliente" disabled="true"

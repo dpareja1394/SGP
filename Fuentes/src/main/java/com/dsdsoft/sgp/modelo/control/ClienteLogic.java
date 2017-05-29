@@ -542,6 +542,10 @@ public class ClienteLogic implements IClienteLogic {
 					throw new Exception("Enlace Web no es correcto");
 				}
 			}
+			
+			if(cliente.getCiudad() == null || cliente.getCiudad().getCiudId().equals(0)){
+				throw new Exception("No ha seleccionado ubicación correcta");
+			}
 
 			// DPL 20160806 Llamado al DAO para registrar el nuevo cliente
 			// despues

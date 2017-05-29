@@ -23,5 +23,10 @@
         <mapping resource="com/dsdsoft/sgp/modelo/Proyecto.hbm.xml" />
         <mapping resource="com/dsdsoft/sgp/modelo/SeguimientoCaso.hbm.xml" />
         <mapping resource="com/dsdsoft/sgp/modelo/HistoriaDeUsuario.hbm.xml" />
+        
+<!--         DPL 28 de Mayo de 2017 adiciones para ubicacion del cliente -->
+        <mapping resource="com/dsdsoft/sgp/modelo/Departamento.hbm.xml" />
+        <mapping resource="com/dsdsoft/sgp/modelo/Pais.hbm.xml" />
+        <mapping resource="com/dsdsoft/sgp/modelo/Ciudad.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

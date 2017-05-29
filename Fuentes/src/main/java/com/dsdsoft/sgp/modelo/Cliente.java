@@ -12,6 +12,7 @@ public class Cliente  implements java.io.Serializable {
 
 
      private Integer clieId;
+     private Ciudad ciudad;
      private String nombreEmpresa;
      private String nit;
      private String telefonoContacto;
@@ -25,14 +26,16 @@ public class Cliente  implements java.io.Serializable {
     }
 
 	
-    public Cliente(Integer clieId, String telefonoContacto, String nombreContacto, String celularContacto) {
+    public Cliente(Integer clieId, Ciudad ciudad, String telefonoContacto, String nombreContacto, String celularContacto) {
         this.clieId = clieId;
         this.telefonoContacto = telefonoContacto;
+        this.ciudad = ciudad;
         this.nombreContacto = nombreContacto;
         this.celularContacto = celularContacto;
     }
-    public Cliente(Integer clieId, String nombreEmpresa, String nit, String telefonoContacto, String direccionContacto, String nombreContacto, String celularContacto, String enlaceWeb, Set<Proyecto> proyectos) {
+    public Cliente(Integer clieId, Ciudad ciudad, String nombreEmpresa, String nit, String telefonoContacto, String direccionContacto, String nombreContacto, String celularContacto, String enlaceWeb, Set<Proyecto> proyectos) {
        this.clieId = clieId;
+       this.ciudad = ciudad;
        this.nombreEmpresa = nombreEmpresa;
        this.nit = nit;
        this.telefonoContacto = telefonoContacto;
@@ -49,6 +52,13 @@ public class Cliente  implements java.io.Serializable {
     
     public void setClieId(Integer clieId) {
         this.clieId = clieId;
+    }
+    public Ciudad getCiudad() {
+        return this.ciudad;
+    }
+    
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
     }
     public String getNombreEmpresa() {
         return this.nombreEmpresa;

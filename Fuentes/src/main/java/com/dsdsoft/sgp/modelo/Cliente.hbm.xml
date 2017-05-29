@@ -8,6 +8,9 @@
             <column name="clie_id" />
             <generator class="identity" />
         </id>
+        <many-to-one name="ciudad" class="com.dsdsoft.sgp.modelo.Ciudad" fetch="select">
+            <column name="ciud_id" not-null="true" />
+        </many-to-one>
         <property name="nombreEmpresa" type="java.lang.String">
             <column name="nombre_empresa" length="200" />
         </property>

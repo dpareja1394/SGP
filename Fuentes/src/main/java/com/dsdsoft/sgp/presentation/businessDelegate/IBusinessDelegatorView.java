@@ -2,10 +2,13 @@ package com.dsdsoft.sgp.presentation.businessDelegate;
 
 import com.dsdsoft.sgp.modelo.Actividad;
 import com.dsdsoft.sgp.modelo.CasoSoporte;
+import com.dsdsoft.sgp.modelo.Ciudad;
 import com.dsdsoft.sgp.modelo.Cliente;
+import com.dsdsoft.sgp.modelo.Departamento;
 import com.dsdsoft.sgp.modelo.EstadoHistoriaUsuario;
 import com.dsdsoft.sgp.modelo.EstadoProyecto;
 import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
+import com.dsdsoft.sgp.modelo.Pais;
 import com.dsdsoft.sgp.modelo.Parametro;
 import com.dsdsoft.sgp.modelo.Proyecto;
 import com.dsdsoft.sgp.modelo.ProyectoUsuarioRol;
@@ -426,4 +429,16 @@ public interface IBusinessDelegatorView {
     public void registrarNuevoCliente(Cliente cliente) throws Exception;
     
     public Cliente buscarClientePorNit(String nit) throws Exception;
+    
+    public List<Pais> getPais() throws Exception;
+    
+    public List<Departamento> buscarDepartamentoPorPais(Integer paisId) throws Exception;
+    
+    public List<Ciudad> buscarCiudadPorDepartamento(Integer depaId) throws Exception;
+    
+    public Ciudad getCiudad(Integer ciudId) throws Exception;
+    
+    public Departamento getDepartamento(Integer depaId) throws Exception;
+    
+    public Pais getPais(Integer paisId) throws Exception;
 }

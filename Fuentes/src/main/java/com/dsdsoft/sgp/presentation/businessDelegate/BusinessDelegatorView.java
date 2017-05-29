@@ -1,11 +1,22 @@
 package com.dsdsoft.sgp.presentation.businessDelegate;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 import com.dsdsoft.sgp.modelo.Actividad;
 import com.dsdsoft.sgp.modelo.CasoSoporte;
+import com.dsdsoft.sgp.modelo.Ciudad;
 import com.dsdsoft.sgp.modelo.Cliente;
+import com.dsdsoft.sgp.modelo.Departamento;
 import com.dsdsoft.sgp.modelo.EstadoHistoriaUsuario;
 import com.dsdsoft.sgp.modelo.EstadoProyecto;
 import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
+import com.dsdsoft.sgp.modelo.Pais;
 import com.dsdsoft.sgp.modelo.Parametro;
 import com.dsdsoft.sgp.modelo.Proyecto;
 import com.dsdsoft.sgp.modelo.ProyectoUsuarioRol;
@@ -15,18 +26,15 @@ import com.dsdsoft.sgp.modelo.Rol;
 import com.dsdsoft.sgp.modelo.SeguimientoCaso;
 import com.dsdsoft.sgp.modelo.TipoActividad;
 import com.dsdsoft.sgp.modelo.Usuario;
-import com.dsdsoft.sgp.modelo.control.ActividadLogic;
-import com.dsdsoft.sgp.modelo.control.CasoSoporteLogic;
-import com.dsdsoft.sgp.modelo.control.ClienteLogic;
-import com.dsdsoft.sgp.modelo.control.EstadoHistoriaUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.EstadoProyectoLogic;
-import com.dsdsoft.sgp.modelo.control.HistoriaDeUsuarioLogic;
 import com.dsdsoft.sgp.modelo.control.IActividadLogic;
 import com.dsdsoft.sgp.modelo.control.ICasoSoporteLogic;
+import com.dsdsoft.sgp.modelo.control.ICiudadLogic;
 import com.dsdsoft.sgp.modelo.control.IClienteLogic;
+import com.dsdsoft.sgp.modelo.control.IDepartamentoLogic;
 import com.dsdsoft.sgp.modelo.control.IEstadoHistoriaUsuarioLogic;
 import com.dsdsoft.sgp.modelo.control.IEstadoProyectoLogic;
 import com.dsdsoft.sgp.modelo.control.IHistoriaDeUsuarioLogic;
+import com.dsdsoft.sgp.modelo.control.IPaisLogic;
 import com.dsdsoft.sgp.modelo.control.IParametroLogic;
 import com.dsdsoft.sgp.modelo.control.IProyectoLogic;
 import com.dsdsoft.sgp.modelo.control.IProyectoUsuarioRolLogic;
@@ -35,14 +43,6 @@ import com.dsdsoft.sgp.modelo.control.IRolLogic;
 import com.dsdsoft.sgp.modelo.control.ISeguimientoCasoLogic;
 import com.dsdsoft.sgp.modelo.control.ITipoActividadLogic;
 import com.dsdsoft.sgp.modelo.control.IUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.ParametroLogic;
-import com.dsdsoft.sgp.modelo.control.ProyectoLogic;
-import com.dsdsoft.sgp.modelo.control.ProyectoUsuarioRolLogic;
-import com.dsdsoft.sgp.modelo.control.RequerimientoLogic;
-import com.dsdsoft.sgp.modelo.control.RolLogic;
-import com.dsdsoft.sgp.modelo.control.SeguimientoCasoLogic;
-import com.dsdsoft.sgp.modelo.control.TipoActividadLogic;
-import com.dsdsoft.sgp.modelo.control.UsuarioLogic;
 import com.dsdsoft.sgp.modelo.dto.ActividadDTO;
 import com.dsdsoft.sgp.modelo.dto.CasoSoporteDTO;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
@@ -57,24 +57,6 @@ import com.dsdsoft.sgp.modelo.dto.RolDTO;
 import com.dsdsoft.sgp.modelo.dto.SeguimientoCasoDTO;
 import com.dsdsoft.sgp.modelo.dto.TipoActividadDTO;
 import com.dsdsoft.sgp.modelo.dto.UsuarioDTO;
-import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-
-import java.sql.*;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -150,6 +132,13 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     private ITipoActividadLogic tipoActividadLogic;
     @Autowired
     private IUsuarioLogic usuarioLogic;
+    @Autowired
+    private IPaisLogic paisLogic;
+    @Autowired
+    private IDepartamentoLogic departamentoLogic;
+    @Autowired
+    private ICiudadLogic ciudadLogic;
+    
 
     public List<Actividad> getActividad() throws Exception {
         return actividadLogic.getActividad();
@@ -897,5 +886,35 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	@Override
 	public Cliente buscarClientePorNit(String nit) throws Exception {
 		return clienteLogic.buscarClientePorNit(nit);
+	}
+
+	@Override
+	public List<Pais> getPais() throws Exception {
+		return paisLogic.getPais();
+	}
+
+	@Override
+	public List<Departamento> buscarDepartamentoPorPais(Integer paisId) throws Exception {
+		return departamentoLogic.buscarDepartamentoPorPais(paisId);
+	}
+
+	@Override
+	public List<Ciudad> buscarCiudadPorDepartamento(Integer depaId) throws Exception {
+		return ciudadLogic.buscarCiudadPorDepartamento(depaId);
+	}
+
+	@Override
+	public Ciudad getCiudad(Integer ciudId) throws Exception {
+		return ciudadLogic.getCiudad(ciudId);
+	}
+
+	@Override
+	public Departamento getDepartamento(Integer depaId) throws Exception {
+		return departamentoLogic.getDepartamento(depaId);
+	}
+
+	@Override
+	public Pais getPais(Integer paisId) throws Exception {
+		return paisLogic.getPais(paisId);
 	}
 }
