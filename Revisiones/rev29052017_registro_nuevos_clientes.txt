@@ -2,9 +2,11 @@ Desarrolladas
 - Validar que haya por lo menos un tel�fono, sea celular o sea tel�fono. OK 26052017
 - Agregar Placeholder a la pantalla de registro de clientes. OK 26052017
 - Controlar cambios para, agregar en la direcci�n los campos para Pa�s, Departamento, Ciudad.
+- Agregar validaci�n para la URL de la empresa contacto, si no tiene la palabra http agregarla al principio y validar.
+- Está quedando el nombre del cliente como nombre de la empresa. Validar.
+- Volver la direcci�n web no obligatoria, existen empresas sin pag web.
 
 Faltantes
-- Agregar validaci�n para la URL de la empresa contacto, si no tiene la palabra http agregarla al principio y validar.
+
 - En la validaci�n de la URL, validar tambien que no exista una empresa con esa direcci�n web.
-- Volver la direcci�n web no obligatoria, existen empresas sin pag web.
-- Está quedando el nombre del cliente como nombre de la empresa. Validar.
+

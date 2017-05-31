@@ -217,11 +217,21 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Teléfono Contacto");
 			}
 
-			if (entity.getEnlaceWeb() != null) {
-				UrlValidator urlValidator = new UrlValidator();
-				if (urlValidator.isValid(entity.getEnlaceWeb()) == false) {
-					throw new Exception("Enlace Web no es correcto");
+			if (entity.getEnlaceWeb() != null && entity.getEnlaceWeb().trim().equals("")==false) {
+				if(entity.getEnlaceWeb().trim().substring(0, 4).equals("http")){
+					UrlValidator urlValidator = new UrlValidator();
+					if (urlValidator.isValid(entity.getEnlaceWeb()) == false) {
+						throw new Exception("Enlace Web no es correcto");
+					}
+				}else{
+					String enlaceWeb = "https://"+entity.getEnlaceWeb().trim();
+					UrlValidator urlValidator = new UrlValidator();
+					if (urlValidator.isValid(enlaceWeb) == false) {
+						throw new Exception("Enlace Web no es correcto");
+					}
+					entity.setEnlaceWeb(enlaceWeb);
 				}
+				
 			}
 
 			clienteDAO.update(entity);
@@ -536,11 +546,21 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Dirección Contacto");
 			}
 
-			if (cliente.getEnlaceWeb() != null) {
-				UrlValidator urlValidator = new UrlValidator();
-				if (urlValidator.isValid(cliente.getEnlaceWeb()) == false) {
-					throw new Exception("Enlace Web no es correcto");
+			if (cliente.getEnlaceWeb() != null && cliente.getEnlaceWeb().trim().equals("")==false) {
+				if(cliente.getEnlaceWeb().trim().substring(0, 4).equals("http")){
+					UrlValidator urlValidator = new UrlValidator();
+					if (urlValidator.isValid(cliente.getEnlaceWeb()) == false) {
+						throw new Exception("Enlace Web no es correcto");
+					}
+				}else{
+					String enlaceWeb = "https://"+cliente.getEnlaceWeb().trim();
+					UrlValidator urlValidator = new UrlValidator();
+					if (urlValidator.isValid(enlaceWeb) == false) {
+						throw new Exception("Enlace Web no es correcto");
+					}
+					cliente.setEnlaceWeb(enlaceWeb);
 				}
+				
 			}
 			
 			if(cliente.getCiudad() == null || cliente.getCiudad().getCiudId().equals(0)){

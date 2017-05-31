@@ -17,3 +17,5 @@ insert into ciudad(depa_id, nombre_ciudad)values(3, 'JAMUNDÍ');
 insert into ciudad(depa_id, nombre_ciudad)values(3, 'YUMBO');
 insert into ciudad(depa_id, nombre_ciudad)values(3, 'PALMIRA');
 insert into ciudad(depa_id, nombre_ciudad)values(3, 'CANDELARIA');
+
+select * from cliente;
