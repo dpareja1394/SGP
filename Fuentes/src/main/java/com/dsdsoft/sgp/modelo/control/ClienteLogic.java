@@ -560,8 +560,15 @@ public class ClienteLogic implements IClienteLogic {
 					}
 					cliente.setEnlaceWeb(enlaceWeb);
 				}
+				Cliente clienteEnlaceWeb = clienteDAO.buscarClientesPorEnlaceWeb(cliente.getEnlaceWeb());
+				if(clienteEnlaceWeb != null){
+					throw new Exception("Ya existe un cliente con el enlace web ingresado");
+				}
+				clienteEnlaceWeb = null;
 				
 			}
+			
+			
 			
 			if(cliente.getCiudad() == null || cliente.getCiudad().getCiudId().equals(0)){
 				throw new Exception("No ha seleccionado ubicación correcta");

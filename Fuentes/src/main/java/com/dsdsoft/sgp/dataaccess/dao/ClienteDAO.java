@@ -20,6 +20,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import org.springframework.stereotype.Repository;
 
+import static org.hamcrest.CoreMatchers.nullValue;
+
 import java.math.BigDecimal;
 
 import java.util.Date;
@@ -50,4 +52,19 @@ public class ClienteDAO extends HibernateDaoImpl<Cliente, Integer>
     public static IClienteDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IClienteDAO) ctx.getBean("ClienteDAO");
     }
+
+	@Override
+	public Cliente buscarClientesPorEnlaceWeb(String enlaceWeb) throws Exception {
+		Cliente cliente = null;
+		try {
+			String hql = "SELECT c FROM Cliente c WHERE c.enlaceWeb = '"+enlaceWeb+"'";
+			Query query = getSession().createQuery(hql);
+			List<Cliente> listaTemporal = query.list();
+			cliente = listaTemporal.size()>0 ? listaTemporal.get(0) : null;
+		} catch (RuntimeException re) {
+			log.error(re.getMessage(), re);
+			throw re;
+		}
+		return cliente;
+	}
 }

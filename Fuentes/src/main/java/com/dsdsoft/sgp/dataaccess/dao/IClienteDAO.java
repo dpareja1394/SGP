@@ -9,4 +9,5 @@ import com.dsdsoft.sgp.modelo.Cliente;
 *
 */
 public interface IClienteDAO extends Dao<Cliente, Integer> {
+	public Cliente buscarClientesPorEnlaceWeb(String enlaceWeb) throws Exception;
 }
