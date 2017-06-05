@@ -438,4 +438,10 @@ public class EstadoProyectoLogic implements IEstadoProyectoLogic {
 
         return list;
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<EstadoProyecto> listaEstadoProyectoOrdenadaPorDescripcionEstado() throws Exception {
+		return estadoProyectoDAO.listaEstadoProyectoOrdenadaPorDescripcionEstado();
+	}
 }

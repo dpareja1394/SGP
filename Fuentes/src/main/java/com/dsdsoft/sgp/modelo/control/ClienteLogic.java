@@ -629,4 +629,10 @@ public class ClienteLogic implements IClienteLogic {
 		return cliente;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception {
+		return clienteDAO.listaClienteOrdenadasPorEmpresa();
+	}
+
 }

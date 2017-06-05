@@ -58,4 +58,6 @@ public interface IEstadoProyectoLogic {
 
     public List<EstadoProyectoDTO> getDataEstadoProyecto()
         throws Exception;
+    
+    public List<EstadoProyecto> listaEstadoProyectoOrdenadaPorDescripcionEstado() throws Exception;
 }

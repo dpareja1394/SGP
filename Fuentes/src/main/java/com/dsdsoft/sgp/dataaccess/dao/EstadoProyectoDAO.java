@@ -51,4 +51,18 @@ public class EstadoProyectoDAO extends HibernateDaoImpl<EstadoProyecto, Integer>
         ApplicationContext ctx) {
         return (IEstadoProyectoDAO) ctx.getBean("EstadoProyectoDAO");
     }
+
+	@Override
+	public List<EstadoProyecto> listaEstadoProyectoOrdenadaPorDescripcionEstado() throws Exception {
+		List<EstadoProyecto> listaEstadoProyecto = null;
+		try {
+			String hql = "SELECT ep FROM EstadoProyecto ep ORDER BY descripcionEstado ASC ";
+			Query query = getSession().createQuery(hql);
+			listaEstadoProyecto = query.list();
+		} catch (RuntimeException re) {
+			log.error(re.getMessage(), re);
+			throw re;
+		}
+		return listaEstadoProyecto;
+	}
 }

@@ -922,4 +922,14 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public Usuario buscarUsuarioPorEmail(String emailUsuario) throws Exception {
 		return usuarioLogic.buscarUsuarioPorEmail(emailUsuario);
 	}
+
+	@Override
+	public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception {
+		return clienteLogic.listaClienteOrdenadasPorEmpresa();
+	}
+
+	@Override
+	public List<EstadoProyecto> listaEstadoProyectoOrdenadaPorDescripcionEstado() throws Exception {
+		return estadoProyectoLogic.listaEstadoProyectoOrdenadaPorDescripcionEstado();
+	}
 }

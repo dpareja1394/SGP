@@ -15,7 +15,7 @@
 			<h:form>
 
 				<p:megaMenu style="width:989px">
-					<p:submenu label="Clientes" icon="ui-icon-pencil">
+					<p:submenu label="Clientes" icon="ui-icon-contact">
 						<p:column>
 							<p:submenu label="Cliente">
 								<p:menuitem value="Registrar nuevo Cliente"
@@ -23,10 +23,23 @@
 								<p:menuitem value="Ver listado de Clientes"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/clienteListDataTable.xhtml" />
 							</p:submenu>
+							<p:submenu label="Proyectos">
+								<p:menuitem value="Registrar nuevo Proyecto"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoProyecto.xhtml" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+					
+					<p:submenu label="Proyectos" icon="ui-icon-lightbulb">
+						<p:column>
+							<p:submenu label="Proyectos">
+								<p:menuitem value="Registrar nuevo Proyecto"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoProyecto.xhtml" />
+							</p:submenu>
 						</p:column>
 					</p:submenu>
 
-					<p:menuitem value="Quit"
+					<p:menuitem value="Cerrar Sesión"
 						url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"
 						icon="ui-icon-close" />
 

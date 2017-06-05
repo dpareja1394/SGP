@@ -443,4 +443,8 @@ public interface IBusinessDelegatorView {
     public Pais getPais(Integer paisId) throws Exception;
     
     public Usuario buscarUsuarioPorEmail(String emailUsuario) throws Exception;
+    
+    public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception;
+    
+    public List<EstadoProyecto> listaEstadoProyectoOrdenadaPorDescripcionEstado() throws Exception;
 }

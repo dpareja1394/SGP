@@ -67,4 +67,18 @@ public class ClienteDAO extends HibernateDaoImpl<Cliente, Integer>
 		}
 		return cliente;
 	}
+
+	@Override
+	public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception {
+		List<Cliente> listaClientesOrdenadaPorEmpresa = null;
+		try {
+			String hql = "SELECT c FROM Cliente c ORDER BY c.nombreEmpresa ASC ";
+			Query query = getSession().createQuery(hql);
+			listaClientesOrdenadaPorEmpresa = query.list();
+		} catch (RuntimeException re) {
+			log.error(re.getMessage(), re);
+			throw re;
+		}
+		return listaClientesOrdenadaPorEmpresa;
+	}
 }

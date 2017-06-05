@@ -57,4 +57,6 @@ public interface IClienteLogic {
     public void registrarNuevoCliente(Cliente cliente) throws Exception;
     
     public Cliente buscarClientePorNit(String nit) throws Exception;
+    
+    public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception;
 }
