@@ -74,3 +74,7 @@ alter table CLIENTE
    add constraint FK_CLIE_REFER_USUA2 foreign key (USUARIO_MODIFICACION)
       references USUARIO (USUA_ID)
       on delete restrict on update restrict;
+      
+      
+alter table CLIENTE
+   add column EMAIL_CONTACTO CHARACTER VARYING(200)         null;

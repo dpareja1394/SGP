@@ -23,6 +23,7 @@ public class Cliente implements java.io.Serializable {
 	private Usuario usuarioByUsuarioModificacion;
 	private Date fechaCreacion;
 	private Date fechaModificacion;
+	private String emailContacto;
 	private Set<Proyecto> proyectos = new HashSet<Proyecto>(0);
 
 	public Cliente() {
@@ -42,7 +43,7 @@ public class Cliente implements java.io.Serializable {
 	public Cliente(Integer clieId, Ciudad ciudad, String nombreEmpresa, String nit, String telefonoContacto,
 			String direccionContacto, String nombreContacto, String celularContacto, String enlaceWeb,
 			Set<Proyecto> proyectos, Date fechaCreacion, Date fechaModificacion, Usuario usuarioByUsuarioCreacion,
-			Usuario usuarioByUsuarioModificacion) {
+			Usuario usuarioByUsuarioModificacion, String emailContacto) {
 		this.clieId = clieId;
 		this.ciudad = ciudad;
 		this.nombreEmpresa = nombreEmpresa;
@@ -57,6 +58,7 @@ public class Cliente implements java.io.Serializable {
 		this.fechaModificacion = fechaModificacion;
 		this.usuarioByUsuarioCreacion = usuarioByUsuarioCreacion;
 		this.usuarioByUsuarioModificacion = usuarioByUsuarioModificacion;
+		this.emailContacto = emailContacto;
 	}
 
 	public Integer getClieId() {
@@ -169,6 +171,14 @@ public class Cliente implements java.io.Serializable {
 
 	public void setFechaModificacion(Date fechaModificacion) {
 		this.fechaModificacion = fechaModificacion;
+	}
+
+	public String getEmailContacto() {
+		return emailContacto;
+	}
+
+	public void setEmailContacto(String emailContacto) {
+		this.emailContacto = emailContacto;
 	}
 
 }

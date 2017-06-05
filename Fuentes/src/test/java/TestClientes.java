@@ -10,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.dsdsoft.sgp.modelo.Ciudad;
 import com.dsdsoft.sgp.modelo.Cliente;
+import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.control.ClienteLogic;
 import com.dsdsoft.sgp.modelo.control.ICiudadLogic;
 import com.dsdsoft.sgp.modelo.control.IClienteLogic;
+import com.dsdsoft.sgp.modelo.control.IUsuarioLogic;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +29,9 @@ public class TestClientes {
 	
 	@Autowired
 	ICiudadLogic ciudadLogic;
+	
+	@Autowired
+	IUsuarioLogic usuarioLogic;
 	
 	@Test
 	public void test() {
@@ -50,9 +55,13 @@ public class TestClientes {
 			cliente.setNit("94091304648-1");
 			cliente.setNombreContacto("Prueba Contacto");
 			cliente.setNombreEmpresa("La Empresa");
+			cliente.setEmailContacto("prueba@prueba.com");
+			
+			Usuario usuario = usuarioLogic.buscarUsuarioPorEmail("dpareja1394@gmail.com");
+			cliente.setUsuarioByUsuarioCreacion(usuario);
 			
 			clienteLogic.registrarNuevoCliente(cliente);
-			
+			log.info("Se ha registrado el cliente "+cliente.getNombreEmpresa());
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}

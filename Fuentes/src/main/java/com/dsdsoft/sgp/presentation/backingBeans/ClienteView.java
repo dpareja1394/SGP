@@ -46,6 +46,7 @@ public class ClienteView implements Serializable {
 	private InputText txtNombreEmpresa;
 	private InputText txtTelefonoContacto;
 	private InputText txtClieId;
+	private InputText txtEmailContacto;
 	private CommandButton btnSave;
 	private CommandButton btnModify;
 	private CommandButton btnDelete;
@@ -654,6 +655,14 @@ public class ClienteView implements Serializable {
 		this.usuarioIniciado = usuarioIniciado;
 	}
 
+	public InputText getTxtEmailContacto() {
+		return txtEmailContacto;
+	}
+
+	public void setTxtEmailContacto(InputText txtEmailContacto) {
+		this.txtEmailContacto = txtEmailContacto;
+	}
+
 	// DPL 20160703 Método para crear un nuevo cliente.
 	public String registrarNuevoCliente() {
 		try {
@@ -667,6 +676,7 @@ public class ClienteView implements Serializable {
 			entity.setNombreContacto(txtNombreContacto.getValue().toString());
 			entity.setNombreEmpresa(txtNombreEmpresa.getValue().toString());
 			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString());
+			entity.setEmailContacto(txtEmailContacto.getValue().toString());
 			
 			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
 			entity.setCiudad(ciudad);
@@ -739,6 +749,8 @@ public class ClienteView implements Serializable {
 				txtNombreEmpresa.setDisabled(false);
 				txtTelefonoContacto.setValue(null);
 				txtTelefonoContacto.setDisabled(false);
+				txtEmailContacto.setDisabled(false);
+				txtEmailContacto.setValue(null);
 				somPaises.setDisabled(false);
 				btnRegistrarNuevoCliente.setDisabled(false);
 				btnModificarCliente.setDisabled(true);
@@ -755,6 +767,7 @@ public class ClienteView implements Serializable {
 				txtCelularContacto.setDisabled(false);
 				txtTelefonoContacto.setDisabled(false);
 				txtDireccionContacto.setDisabled(false);
+				txtEmailContacto.setDisabled(false);
 				
 
 				txtNit.setValue(entity.getNit());
@@ -764,6 +777,7 @@ public class ClienteView implements Serializable {
 				txtCelularContacto.setValue(entity.getCelularContacto());
 				txtTelefonoContacto.setValue(entity.getTelefonoContacto());
 				txtDireccionContacto.setValue(entity.getDireccionContacto());
+				txtEmailContacto.setValue(entity.getEmailContacto());
 
 				cargarUbicacion(entity.getCiudad().getCiudId());
 
@@ -793,6 +807,7 @@ public class ClienteView implements Serializable {
 			entity.setNombreContacto(txtNombreContacto.getValue().toString().trim());
 
 			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString().trim());
+			entity.setEmailContacto(txtEmailContacto.getValue().toString().trim());
 			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
 			entity.setCiudad(ciudad);
 			

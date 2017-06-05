@@ -7,7 +7,7 @@ Desarrolladas
 - Volver la direcci�n web no obligatoria, existen empresas sin pag web.
 - En la validaci�n de la URL, validar tambien que no exista una empresa con esa direcci�n web.
 - Agregar columnas de Fecha registro, fecha modificacion, usuario registro, usuario modificacion.
+- Agregar columna correo electrónico contacto cliente.
 
 Faltantes
-- Agregar columna correo electrónico contacto cliente.
 

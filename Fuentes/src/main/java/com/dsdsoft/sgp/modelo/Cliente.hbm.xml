@@ -44,6 +44,9 @@
         <property name="fechaModificacion" type="java.util.Date">
             <column name="fecha_modificacion" length="13" />
         </property>
+        <property name="emailContacto" type="java.lang.String">
+            <column name="email_contacto" length="200" />
+        </property>
         <set name="proyectos" table="proyecto" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="clie_id" not-null="true" />

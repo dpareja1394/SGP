@@ -17,8 +17,8 @@ import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
-import org.apache.commons.validator.UrlValidator;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.UrlValidator;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +51,7 @@ public class ClienteLogic implements IClienteLogic {
 
 	@Autowired
 	private IUsuarioLogic usuarioLogic;
-	
+
 	@Transactional(readOnly = true)
 	public List<Cliente> getCliente() throws Exception {
 		log.debug("finding all Cliente instances");
@@ -220,27 +220,33 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Teléfono Contacto");
 			}
 
-			if (entity.getEnlaceWeb() != null && entity.getEnlaceWeb().trim().equals("")==false) {
-				if(entity.getEnlaceWeb().trim().substring(0, 4).equals("http")){
+			if (entity.getEnlaceWeb() != null && entity.getEnlaceWeb().trim().equals("") == false) {
+				if (entity.getEnlaceWeb().trim().substring(0, 4).equals("http")) {
 					UrlValidator urlValidator = new UrlValidator();
 					if (urlValidator.isValid(entity.getEnlaceWeb()) == false) {
 						throw new Exception("Enlace Web no es correcto");
 					}
-				}else{
-					String enlaceWeb = "https://"+entity.getEnlaceWeb().trim();
+				} else {
+					String enlaceWeb = "https://" + entity.getEnlaceWeb().trim();
 					UrlValidator urlValidator = new UrlValidator();
 					if (urlValidator.isValid(enlaceWeb) == false) {
 						throw new Exception("Enlace Web no es correcto");
 					}
 					entity.setEnlaceWeb(enlaceWeb);
 				}
-				
 			}
-			if(entity.getUsuarioByUsuarioModificacion() == null){
+
+			if (entity.getEmailContacto() != null && entity.getEmailContacto().trim().equals("") == false) {
+				if (EmailValidator.getInstance().isValid(entity.getEmailContacto()) == false) {
+					throw new Exception("Debe ingresar un correo electrónico para el contacto.");
+				}
+			}
+
+			if (entity.getUsuarioByUsuarioModificacion() == null) {
 				throw new Exception("No ha llegado el usuario para la modificación");
 			}
 			Usuario usuarioModifica = usuarioLogic.getUsuario(entity.getUsuarioByUsuarioModificacion().getUsuaId());
-			if(usuarioModifica == null){
+			if (usuarioModifica == null) {
 				throw new Exception("El usuario de modificación no está registrado en la base de datos");
 			}
 			entity.setFechaModificacion(new Date());
@@ -542,7 +548,8 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Nombre Contacto");
 			}
 
-			// DPL 26 Mayo 2017 Validación de teléfonos, debe haber alguno de los dos
+			// DPL 26 Mayo 2017 Validación de teléfonos, debe haber alguno de
+			// los dos
 			if ((cliente.getTelefonoContacto() == null || cliente.getTelefonoContacto().trim().equals(""))
 					&& (cliente.getCelularContacto() == null || cliente.getCelularContacto().trim().equals(""))) {
 				throw new Exception("Debe ingresar un teléfono o un celular");
@@ -557,14 +564,14 @@ public class ClienteLogic implements IClienteLogic {
 				throw new ZMessManager().new NotValidFormatException("Dirección Contacto");
 			}
 
-			if (cliente.getEnlaceWeb() != null && cliente.getEnlaceWeb().trim().equals("")==false) {
-				if(cliente.getEnlaceWeb().trim().substring(0, 4).equals("http")){
+			if (cliente.getEnlaceWeb() != null && cliente.getEnlaceWeb().trim().equals("") == false) {
+				if (cliente.getEnlaceWeb().trim().substring(0, 4).equals("http")) {
 					UrlValidator urlValidator = new UrlValidator();
 					if (urlValidator.isValid(cliente.getEnlaceWeb()) == false) {
 						throw new Exception("Enlace Web no es correcto");
 					}
-				}else{
-					String enlaceWeb = "https://"+cliente.getEnlaceWeb().trim();
+				} else {
+					String enlaceWeb = "https://" + cliente.getEnlaceWeb().trim();
 					UrlValidator urlValidator = new UrlValidator();
 					if (urlValidator.isValid(enlaceWeb) == false) {
 						throw new Exception("Enlace Web no es correcto");
@@ -572,24 +579,28 @@ public class ClienteLogic implements IClienteLogic {
 					cliente.setEnlaceWeb(enlaceWeb);
 				}
 				Cliente clienteEnlaceWeb = clienteDAO.buscarClientesPorEnlaceWeb(cliente.getEnlaceWeb());
-				if(clienteEnlaceWeb != null){
-					throw new Exception("Ya existe un cliente con el enlace web ingresado, "+cliente.getEnlaceWeb());
+				if (clienteEnlaceWeb != null) {
+					throw new Exception("Ya existe un cliente con el enlace web ingresado, " + cliente.getEnlaceWeb());
 				}
 				clienteEnlaceWeb = null;
-				
+
 			}
-			
-			
-			
-			if(cliente.getCiudad() == null || cliente.getCiudad().getCiudId().equals(0)){
+
+			if (cliente.getEmailContacto() != null && cliente.getEmailContacto().trim().equals("") == false) {
+				if (EmailValidator.getInstance().isValid(cliente.getEmailContacto()) == false) {
+					throw new Exception("El correo " + cliente.getEmailContacto()
+							+ " no es una dirección de correo electrónico correcta.");
+				}
+			}
+			if (cliente.getCiudad() == null || cliente.getCiudad().getCiudId().equals(0)) {
 				throw new Exception("No ha seleccionado ubicación correcta");
 			}
-			if(cliente.getUsuarioByUsuarioCreacion() == null){
+			if (cliente.getUsuarioByUsuarioCreacion() == null) {
 				throw new Exception("No ha llegado el usuario para la creación del Cliente");
 			}
-			
+
 			Usuario usuarioCreacion = usuarioLogic.getUsuario(cliente.getUsuarioByUsuarioCreacion().getUsuaId());
-			if(usuarioCreacion == null){
+			if (usuarioCreacion == null) {
 				throw new Exception("El usuario de creación no está registrado en la base de datos");
 			}
 

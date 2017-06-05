@@ -74,6 +74,7 @@ create table CLIENTE (
    FECHA_MODIFICACION 	DATE						   null,
    USUARIO_CREACION 	BIGINT 						   not null,
    USUARIO_MODIFICACION BIGINT						   null,
+   EMAIL_CONTACTO 		CHARACTER VARYING(200)         null,
    constraint PK_CLIENTE primary key (CLIE_ID)
 );
 
