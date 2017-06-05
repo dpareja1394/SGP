@@ -562,7 +562,7 @@ public class ClienteLogic implements IClienteLogic {
 				}
 				Cliente clienteEnlaceWeb = clienteDAO.buscarClientesPorEnlaceWeb(cliente.getEnlaceWeb());
 				if(clienteEnlaceWeb != null){
-					throw new Exception("Ya existe un cliente con el enlace web ingresado");
+					throw new Exception("Ya existe un cliente con el enlace web ingresado, "+cliente.getEnlaceWeb());
 				}
 				clienteEnlaceWeb = null;
 				

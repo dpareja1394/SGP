@@ -19,3 +19,5 @@ insert into ciudad(depa_id, nombre_ciudad)values(3, 'PALMIRA');
 insert into ciudad(depa_id, nombre_ciudad)values(3, 'CANDELARIA');
 
 select * from cliente;
+
+select * from ciudad;
