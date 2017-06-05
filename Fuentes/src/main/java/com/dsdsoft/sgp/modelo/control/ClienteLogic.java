@@ -49,6 +49,9 @@ public class ClienteLogic implements IClienteLogic {
 	@Autowired
 	private IProyectoDAO proyectoDAO;
 
+	@Autowired
+	private IUsuarioLogic usuarioLogic;
+	
 	@Transactional(readOnly = true)
 	public List<Cliente> getCliente() throws Exception {
 		log.debug("finding all Cliente instances");
@@ -233,6 +236,14 @@ public class ClienteLogic implements IClienteLogic {
 				}
 				
 			}
+			if(entity.getUsuarioByUsuarioModificacion() == null){
+				throw new Exception("No ha llegado el usuario para la modificación");
+			}
+			Usuario usuarioModifica = usuarioLogic.getUsuario(entity.getUsuarioByUsuarioModificacion().getUsuaId());
+			if(usuarioModifica == null){
+				throw new Exception("El usuario de modificación no está registrado en la base de datos");
+			}
+			entity.setFechaModificacion(new Date());
 
 			clienteDAO.update(entity);
 
@@ -573,10 +584,19 @@ public class ClienteLogic implements IClienteLogic {
 			if(cliente.getCiudad() == null || cliente.getCiudad().getCiudId().equals(0)){
 				throw new Exception("No ha seleccionado ubicación correcta");
 			}
+			if(cliente.getUsuarioByUsuarioCreacion() == null){
+				throw new Exception("No ha llegado el usuario para la creación del Cliente");
+			}
+			
+			Usuario usuarioCreacion = usuarioLogic.getUsuario(cliente.getUsuarioByUsuarioCreacion().getUsuaId());
+			if(usuarioCreacion == null){
+				throw new Exception("El usuario de creación no está registrado en la base de datos");
+			}
 
 			// DPL 20160806 Llamado al DAO para registrar el nuevo cliente
 			// despues
 			// de haber pasado las validaciones en la lógica
+			cliente.setFechaCreacion(new Date());
 			clienteDAO.save(cliente);
 			clienteTemporal = null;
 			log.info("Se ha registrado el cliente, " + cliente.getNombreEmpresa());

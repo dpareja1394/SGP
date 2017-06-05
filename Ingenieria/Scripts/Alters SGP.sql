@@ -48,3 +48,29 @@ alter table CLIENTE
    add constraint FK_CLIE_REFERENCE_CIUD foreign key (CIUD_ID)
       references CIUDAD (CIUD_ID)
       on delete restrict on update restrict;
+      
+
+-- Agregar columnas a la tabla cliente 5 de Junio 2017
+delete from CLIENTE;
+
+alter table CLIENTE
+   add column FECHA_CREACION DATE not null;
+
+alter table CLIENTE
+   add column FECHA_MODIFICACION DATE;
+
+alter table CLIENTE
+   add column USUARIO_CREACION bigint not null;
+   
+alter table CLIENTE
+   add column USUARIO_MODIFICACION bigint;
+   
+alter table CLIENTE
+   add constraint FK_CLIE_REFER_USUA1 foreign key (USUARIO_CREACION)
+      references USUARIO (USUA_ID)
+      on delete restrict on update restrict;
+      
+alter table CLIENTE
+   add constraint FK_CLIE_REFER_USUA2 foreign key (USUARIO_MODIFICACION)
+      references USUARIO (USUA_ID)
+      on delete restrict on update restrict;

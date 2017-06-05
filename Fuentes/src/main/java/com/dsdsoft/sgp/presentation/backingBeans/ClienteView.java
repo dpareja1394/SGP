@@ -23,6 +23,7 @@ import com.dsdsoft.sgp.modelo.Ciudad;
 import com.dsdsoft.sgp.modelo.Cliente;
 import com.dsdsoft.sgp.modelo.Departamento;
 import com.dsdsoft.sgp.modelo.Pais;
+import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
 import com.dsdsoft.sgp.utilities.FacesUtils;
@@ -60,8 +61,11 @@ public class ClienteView implements Serializable {
 	private SelectOneMenu somPaises, somDepartamentos, somCiudades;
 	private List<SelectItem> listaPaises, listaDepartamentos, listaCiudades;
 
+	private String usuarioIniciado;
+	
 	public ClienteView() {
 		super();
+		this.usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
 	}
 
 	public void rowEventListener(RowEditEvent e) {
@@ -642,6 +646,14 @@ public class ClienteView implements Serializable {
 		this.listaCiudades = listaCiudades;
 	}
 
+	public String getUsuarioIniciado() {
+		return usuarioIniciado;
+	}
+
+	public void setUsuarioIniciado(String usuarioIniciado) {
+		this.usuarioIniciado = usuarioIniciado;
+	}
+
 	// DPL 20160703 Método para crear un nuevo cliente.
 	public String registrarNuevoCliente() {
 		try {
@@ -657,8 +669,10 @@ public class ClienteView implements Serializable {
 			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString());
 			
 			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
-			
 			entity.setCiudad(ciudad);
+			
+			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			entity.setUsuarioByUsuarioCreacion(usuario);
 			
 			businessDelegatorView.registrarNuevoCliente(entity);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
@@ -780,8 +794,10 @@ public class ClienteView implements Serializable {
 
 			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString().trim());
 			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
-			
 			entity.setCiudad(ciudad);
+			
+			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			entity.setUsuarioByUsuarioModificacion(usuario);
 			
 			businessDelegatorView.updateCliente(entity);
 			FacesUtils.addInfoMessage("Se ha actualizado los datos del cliente");

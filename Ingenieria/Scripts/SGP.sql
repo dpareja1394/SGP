@@ -70,6 +70,10 @@ create table CLIENTE (
    CELULAR_CONTACTO     CHARACTER VARYING(200)         null,
    ENLACE_WEB           CHARACTER VARYING(200)         null,
    CIUD_ID				BIGINT						   not null,
+   FECHA_CREACION 		DATE 						   not null,
+   FECHA_MODIFICACION 	DATE						   null,
+   USUARIO_CREACION 	BIGINT 						   not null,
+   USUARIO_MODIFICACION BIGINT						   null,
    constraint PK_CLIENTE primary key (CLIE_ID)
 );
 
@@ -313,4 +317,14 @@ alter table CIUDAD
 alter table CLIENTE
    add constraint FK_CLIE_REFERENCE_CIUD foreign key (CIUD_ID)
       references CIUDAD (CIUD_ID)
+      on delete restrict on update restrict;
+
+alter table CLIENTE
+   add constraint FK_CLIE_REFER_USUA1 foreign key (USUARIO_CREACION)
+      references USUARIO (USUA_ID)
+      on delete restrict on update restrict;
+      
+alter table CLIENTE
+   add constraint FK_CLIE_REFER_USUA2 foreign key (USUARIO_MODIFICACION)
+      references USUARIO (USUA_ID)
       on delete restrict on update restrict;

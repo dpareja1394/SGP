@@ -441,4 +441,6 @@ public interface IBusinessDelegatorView {
     public Departamento getDepartamento(Integer depaId) throws Exception;
     
     public Pais getPais(Integer paisId) throws Exception;
+    
+    public Usuario buscarUsuarioPorEmail(String emailUsuario) throws Exception;
 }

@@ -6,8 +6,8 @@ Desarrolladas
 - Está quedando el nombre del cliente como nombre de la empresa. Validar.
 - Volver la direcci�n web no obligatoria, existen empresas sin pag web.
 - En la validaci�n de la URL, validar tambien que no exista una empresa con esa direcci�n web.
-
-Faltantes
 - Agregar columnas de Fecha registro, fecha modificacion, usuario registro, usuario modificacion.
 
+Faltantes
+- Agregar columna correo electrónico contacto cliente.
 

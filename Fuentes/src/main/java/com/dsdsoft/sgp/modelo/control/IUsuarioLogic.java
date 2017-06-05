@@ -53,4 +53,6 @@ public interface IUsuarioLogic {
     public Long findTotalNumberUsuario() throws Exception;
 
     public List<UsuarioDTO> getDataUsuario() throws Exception;
+    
+    public Usuario buscarUsuarioPorEmail(String emailUsuario) throws Exception;
 }

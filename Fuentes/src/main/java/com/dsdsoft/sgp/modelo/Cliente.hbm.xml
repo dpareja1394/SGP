@@ -11,6 +11,12 @@
         <many-to-one name="ciudad" class="com.dsdsoft.sgp.modelo.Ciudad" fetch="select">
             <column name="ciud_id" not-null="true" />
         </many-to-one>
+        <many-to-one name="usuarioByUsuarioCreacion" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usuario_creacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioByUsuarioModificacion" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usuario_modificacion" />
+        </many-to-one>
         <property name="nombreEmpresa" type="java.lang.String">
             <column name="nombre_empresa" length="200" />
         </property>
@@ -31,6 +37,12 @@
         </property>
         <property name="enlaceWeb" type="java.lang.String">
             <column name="enlace_web" length="200" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="fecha_creacion" length="13" not-null="true" />
+        </property>
+        <property name="fechaModificacion" type="java.util.Date">
+            <column name="fecha_modificacion" length="13" />
         </property>
         <set name="proyectos" table="proyecto" inverse="true" lazy="true" fetch="select">
             <key>

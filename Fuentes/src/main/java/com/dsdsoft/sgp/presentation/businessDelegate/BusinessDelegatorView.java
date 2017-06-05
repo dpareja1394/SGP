@@ -917,4 +917,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public Pais getPais(Integer paisId) throws Exception {
 		return paisLogic.getPais(paisId);
 	}
+
+	@Override
+	public Usuario buscarUsuarioPorEmail(String emailUsuario) throws Exception {
+		return usuarioLogic.buscarUsuarioPorEmail(emailUsuario);
+	}
 }

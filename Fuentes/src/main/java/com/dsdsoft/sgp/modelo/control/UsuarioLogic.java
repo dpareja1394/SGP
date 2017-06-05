@@ -624,4 +624,20 @@ public class UsuarioLogic implements IUsuarioLogic {
 
         return list;
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public Usuario buscarUsuarioPorEmail(String emailUsuario) throws Exception {
+		Usuario usuario = null;
+		try {
+			if(emailUsuario == null || emailUsuario.trim().equals("") == true){
+				throw new Exception("No ha llegado el correo para buscar el usuario");
+			}
+			usuario = usuarioDAO.findEntityByProperty("emailUsuario", emailUsuario);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return usuario;
+	}
 }
