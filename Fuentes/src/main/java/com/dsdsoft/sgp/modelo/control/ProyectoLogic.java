@@ -102,47 +102,39 @@ public class ProyectoLogic implements IProyectoLogic {
 
         try {
             if (entity.getCliente() == null) {
-                throw new ZMessManager().new ForeignException("cliente");
+                throw new ZMessManager().new ForeignException("Cliente");
             }
 
             if (entity.getEstadoProyecto() == null) {
-                throw new ZMessManager().new ForeignException("estadoProyecto");
+                throw new ZMessManager().new ForeignException("Estado del Proyecto");
             }
 
             if (entity.getDescProyecto() == null) {
-                throw new ZMessManager().new EmptyFieldException("descProyecto");
+                throw new ZMessManager().new EmptyFieldException("Descripción del Proyecto");
             }
 
             if ((entity.getDescProyecto() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getDescProyecto(), 2000) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
-                    "descProyecto");
-            }
-
-            if (entity.getProyId() == null) {
-                throw new ZMessManager().new EmptyFieldException("proyId");
+                    "Descripción del Proyecto");
             }
 
             if (entity.getCliente().getClieId() == null) {
                 throw new ZMessManager().new EmptyFieldException(
-                    "clieId_Cliente");
+                    "Cliente");
             }
 
             if (entity.getEstadoProyecto().getEsprId() == null) {
                 throw new ZMessManager().new EmptyFieldException(
-                    "esprId_EstadoProyecto");
-            }
-
-            if (getProyecto(entity.getProyId()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+                    "Estado del Proyecto");
             }
 
             proyectoDAO.save(entity);
 
-            log.debug("save Proyecto successful");
+            log.debug("Se ha guardado el proyecto correctamente "+new Date());
         } catch (Exception e) {
-            log.error("save Proyecto failed", e);
+            log.error("Error guardando un nuevo proyecto", e);
             throw e;
         } finally {
         }

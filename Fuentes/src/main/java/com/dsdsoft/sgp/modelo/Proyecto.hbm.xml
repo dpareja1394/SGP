@@ -6,7 +6,7 @@
     <class name="com.dsdsoft.sgp.modelo.Proyecto" table="proyecto" schema="public">
         <id name="proyId" type="java.lang.Integer">
             <column name="proy_id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="estadoProyecto" class="com.dsdsoft.sgp.modelo.EstadoProyecto" fetch="select">
             <column name="estado_proyecto" not-null="true" />

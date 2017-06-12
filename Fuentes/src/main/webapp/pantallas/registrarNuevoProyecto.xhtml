@@ -34,17 +34,60 @@
 				<h:form id="formDialog">
 					<p:messages id="msg" />
 					<p:growl id="men" />
-					<p:panel id="panelProyecto" header="Proyecto">
-						<h:panelGrid columns="2" id="panelGrid">
-
+					<p:panel id="panelProyecto" header="Crear nuevo Proyecto">
+						<h:panelGrid columns="2" id="panelDatosNuevoProyecto">
+							<p:outputLabel value="Descripción del Proyecto: "/>
+							<p:inputTextarea placeholder="Ingrese aquí la descripción del nuevo proyecto" 
+							binding="#{proyectoView.txtDescripcionProyecto}"/>
+							
+							<p:outputLabel value="Estado del Proyecto: "/>
+							<p:selectOneMenu binding="#{proyectoView.somEstadoProyecto}">
+								<f:selectItem itemValue="0" itemLabel="SELECCIONE UN ESTADO DEL PROYECTO"/>
+								<f:selectItems value="#{proyectoView.listEstadosProyecto}"/>
+							</p:selectOneMenu>
+							
+							<p:outputLabel value="Cliente: "/>
+							<h:panelGrid columns="2">
+								<p:inputText readonly="true" binding="#{proyectoView.txtNombreClienteProyecto}"/>
+								<p:commandButton title="Buscar Cliente" icon="ui-icon-search" 
+									actionListener="#{proyectoView.abrirDialogoBuscarCliente}"
+									update=":dialogConsultaClienteProyecto"/>
+							</h:panelGrid>
 						</h:panelGrid>
 					</p:panel>
 					<p:panel id="panelBotones">
 						<div align="center">
-
+							<h:panelGrid columns="2" id="panelGridBotones">
+								<p:commandButton value="Guardar" action="#{proyectoView.guardarNuevoProyecto}"
+								update=":formDialog"/>
+								<p:commandButton value="Limpiar"/>
+							</h:panelGrid>
+							
 						</div>
 					</p:panel>
 				</h:form>
+				<p:dialog id="dialogConsultaClienteProyecto" widgetVar="dlgConsultaClienteProyecto" 
+					visible="#{proyectoView.showClientesProyectos}" header="Clientes" width="75%" height="300px;">
+					<h:form>
+						<p:panel>
+							<p:dataTable value="#{proyectoView.listaClientesOrdenada}" var="cliente" emptyMessage="No hay datos de Clientes">
+								<p:column headerText="Nombre de la Empresa">
+									<h:outputText value="#{cliente.nombreEmpresa}" />
+								</p:column>
+								<p:column headerText="Nit">
+									<h:outputText value="#{cliente.nit}" />
+								</p:column>
+								<p:column headerText="Seleccionar" width="15%">
+									<p:commandButton icon="ui-icon-check" title="Seleccionar Cliente" 
+									actionListener="#{proyectoView.seleccionarCliente}"
+									update=":dialogConsultaClienteProyecto, @([id$=panelProyecto])">
+										<f:attribute name="clienteSeleccionado" value="#{cliente}"/>
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>	
+						</p:panel>
+					</h:form>
+				</p:dialog>
 			</f:view>
 		</ui:define>
 	</ui:composition>
