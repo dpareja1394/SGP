@@ -14,8 +14,20 @@
         <many-to-one name="cliente" class="com.dsdsoft.sgp.modelo.Cliente" fetch="select">
             <column name="clie_id" not-null="true" />
         </many-to-one>
+        <many-to-one name="usuarioByUsuarioCreacion" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usuario_creacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioByUsuarioModificacion" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usuario_modificacion" />
+        </many-to-one>
         <property name="descProyecto" type="java.lang.String">
             <column name="desc_proyecto" length="2000" not-null="true" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="fecha_creacion" length="13" not-null="true" />
+        </property>
+        <property name="fechaModificacion" type="java.util.Date">
+            <column name="fecha_modificacion" length="13" />
         </property>
         <set name="casoSoportes" table="caso_soporte" inverse="true" lazy="true" fetch="select">
             <key>

@@ -24,6 +24,9 @@ public class ProyectoDTO implements Serializable {
     private Integer clieId_Cliente;
     private Integer esprId_EstadoProyecto;
     private String descripcionEstado;
+    private Date fechaCreacion, fechaModificacion;
+    private String usuarioCreacion, usuarioModificacion;
+    private String fechaCreacionEspanhol, fechaModificacionEspanhol;
 
     public String getDescProyecto() {
         return descProyecto;
@@ -63,5 +66,53 @@ public class ProyectoDTO implements Serializable {
 
 	public void setDescripcionEstado(String descripcionEstado) {
 		this.descripcionEstado = descripcionEstado;
+	}
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+	public Date getFechaModificacion() {
+		return fechaModificacion;
+	}
+
+	public void setFechaModificacion(Date fechaModificacion) {
+		this.fechaModificacion = fechaModificacion;
+	}
+
+	public String getUsuarioCreacion() {
+		return usuarioCreacion;
+	}
+
+	public void setUsuarioCreacion(String usuarioCreacion) {
+		this.usuarioCreacion = usuarioCreacion;
+	}
+
+	public String getUsuarioModificacion() {
+		return usuarioModificacion;
+	}
+
+	public void setUsuarioModificacion(String usuarioModificacion) {
+		this.usuarioModificacion = usuarioModificacion;
+	}
+
+	public String getFechaCreacionEspanhol() {
+		return fechaCreacionEspanhol;
+	}
+
+	public void setFechaCreacionEspanhol(String fechaCreacionEspanhol) {
+		this.fechaCreacionEspanhol = fechaCreacionEspanhol;
+	}
+
+	public String getFechaModificacionEspanhol() {
+		return fechaModificacionEspanhol;
+	}
+
+	public void setFechaModificacionEspanhol(String fechaModificacionEspanhol) {
+		this.fechaModificacionEspanhol = fechaModificacionEspanhol;
 	}
 }

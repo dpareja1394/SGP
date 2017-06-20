@@ -1,29 +1,31 @@
 package com.dsdsoft.sgp.modelo.control;
 
-import com.dsdsoft.sgp.dataaccess.dao.*;
-import com.dsdsoft.sgp.exceptions.*;
-import com.dsdsoft.sgp.modelo.*;
-import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
-import com.dsdsoft.sgp.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.dsdsoft.sgp.dataaccess.dao.ICasoSoporteDAO;
+import com.dsdsoft.sgp.dataaccess.dao.IProyectoDAO;
+import com.dsdsoft.sgp.dataaccess.dao.IProyectoUsuarioRolDAO;
+import com.dsdsoft.sgp.dataaccess.dao.IRequerimientoDAO;
+import com.dsdsoft.sgp.exceptions.ZMessManager;
+import com.dsdsoft.sgp.modelo.CasoSoporte;
+import com.dsdsoft.sgp.modelo.Proyecto;
+import com.dsdsoft.sgp.modelo.ProyectoUsuarioRol;
+import com.dsdsoft.sgp.modelo.Requerimiento;
+import com.dsdsoft.sgp.modelo.Usuario;
+import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
+import com.dsdsoft.sgp.utilities.Utilities;
 
 
 /**
@@ -70,6 +72,9 @@ public class ProyectoLogic implements IProyectoLogic {
     */
     @Autowired
     IClienteLogic logicCliente1;
+    
+    @Autowired
+    IUsuarioLogic usuarioLogic;
 
     /**
     * Logic injected by Spring that manages EstadoProyecto entities
@@ -129,7 +134,13 @@ public class ProyectoLogic implements IProyectoLogic {
                 throw new ZMessManager().new EmptyFieldException(
                     "Estado del Proyecto");
             }
-
+            
+            Usuario usuarioCreacion = usuarioLogic.getUsuario(entity.getUsuarioByUsuarioCreacion().getUsuaId());
+            if(usuarioCreacion == null){
+            	throw new Exception("El usuario de creación no está registrado en la base de datos");
+            }
+            entity.setFechaCreacion(new Date());
+            
             proyectoDAO.save(entity);
 
             log.debug("Se ha guardado el proyecto correctamente "+new Date());
@@ -507,6 +518,9 @@ public class ProyectoLogic implements IProyectoLogic {
 		try {
 			List<Proyecto> listaProyectos = listaProyectosDadoCliente(clieId);
 			lista = new ArrayList<ProyectoDTO>();
+			
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd 'de' MMMM 'del' yyyy", new Locale("es"));
+			
 			for (Proyecto proyecto : listaProyectos) {
 				ProyectoDTO proyectoDTO = new ProyectoDTO();
 				proyectoDTO.setClieId_Cliente(proyecto.getCliente().getClieId());
@@ -514,6 +528,11 @@ public class ProyectoLogic implements IProyectoLogic {
 				proyectoDTO.setDescripcionEstado(proyecto.getEstadoProyecto().getDescripcionEstado());
 				proyectoDTO.setEsprId_EstadoProyecto(proyecto.getEstadoProyecto().getEsprId());
 				proyectoDTO.setProyId(proyecto.getProyId());
+				proyectoDTO.setFechaCreacion(proyecto.getFechaCreacion());
+				proyectoDTO.setFechaModificacion(proyecto.getFechaModificacion());
+				proyectoDTO.setFechaCreacionEspanhol(simpleDateFormat.format(proyecto.getFechaCreacion()));
+				proyectoDTO.setFechaModificacionEspanhol(proyecto.getFechaModificacion()==null?
+						null:simpleDateFormat.format(proyecto.getFechaModificacion()));
 				lista.add(proyectoDTO);
 			}
 		} catch (Exception e) {

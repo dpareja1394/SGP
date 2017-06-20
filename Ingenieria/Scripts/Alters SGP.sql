@@ -78,3 +78,29 @@ alter table CLIENTE
       
 alter table CLIENTE
    add column EMAIL_CONTACTO CHARACTER VARYING(200)         null;
+   
+   
+--Alters para agregar fechas y usuario a los Proyectos
+delete from PROYECTO;
+
+alter table PROYECTO
+   add column FECHA_CREACION DATE not null;
+
+alter table PROYECTO
+   add column FECHA_MODIFICACION DATE;
+
+alter table PROYECTO
+   add column USUARIO_CREACION bigint not null;
+   
+alter table PROYECTO
+   add column USUARIO_MODIFICACION bigint;
+   
+alter table PROYECTO
+   add constraint FK_PROY_REFER_USUA1 foreign key (USUARIO_CREACION)
+      references USUARIO (USUA_ID)
+      on delete restrict on update restrict;
+      
+alter table CLIENTE
+   add constraint FK_PROY_REFER_USUA2 foreign key (USUARIO_MODIFICACION)
+      references USUARIO (USUA_ID)
+      on delete restrict on update restrict;

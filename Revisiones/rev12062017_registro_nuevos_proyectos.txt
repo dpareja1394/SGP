@@ -1,7 +1,8 @@
 Desarrolladas
 - Creación de nuevos proyectos con cliente, estado del proyecto y descripción del proyecto.
 - Agregar ordenamiento de los proyectos del cliente por descripción de los proyectos.
-
-Pendiente
 - Agregar fecha de creación, fecha de modificación a los proyectos.
 - Agregar usuario de creación, usuario de modificación de los proyectos.
+- Mostrar fechas en Español cuando muestre la fecha de creación del proyecto.
+
+Pendiente

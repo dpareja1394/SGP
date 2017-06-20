@@ -2,6 +2,7 @@ package com.dsdsoft.sgp.modelo;
 // Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0
 
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +16,10 @@ public class Proyecto  implements java.io.Serializable {
      private EstadoProyecto estadoProyecto;
      private Cliente cliente;
      private String descProyecto;
+     private Usuario usuarioByUsuarioCreacion;
+ 	 private Usuario usuarioByUsuarioModificacion;
+ 	 private Date fechaCreacion;
+ 	 private Date fechaModificacion;
      private Set<CasoSoporte> casoSoportes = new HashSet<CasoSoporte>(0);
      private Set<ProyectoUsuarioRol> proyectoUsuarioRols = new HashSet<ProyectoUsuarioRol>(0);
      private Set<Requerimiento> requerimientos = new HashSet<Requerimiento>(0);
@@ -88,6 +93,46 @@ public class Proyecto  implements java.io.Serializable {
     public void setRequerimientos(Set<Requerimiento> requerimientos) {
         this.requerimientos = requerimientos;
     }
+
+
+	public Usuario getUsuarioByUsuarioCreacion() {
+		return usuarioByUsuarioCreacion;
+	}
+
+
+	public void setUsuarioByUsuarioCreacion(Usuario usuarioByUsuarioCreacion) {
+		this.usuarioByUsuarioCreacion = usuarioByUsuarioCreacion;
+	}
+
+
+	public Usuario getUsuarioByUsuarioModificacion() {
+		return usuarioByUsuarioModificacion;
+	}
+
+
+	public void setUsuarioByUsuarioModificacion(Usuario usuarioByUsuarioModificacion) {
+		this.usuarioByUsuarioModificacion = usuarioByUsuarioModificacion;
+	}
+
+
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+
+
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+
+
+	public Date getFechaModificacion() {
+		return fechaModificacion;
+	}
+
+
+	public void setFechaModificacion(Date fechaModificacion) {
+		this.fechaModificacion = fechaModificacion;
+	}
 
 
 

@@ -23,6 +23,7 @@ import com.dsdsoft.sgp.exceptions.ZMessManager;
 import com.dsdsoft.sgp.modelo.Cliente;
 import com.dsdsoft.sgp.modelo.EstadoProyecto;
 import com.dsdsoft.sgp.modelo.Proyecto;
+import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
 import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
@@ -63,9 +64,11 @@ public class ProyectoView implements Serializable {
 	private InputTextarea txtDescripcionProyecto;
 	
 	private List<ProyectoDTO> listProyectosDelCliente;
+	private String usuarioIniciado;
 
 	public ProyectoView() {
 		super();
+		this.usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
 	}
 
 	public void rowEventListener(RowEditEvent e) {
@@ -362,6 +365,9 @@ public class ProyectoView implements Serializable {
 			proyecto.setDescProyecto(FacesUtils.checkString(txtDescripcionProyecto));
 			proyecto.setEstadoProyecto(estadoProyecto);
 			
+			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			proyecto.setUsuarioByUsuarioCreacion(usuario);
+			
 			businessDelegatorView.saveProyecto(proyecto);
 			listProyectosDelCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteProyecto.getClieId());
 			FacesUtils.addInfoMessage("Se ha guardado el proyecto para el cliente "+clienteProyecto.getNombreEmpresa());
@@ -587,6 +593,14 @@ public class ProyectoView implements Serializable {
 
 	public void setListProyectosDelCliente(List<ProyectoDTO> listProyectosDelCliente) {
 		this.listProyectosDelCliente = listProyectosDelCliente;
+	}
+
+	public String getUsuarioIniciado() {
+		return usuarioIniciado;
+	}
+
+	public void setUsuarioIniciado(String usuarioIniciado) {
+		this.usuarioIniciado = usuarioIniciado;
 	}
 
 }
