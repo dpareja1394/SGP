@@ -50,4 +50,18 @@ public class ProyectoDAO extends HibernateDaoImpl<Proyecto, Integer>
     public static IProyectoDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IProyectoDAO) ctx.getBean("ProyectoDAO");
     }
+
+	@Override
+	public List<Proyecto> listaProyectosDadoCliente(Integer clieId) throws Exception {
+		List<Proyecto> listaProyectos = null;
+		try {
+			String hql = "SELECT p FROM Proyecto p WHERE p.cliente.clieId = "+clieId+" ORDER BY p.descProyecto ASC ";
+			Query query = getSession().createQuery(hql);
+			listaProyectos = query.list();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return listaProyectos;
+	}
 }

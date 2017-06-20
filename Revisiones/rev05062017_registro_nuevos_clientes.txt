@@ -8,6 +8,5 @@ Desarrolladas
 - En la validaci�n de la URL, validar tambien que no exista una empresa con esa direcci�n web.
 - Agregar columnas de Fecha registro, fecha modificacion, usuario registro, usuario modificacion.
 - Agregar columna correo electrónico contacto cliente.
-
-Faltantes
+- Cuando registra el cliente, limpia la pantalla pero no limpia el campo de Correo electrónico. OK 19062017
 

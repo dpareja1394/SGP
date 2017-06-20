@@ -53,4 +53,8 @@ public interface IProyectoLogic {
     public Long findTotalNumberProyecto() throws Exception;
 
     public List<ProyectoDTO> getDataProyecto() throws Exception;
+    
+    public List<Proyecto> listaProyectosDadoCliente(Integer clieId) throws Exception;
+    
+    public List<ProyectoDTO> listaProyectosDTODadoCliente(Integer clieId) throws Exception;
 }

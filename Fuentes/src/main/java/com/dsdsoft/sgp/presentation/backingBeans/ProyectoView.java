@@ -61,6 +61,8 @@ public class ProyectoView implements Serializable {
 	private List<ClienteDTO> listaClientesOrdenada;
 	private InputText txtNombreClienteProyecto;
 	private InputTextarea txtDescripcionProyecto;
+	
+	private List<ProyectoDTO> listProyectosDelCliente;
 
 	public ProyectoView() {
 		super();
@@ -344,6 +346,7 @@ public class ProyectoView implements Serializable {
 			
 			txtNombreClienteProyecto.setValue(clienteDTO.getNombreEmpresa());
 			clienteProyecto = businessDelegatorView.getCliente(clienteDTO.getClieId());
+			listProyectosDelCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteDTO.getClieId());
 			setShowClientesProyectos(false);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -360,8 +363,9 @@ public class ProyectoView implements Serializable {
 			proyecto.setEstadoProyecto(estadoProyecto);
 			
 			businessDelegatorView.saveProyecto(proyecto);
+			listProyectosDelCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteProyecto.getClieId());
 			FacesUtils.addInfoMessage("Se ha guardado el proyecto para el cliente "+clienteProyecto.getNombreEmpresa());
-			limpiarNuevoProyecto();
+			
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -372,6 +376,8 @@ public class ProyectoView implements Serializable {
 		txtDescripcionProyecto.setValue(null);
 		txtNombreClienteProyecto.setValue(null);
 		clienteProyecto = null;
+		listProyectosDelCliente = null;
+		listaClientesOrdenada = null;
 	}
 
 	/** Getters and Setters */
@@ -573,6 +579,14 @@ public class ProyectoView implements Serializable {
 
 	public void setTxtDescripcionProyecto(InputTextarea txtDescripcionProyecto) {
 		this.txtDescripcionProyecto = txtDescripcionProyecto;
+	}
+
+	public List<ProyectoDTO> getListProyectosDelCliente() {
+		return listProyectosDelCliente;
+	}
+
+	public void setListProyectosDelCliente(List<ProyectoDTO> listProyectosDelCliente) {
+		this.listProyectosDelCliente = listProyectosDelCliente;
 	}
 
 }

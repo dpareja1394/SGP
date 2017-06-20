@@ -23,6 +23,7 @@ public class ProyectoDTO implements Serializable {
     private Integer proyId;
     private Integer clieId_Cliente;
     private Integer esprId_EstadoProyecto;
+    private String descripcionEstado;
 
     public String getDescProyecto() {
         return descProyecto;
@@ -55,4 +56,12 @@ public class ProyectoDTO implements Serializable {
     public void setEsprId_EstadoProyecto(Integer esprId_EstadoProyecto) {
         this.esprId_EstadoProyecto = esprId_EstadoProyecto;
     }
+
+	public String getDescripcionEstado() {
+		return descripcionEstado;
+	}
+
+	public void setDescripcionEstado(String descripcionEstado) {
+		this.descripcionEstado = descripcionEstado;
+	}
 }

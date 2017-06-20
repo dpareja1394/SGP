@@ -704,6 +704,7 @@ public class ClienteView implements Serializable {
 		txtNombreContacto.setValue(null);
 		txtNombreEmpresa.setValue(null);
 		txtTelefonoContacto.setValue(null);
+		txtEmailContacto.setValue(null);
 		somCiudades.setValue(null);
 		somDepartamentos.setValue(null);
 		somPaises.setValue(null);
@@ -715,6 +716,7 @@ public class ClienteView implements Serializable {
 		txtNombreContacto.setDisabled(true);
 		txtNombreEmpresa.setDisabled(true);
 		txtTelefonoContacto.setDisabled(true);
+		txtEmailContacto.setDisabled(true);
 		txtNit.setDisabled(false);
 		somCiudades.setDisabled(true);
 		somDepartamentos.setDisabled(true);

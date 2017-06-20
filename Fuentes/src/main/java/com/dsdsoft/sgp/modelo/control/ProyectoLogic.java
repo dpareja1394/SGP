@@ -483,4 +483,43 @@ public class ProyectoLogic implements IProyectoLogic {
 
         return list;
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Proyecto> listaProyectosDadoCliente(Integer clieId) throws Exception {
+		List<Proyecto> lista = null;
+		try {
+			if(clieId == null || clieId.equals(0)){
+				throw new Exception("No ha seleccionado un cliente");
+			}
+			lista = proyectoDAO.listaProyectosDadoCliente(clieId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProyectoDTO> listaProyectosDTODadoCliente(Integer clieId) throws Exception {
+		List<ProyectoDTO> lista = null;
+		try {
+			List<Proyecto> listaProyectos = listaProyectosDadoCliente(clieId);
+			lista = new ArrayList<ProyectoDTO>();
+			for (Proyecto proyecto : listaProyectos) {
+				ProyectoDTO proyectoDTO = new ProyectoDTO();
+				proyectoDTO.setClieId_Cliente(proyecto.getCliente().getClieId());
+				proyectoDTO.setDescProyecto(proyecto.getDescProyecto());
+				proyectoDTO.setDescripcionEstado(proyecto.getEstadoProyecto().getDescripcionEstado());
+				proyectoDTO.setEsprId_EstadoProyecto(proyecto.getEstadoProyecto().getEsprId());
+				proyectoDTO.setProyId(proyecto.getProyId());
+				lista.add(proyectoDTO);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
 }

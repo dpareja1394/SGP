@@ -447,4 +447,8 @@ public interface IBusinessDelegatorView {
     public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception;
     
     public List<EstadoProyecto> listaEstadoProyectoOrdenadaPorDescripcionEstado() throws Exception;
+    
+    public List<Proyecto> listaProyectosDadoCliente(Integer clieId) throws Exception;
+    
+    public List<ProyectoDTO> listaProyectosDTODadoCliente(Integer clieId) throws Exception;
 }

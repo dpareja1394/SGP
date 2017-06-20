@@ -36,8 +36,17 @@
 					<p:growl id="men" />
 					<p:panel id="panelProyecto" header="Crear nuevo Proyecto">
 						<h:panelGrid columns="2" id="panelDatosNuevoProyecto">
+							<p:outputLabel value="Cliente: "/>
+							<h:panelGrid columns="2">
+								<p:inputText readonly="true" binding="#{proyectoView.txtNombreClienteProyecto}" 
+								placeholder="Seleccione un Cliente"/>
+								<p:commandButton title="Buscar Cliente" icon="ui-icon-search" 
+									actionListener="#{proyectoView.abrirDialogoBuscarCliente}"
+									update=":dialogConsultaClienteProyecto"/>
+							</h:panelGrid>
+							
 							<p:outputLabel value="Descripción del Proyecto: "/>
-							<p:inputTextarea placeholder="Ingrese aquí la descripción del nuevo proyecto" 
+							<p:inputTextarea placeholder="Ingrese aquí la descripción del nuevo proyecto" style="width:600px; height:100px" 
 							binding="#{proyectoView.txtDescripcionProyecto}"/>
 							
 							<p:outputLabel value="Estado del Proyecto: "/>
@@ -46,13 +55,7 @@
 								<f:selectItems value="#{proyectoView.listEstadosProyecto}"/>
 							</p:selectOneMenu>
 							
-							<p:outputLabel value="Cliente: "/>
-							<h:panelGrid columns="2">
-								<p:inputText readonly="true" binding="#{proyectoView.txtNombreClienteProyecto}"/>
-								<p:commandButton title="Buscar Cliente" icon="ui-icon-search" 
-									actionListener="#{proyectoView.abrirDialogoBuscarCliente}"
-									update=":dialogConsultaClienteProyecto"/>
-							</h:panelGrid>
+							
 						</h:panelGrid>
 					</p:panel>
 					<p:panel id="panelBotones">
@@ -60,10 +63,23 @@
 							<h:panelGrid columns="2" id="panelGridBotones">
 								<p:commandButton value="Guardar" action="#{proyectoView.guardarNuevoProyecto}"
 								update=":formDialog"/>
-								<p:commandButton value="Limpiar"/>
+								<p:commandButton value="Limpiar" action="#{proyectoView.limpiarNuevoProyecto}"
+								update=":formDialog"/>
 							</h:panelGrid>
 							
 						</div>
+					</p:panel>
+					<p:panel id="pnlProyectosCliente">
+						<p:dataTable value="#{proyectoView.listProyectosDelCliente}"
+						var="proyecto"
+						emptyMessage="No hay proyectos para el cliente seleccionado">
+							<p:column headerText="Descripción del Proyecto">
+								<h:outputText value="#{proyecto.descProyecto}" />
+							</p:column>
+							<p:column headerText="Estado del Proyecto">
+								<h:outputText value="#{proyecto.descripcionEstado}" />
+							</p:column>
+						</p:dataTable>
 					</p:panel>
 				</h:form>
 				<p:dialog id="dialogConsultaClienteProyecto" widgetVar="dlgConsultaClienteProyecto" 
@@ -80,7 +96,7 @@
 								<p:column headerText="Seleccionar" width="15%">
 									<p:commandButton icon="ui-icon-check" title="Seleccionar Cliente" 
 									actionListener="#{proyectoView.seleccionarCliente}"
-									update=":dialogConsultaClienteProyecto, @([id$=panelProyecto])">
+									update=":dialogConsultaClienteProyecto, @([id$=panelProyecto]), @([id$=pnlProyectosCliente])">
 										<f:attribute name="clienteSeleccionado" value="#{cliente}"/>
 									</p:commandButton>
 								</p:column>
