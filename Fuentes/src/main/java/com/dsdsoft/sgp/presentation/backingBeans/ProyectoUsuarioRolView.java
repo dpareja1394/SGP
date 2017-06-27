@@ -3,6 +3,7 @@ package com.dsdsoft.sgp.presentation.backingBeans;
 import com.dsdsoft.sgp.exceptions.*;
 import com.dsdsoft.sgp.modelo.*;
 import com.dsdsoft.sgp.modelo.dto.ProyectoUsuarioRolDTO;
+import com.dsdsoft.sgp.modelo.dto.RolDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.*;
 import com.dsdsoft.sgp.utilities.*;
 
@@ -34,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -61,6 +63,8 @@ public class ProyectoUsuarioRolView implements Serializable {
     private boolean showDialog;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
+    
+    private List<SelectItem> listaRoles;
 
     public ProyectoUsuarioRolView() {
         super();
@@ -507,4 +511,23 @@ public class ProyectoUsuarioRolView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public List<SelectItem> getListaRoles() {
+		try {
+			if(listaRoles == null){
+				listaRoles = new ArrayList<SelectItem>();
+				List<RolDTO> listaRolesDto = businessDelegatorView.listaRolesDTOOrdenadaPorDescripcionAscendente();
+				for (RolDTO rolDTO : listaRolesDto) {
+					listaRoles.add(new SelectItem(rolDTO.getRolId(), rolDTO.getDescRol()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaRoles;
+	}
+
+	public void setListaRoles(List<SelectItem> listaRoles) {
+		this.listaRoles = listaRoles;
+	}
 }

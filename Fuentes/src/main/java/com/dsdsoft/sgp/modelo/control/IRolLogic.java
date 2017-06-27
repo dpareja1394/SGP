@@ -52,4 +52,8 @@ public interface IRolLogic {
     public Long findTotalNumberRol() throws Exception;
 
     public List<RolDTO> getDataRol() throws Exception;
+    
+    public List<Rol> listaRolesOrdenadaPorDescripcionAscendente() throws Exception;
+    
+    public List<RolDTO> listaRolesDTOOrdenadaPorDescripcionAscendente() throws Exception;
 }

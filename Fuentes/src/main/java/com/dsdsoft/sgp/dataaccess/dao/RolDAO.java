@@ -49,4 +49,18 @@ public class RolDAO extends HibernateDaoImpl<Rol, Integer> implements IRolDAO {
     public static IRolDAO getFromApplicationContext(ApplicationContext ctx) {
         return (IRolDAO) ctx.getBean("RolDAO");
     }
+
+	@Override
+	public List<Rol> listaRolesOrdenadaPorDescripcionAscendente() throws Exception {
+		List<Rol> listaRoles = null;
+		try {
+			String hql = "SELECT r FROM Rol r ORDER BY r.descRol ASC";
+			Query query = getSession().createQuery(hql);
+			listaRoles = query.list();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return listaRoles;
+	}
 }

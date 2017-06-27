@@ -426,4 +426,37 @@ public class RolLogic implements IRolLogic {
 
         return list;
     }
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Rol> listaRolesOrdenadaPorDescripcionAscendente() throws Exception {
+		List<Rol> lista = null;
+		try {
+			lista = rolDAO.listaRolesOrdenadaPorDescripcionAscendente();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
+
+	@Override
+	public List<RolDTO> listaRolesDTOOrdenadaPorDescripcionAscendente() throws Exception {
+		List<RolDTO> lista = null;
+		try {
+			List<Rol> listaRoles = listaRolesOrdenadaPorDescripcionAscendente();
+			lista = new ArrayList<RolDTO>();
+			for (Rol rol : listaRoles) {
+				RolDTO rolDTO = new RolDTO();
+				rolDTO.setDescRol(rol.getDescRol());
+				rolDTO.setNombreCorto(rol.getNombreCorto());
+				rolDTO.setRolId(rol.getRolId());
+				lista.add(rolDTO);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
 }
