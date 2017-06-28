@@ -92,7 +92,35 @@
 								</f:facet>
 								<h:outputText value="#{cliente.direccionContacto}" />
 							</p:column>
+							
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Acciones"/>
+								</f:facet>
+								<div align="center">
+									<p:commandButton icon="ui-icon-suitcase" title="Ver Proyectos"
+										actionListener="#{clienteView.cargarProyectosDadoCliente}"
+										update="@([id$=pnlProyectosCliente])">
+										<f:attribute name="clienteCargarProyectos" value="#{cliente}" />
+									</p:commandButton>
+								</div>
+							</p:column>
 
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="pnlProyectosCliente" header="Proyectos del Cliente #{clienteView.clienteSeleccionadoDTO.nombreEmpresa}">
+						<p:dataTable value="#{clienteView.proyectosCliente}"
+						var="proyecto"
+						emptyMessage="No hay proyectos para el cliente seleccionado">
+							<p:column headerText="Descripción del Proyecto">
+								<h:outputText value="#{proyecto.descProyecto}" />
+							</p:column>
+							<p:column headerText="Estado del Proyecto">
+								<h:outputText value="#{proyecto.descripcionEstado}" />
+							</p:column>
+							<p:column headerText="Fecha de Inicio">
+								<h:outputText value="#{proyecto.fechaCreacionEspanhol}" />
+							</p:column>
 						</p:dataTable>
 					</p:panel>
 				</h:form>

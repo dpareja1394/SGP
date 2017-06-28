@@ -25,6 +25,7 @@ import com.dsdsoft.sgp.modelo.Departamento;
 import com.dsdsoft.sgp.modelo.Pais;
 import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
+import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
 import com.dsdsoft.sgp.utilities.FacesUtils;
 
@@ -61,6 +62,8 @@ public class ClienteView implements Serializable {
 	private CommandButton btnRegistrarNuevoCliente, btnModificarCliente, btnLimpiarPantalla;
 	private SelectOneMenu somPaises, somDepartamentos, somCiudades;
 	private List<SelectItem> listaPaises, listaDepartamentos, listaCiudades;
+	private List<ProyectoDTO> proyectosCliente;
+	private ClienteDTO clienteSeleccionadoDTO;
 
 	private String usuarioIniciado;
 	
@@ -663,6 +666,22 @@ public class ClienteView implements Serializable {
 		this.txtEmailContacto = txtEmailContacto;
 	}
 
+	public List<ProyectoDTO> getProyectosCliente() {
+		return proyectosCliente;
+	}
+
+	public void setProyectosCliente(List<ProyectoDTO> proyectosCliente) {
+		this.proyectosCliente = proyectosCliente;
+	}
+
+	public ClienteDTO getClienteSeleccionadoDTO() {
+		return clienteSeleccionadoDTO;
+	}
+
+	public void setClienteSeleccionadoDTO(ClienteDTO clienteSeleccionadoDTO) {
+		this.clienteSeleccionadoDTO = clienteSeleccionadoDTO;
+	}
+
 	// DPL 20160703 Método para crear un nuevo cliente.
 	public String registrarNuevoCliente() {
 		try {
@@ -881,5 +900,16 @@ public class ClienteView implements Serializable {
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
+	}
+	
+	public String cargarProyectosDadoCliente(ActionEvent evt) {
+		try {
+			clienteSeleccionadoDTO = (ClienteDTO) (evt.getComponent().getAttributes().get("clienteCargarProyectos"));
+			this.proyectosCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteSeleccionadoDTO.getClieId());
+			log.info("Proyectos cargados: "+proyectosCliente.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }
