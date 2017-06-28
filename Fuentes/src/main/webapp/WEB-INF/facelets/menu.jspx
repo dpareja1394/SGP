@@ -21,7 +21,7 @@
 								<p:menuitem value="Registrar nuevo Cliente"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoCliente.xhtml" />
 								<p:menuitem value="Ver listado de Clientes"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/clienteListDataTable.xhtml" />
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verListadoDeClientes.xhtml" />
 							</p:submenu>
 						</p:column>
 						<p:column>
