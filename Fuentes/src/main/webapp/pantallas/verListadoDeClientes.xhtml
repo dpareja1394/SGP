@@ -121,6 +121,13 @@
 							<p:column headerText="Fecha de Inicio">
 								<h:outputText value="#{proyecto.fechaCreacionEspanhol}" />
 							</p:column>
+							<p:column headerText="Acciones">
+								<p:commandButton id="btnAdministrarProyecto"
+									actionListener="#{clienteView.abrirPantallaAdministrarProyecto}"
+									title="Administrar Proyecto" icon="ui-icon-arrowthick-1-e">
+									<f:attribute name="proyectoAdministrar" value="#{proyecto}" />
+								</p:commandButton>
+							</p:column>
 						</p:dataTable>
 					</p:panel>
 				</h:form>

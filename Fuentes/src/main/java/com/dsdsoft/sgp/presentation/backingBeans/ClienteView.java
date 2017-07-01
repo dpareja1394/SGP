@@ -8,8 +8,11 @@ import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
@@ -409,6 +412,29 @@ public class ClienteView implements Serializable {
 
 		return "";
 	}
+	
+	public String abrirPantallaAdministrarProyecto(ActionEvent evt) {
+		try {
+
+			ProyectoDTO proyectoAdministrar = (ProyectoDTO) (evt.getComponent().getAttributes()
+					.get("proyectoAdministrar"));
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
+			session.setAttribute("proyectoAdministrar", proyectoAdministrar);
+
+			/* Metodo para redireccionar a cualquier parte de la app **/
+
+			// FacesUtils.resetManagedBean("preguntaForoView");
+
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.redirect(context.getRequestContextPath() + "/pantallas/administrarProyecto.xhtml");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		return "";
+	}
+
 
 	public InputText getTxtCelularContacto() {
 		return txtCelularContacto;

@@ -63,6 +63,8 @@ public class ProyectoView implements Serializable {
 	private InputText txtNombreClienteProyecto;
 	private InputTextarea txtDescripcionProyecto;
 	
+	private InputText txtNombreProyecto;
+	
 	private List<ProyectoDTO> listProyectosDelCliente;
 	private String usuarioIniciado;
 
@@ -385,9 +387,7 @@ public class ProyectoView implements Serializable {
 		listProyectosDelCliente = null;
 		listaClientesOrdenada = null;
 	}
-
-	/** Getters and Setters */
-
+	
 	public InputText getTxtDescProyecto() {
 		return txtDescProyecto;
 	}
@@ -601,6 +601,14 @@ public class ProyectoView implements Serializable {
 
 	public void setUsuarioIniciado(String usuarioIniciado) {
 		this.usuarioIniciado = usuarioIniciado;
+	}
+
+	public InputText getTxtNombreProyecto() {
+		return txtNombreProyecto;
+	}
+
+	public void setTxtNombreProyecto(InputText txtNombreProyecto) {
+		this.txtNombreProyecto = txtNombreProyecto;
 	}
 
 }
