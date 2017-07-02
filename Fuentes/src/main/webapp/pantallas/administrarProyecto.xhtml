@@ -34,15 +34,69 @@
 				<h:form id="formDialog">
 					<p:messages id="msg" />
 					<p:growl id="men" />
-					<p:panel id="panelProyecto" header="Agregar Usuarios al Proyecto">
-						<p:outputLabel value="Proyecto: "/>
-							<h:panelGrid columns="2">
-								<p:inputText readonly="true" binding="#{proyectoView.txtNombreProyecto}" 
-								placeholder="Seleccione un Proyecto"/>
-								<p:commandButton title="Buscar Proyecto" icon="ui-icon-search" />
-							</h:panelGrid>
+					<p:panel id="panelProyecto"
+						header="Proyecto: #{proyectoView.nombreProyectoAdministrar}">
+						<p:accordionPanel>
+							<p:tab title="Asignar Recursos al Proyecto">
+								<div align="center">
+									<h:panelGrid columns="2">
+										<h:outputText value="Usuario:" />
+										<h:panelGrid columns="2">
+											<p:inputText readonly="true"
+												binding="#{proyectoView.txtNombreUsuario}"
+												placeholder="Seleccione un Usuario"
+												style="width:350px" />
+											<p:commandButton title="Buscar Usuario" icon="ui-icon-search"
+												actionListener="#{proyectoView.abrirDialogoBuscarUsuario}"
+												update=":dialogConsultaUsuarios" />
+										</h:panelGrid>
+									</h:panelGrid>
+									<p:dataTable value="#{proyectoView.listaRolesUsuario}" var="rol" style="width:60%"
+								selection="#{proyectoView.listaSeleccionRolesUsuario}" rowKey="#{rol.rolId}" 
+								emptyMessage="No hay roles disponibles">
+									<p:column selectionMode="multiple" width="10%"/>
+									<p:column headerText="Rol">
+										<h:outputText value="#{rol.descRol}" />
+									</p:column>
+								</p:dataTable>
+								</div>
+								
+							</p:tab>
+							<p:tab title="Godfather Part II">
+								<h:panelGrid columns="2" cellpadding="10">
+									<h:outputText value="Francis Ford Coppola's legendary..." />
+								</h:panelGrid>
+							</p:tab>
+						</p:accordionPanel>
 					</p:panel>
 				</h:form>
+
+				<!-- 				Dialogo Consultar Usuarios para asignar a un proyecto -->
+				<p:dialog id="dialogConsultaUsuarios"
+					widgetVar="dlgConsultaUsuarios"
+					visible="#{proyectoView.showUsuarios}" header="Usuarios"
+					width="75%" height="300px;">
+					<h:form>
+						<p:panel>
+							<p:dataTable value="#{proyectoView.listaUsuariosOrdenada}" 
+								var="usuario" emptyMessage="No hay usuarios">
+								<p:column headerText="Nombre completo">
+									<h:outputText
+										value="#{usuario.nombreUsuario} #{usuario.apellidoUsuario}" />
+								</p:column>
+								<p:column headerText="Seleccionar" width="15%">
+									<p:commandButton icon="ui-icon-check"
+										title="Seleccionar Usuario"
+										actionListener="#{proyectoView.seleccionarUsuario}"
+										update=":dialogConsultaUsuarios :formDialog">
+										<f:attribute name="usuarioSeleccionado" value="#{usuario}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+
 			</f:view>
 		</ui:define>
 	</ui:composition>

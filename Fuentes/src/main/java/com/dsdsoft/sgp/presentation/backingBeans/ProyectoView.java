@@ -8,8 +8,10 @@ import java.util.TimeZone;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
@@ -26,6 +28,8 @@ import com.dsdsoft.sgp.modelo.Proyecto;
 import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
 import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
+import com.dsdsoft.sgp.modelo.dto.RolDTO;
+import com.dsdsoft.sgp.modelo.dto.UsuarioDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
 import com.dsdsoft.sgp.utilities.FacesUtils;
 
@@ -62,11 +66,21 @@ public class ProyectoView implements Serializable {
 	private List<ClienteDTO> listaClientesOrdenada;
 	private InputText txtNombreClienteProyecto;
 	private InputTextarea txtDescripcionProyecto;
-	
+
 	private InputText txtNombreProyecto;
-	
+
 	private List<ProyectoDTO> listProyectosDelCliente;
 	private String usuarioIniciado;
+
+	private String nombreProyectoAdministrar;
+
+	private boolean showUsuarios;
+	private List<UsuarioDTO> listaUsuariosOrdenada;
+	private InputText txtNombreUsuario;
+	private List<RolDTO> listaRolesUsuario;
+	private List<RolDTO> listaSeleccionRolesUsuario;
+	private UsuarioDTO usuarioProyecto;
+	private ProyectoDTO proyectoAdministrar;
 
 	public ProyectoView() {
 		super();
@@ -343,12 +357,17 @@ public class ProyectoView implements Serializable {
 		return "";
 	}
 
+	public String abrirDialogoBuscarUsuario() {
+		setShowUsuarios(true);
+		return "";
+	}
+
 	public String seleccionarCliente(ActionEvent actionEvent) {
 		try {
 
 			ClienteDTO clienteDTO = (ClienteDTO) (actionEvent.getComponent().getAttributes()
 					.get("clienteSeleccionado"));
-			
+
 			txtNombreClienteProyecto.setValue(clienteDTO.getNombreEmpresa());
 			clienteProyecto = businessDelegatorView.getCliente(clienteDTO.getClieId());
 			listProyectosDelCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteDTO.getClieId());
@@ -358,28 +377,45 @@ public class ProyectoView implements Serializable {
 		}
 		return "";
 	}
-	
-	public void guardarNuevoProyecto(){
+
+	public String seleccionarUsuario(ActionEvent actionEvent) {
 		try {
-			EstadoProyecto estadoProyecto = businessDelegatorView.getEstadoProyecto(Integer.parseInt(somEstadoProyecto.getValue().toString()));
+
+			usuarioProyecto = (UsuarioDTO) (actionEvent.getComponent().getAttributes()
+					.get("usuarioSeleccionado"));
+			txtNombreUsuario.setValue(
+					usuarioProyecto.getNombreUsuario().toUpperCase() + " " + usuarioProyecto.getApellidoUsuario().toUpperCase());
+			listaRolesUsuario = businessDelegatorView.listaRolesDTOOrdenadaPorDescripcionAscendente();
+			setShowUsuarios(false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	public void guardarNuevoProyecto() {
+		try {
+			EstadoProyecto estadoProyecto = businessDelegatorView
+					.getEstadoProyecto(Integer.parseInt(somEstadoProyecto.getValue().toString()));
 			Proyecto proyecto = new Proyecto();
 			proyecto.setCliente(clienteProyecto);
 			proyecto.setDescProyecto(FacesUtils.checkString(txtDescripcionProyecto));
 			proyecto.setEstadoProyecto(estadoProyecto);
-			
+
 			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
 			proyecto.setUsuarioByUsuarioCreacion(usuario);
-			
+
 			businessDelegatorView.saveProyecto(proyecto);
 			listProyectosDelCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteProyecto.getClieId());
-			FacesUtils.addInfoMessage("Se ha guardado el proyecto para el cliente "+clienteProyecto.getNombreEmpresa());
-			
+			FacesUtils
+					.addInfoMessage("Se ha guardado el proyecto para el cliente " + clienteProyecto.getNombreEmpresa());
+
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
-	
-	public void limpiarNuevoProyecto(){
+
+	public void limpiarNuevoProyecto() {
 		somEstadoProyecto.setValue(null);
 		txtDescripcionProyecto.setValue(null);
 		txtNombreClienteProyecto.setValue(null);
@@ -387,7 +423,7 @@ public class ProyectoView implements Serializable {
 		listProyectosDelCliente = null;
 		listaClientesOrdenada = null;
 	}
-	
+
 	public InputText getTxtDescProyecto() {
 		return txtDescProyecto;
 	}
@@ -535,7 +571,8 @@ public class ProyectoView implements Serializable {
 				List<EstadoProyecto> listaEstadoProyecto = businessDelegatorView
 						.listaEstadoProyectoOrdenadaPorDescripcionEstado();
 				for (EstadoProyecto estadoProyecto : listaEstadoProyecto) {
-					listEstadosProyecto.add(new SelectItem(estadoProyecto.getEsprId(), estadoProyecto.getDescripcionEstado()));
+					listEstadosProyecto
+							.add(new SelectItem(estadoProyecto.getEsprId(), estadoProyecto.getDescripcionEstado()));
 				}
 			}
 		} catch (Exception e) {
@@ -609,6 +646,64 @@ public class ProyectoView implements Serializable {
 
 	public void setTxtNombreProyecto(InputText txtNombreProyecto) {
 		this.txtNombreProyecto = txtNombreProyecto;
+	}
+
+	public String getNombreProyectoAdministrar() {
+		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		proyectoAdministrar = (ProyectoDTO) session.getAttribute("proyectoAdministrar");
+		nombreProyectoAdministrar = proyectoAdministrar.getDescProyecto();
+		return nombreProyectoAdministrar;
+	}
+
+	public void setNombreProyectoAdministrar(String nombreProyectoAdministrar) {
+		this.nombreProyectoAdministrar = nombreProyectoAdministrar;
+	}
+
+	public boolean isShowUsuarios() {
+		return showUsuarios;
+	}
+
+	public void setShowUsuarios(boolean showUsuarios) {
+		this.showUsuarios = showUsuarios;
+	}
+
+	public List<UsuarioDTO> getListaUsuariosOrdenada() {
+		try {
+			if(listaUsuariosOrdenada == null){
+				listaUsuariosOrdenada = businessDelegatorView.getDataUsuario();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaUsuariosOrdenada;
+	}
+
+	public void setListaUsuariosOrdenada(List<UsuarioDTO> listaUsuariosOrdenada) {
+		this.listaUsuariosOrdenada = listaUsuariosOrdenada;
+	}
+
+	public InputText getTxtNombreUsuario() {
+		return txtNombreUsuario;
+	}
+
+	public void setTxtNombreUsuario(InputText txtNombreUsuario) {
+		this.txtNombreUsuario = txtNombreUsuario;
+	}
+
+	public List<RolDTO> getListaRolesUsuario() {
+		return listaRolesUsuario;
+	}
+
+	public void setListaRolesUsuario(List<RolDTO> listaRolesUsuario) {
+		this.listaRolesUsuario = listaRolesUsuario;
+	}
+
+	public List<RolDTO> getListaSeleccionRolesUsuario() {
+		return listaSeleccionRolesUsuario;
+	}
+
+	public void setListaSeleccionRolesUsuario(List<RolDTO> listaSeleccionRolesUsuario) {
+		this.listaSeleccionRolesUsuario = listaSeleccionRolesUsuario;
 	}
 
 }

@@ -441,6 +441,7 @@ public class RolLogic implements IRolLogic {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<RolDTO> listaRolesDTOOrdenadaPorDescripcionAscendente() throws Exception {
 		List<RolDTO> lista = null;
 		try {
