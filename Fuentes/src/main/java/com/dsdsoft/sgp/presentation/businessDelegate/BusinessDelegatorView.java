@@ -952,4 +952,14 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<RolDTO> listaRolesDTOOrdenadaPorDescripcionAscendente() throws Exception {
 		return rolLogic.listaRolesDTOOrdenadaPorDescripcionAscendente();
 	}
+
+	@Override
+	public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception {
+		return rolLogic.rolDeUnUsuarioEnUnProyecto(usuaId, proyId);
+	}
+
+	@Override
+	public RolDTO rolDTODeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception {
+		return rolLogic.rolDTODeUnUsuarioEnUnProyecto(usuaId, proyId);
+	}
 }

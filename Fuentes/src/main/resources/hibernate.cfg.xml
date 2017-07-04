@@ -28,5 +28,8 @@
         <mapping resource="com/dsdsoft/sgp/modelo/Departamento.hbm.xml" />
         <mapping resource="com/dsdsoft/sgp/modelo/Pais.hbm.xml" />
         <mapping resource="com/dsdsoft/sgp/modelo/Ciudad.hbm.xml" />
+        
+<!--         DPL 01 de Julio de 2017 adiciones para agregar archivo de consultas -->
+        <mapping resource="com/dsdsoft/sgp/modelo/Consultas.hbm.xml" />
     </session-factory>
 </hibernate-configuration>

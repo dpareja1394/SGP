@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <sql-query name="consultar_rol_dado_usuario_proyecto">
+		<return alias="ro" class="com.dsdsoft.sgp.modelo.Rol"></return>
+         <![CDATA[ 
+
+		    select ro.* from rol ro
+			inner join proyecto_usuario_rol pur on pur.rol_id = ro.rol_id
+			where pur.usua_id = :pUsuaId
+			and pur.proy_id = :pProyId
+
+       ]]>
+	</sql-query>
+</hibernate-mapping>

@@ -56,4 +56,8 @@ public interface IRolLogic {
     public List<Rol> listaRolesOrdenadaPorDescripcionAscendente() throws Exception;
     
     public List<RolDTO> listaRolesDTOOrdenadaPorDescripcionAscendente() throws Exception;
+    
+    public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
+    
+    public RolDTO rolDTODeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
 }

@@ -12,4 +12,5 @@ import com.dsdsoft.sgp.modelo.Rol;
 */
 public interface IRolDAO extends Dao<Rol, Integer> {
 	public List<Rol> listaRolesOrdenadaPorDescripcionAscendente() throws Exception;
+	public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
 }

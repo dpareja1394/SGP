@@ -460,4 +460,37 @@ public class RolLogic implements IRolLogic {
 		}
 		return lista;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception {
+		Rol rol = null;
+		try {
+			if(usuaId == null){
+				throw new Exception("No ha llegado el id del usuario para buscar el rol");
+			}
+			if(proyId == null){
+				throw new Exception("No ha llegado el id del proyecto para buscar el rol");
+			}
+			rol = rolDAO.rolDeUnUsuarioEnUnProyecto(usuaId, proyId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return rol;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public RolDTO rolDTODeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception {
+		RolDTO rolDTO = null;
+		Rol rol = rolDeUnUsuarioEnUnProyecto(usuaId, proyId);
+		if(rol != null){
+			rolDTO = new RolDTO();
+			rolDTO.setDescRol(rol.getDescRol());
+			rolDTO.setNombreCorto(rol.getNombreCorto());
+			rolDTO.setRolId(rol.getRolId());
+		}
+		return rolDTO;
+	}
 }

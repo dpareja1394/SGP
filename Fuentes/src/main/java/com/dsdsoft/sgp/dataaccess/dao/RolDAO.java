@@ -63,4 +63,20 @@ public class RolDAO extends HibernateDaoImpl<Rol, Integer> implements IRolDAO {
 		}
 		return listaRoles;
 	}
+
+	@Override
+	public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception {
+		Rol rol = null;
+		try {
+			Query query = getSession().getNamedQuery("consultar_rol_dado_usuario_proyecto");
+			query.setParameter("pUsuaId", usuaId);
+			query.setParameter("pProyId", proyId);
+			rol = (Rol) (query.list().size()>0?query.list().get(0):null);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return rol;
+	}
+
 }

@@ -50,16 +50,21 @@
 												actionListener="#{proyectoView.abrirDialogoBuscarUsuario}"
 												update=":dialogConsultaUsuarios" />
 										</h:panelGrid>
+										<h:outputText value="Rol:" />
+										<p:selectOneMenu binding="#{proyectoView.somRolesProyecto}" disabled="true">
+											<f:selectItem itemValue="0" itemLabel="SELECCIONE UN ROL"/>
+											<f:selectItems value="#{proyectoView.listRolesProyecto}"/>										
+										</p:selectOneMenu>
 									</h:panelGrid>
-									<p:dataTable value="#{proyectoView.listaRolesUsuario}" var="rol" style="width:60%"
-								selection="#{proyectoView.listaSeleccionRolesUsuario}" rowKey="#{rol.rolId}" 
-								emptyMessage="No hay roles disponibles">
-									<p:column selectionMode="multiple" width="10%"/>
-									<p:column headerText="Rol">
-										<h:outputText value="#{rol.descRol}" />
-									</p:column>
-								</p:dataTable>
+								
+								<h:panelGrid columns="2">
+									<p:commandButton value="Guardar" disabled="true"/>
+									<p:commandButton value="Modificar" disabled="true"/>
+								</h:panelGrid>
+								
 								</div>
+								
+								
 								
 							</p:tab>
 							<p:tab title="Godfather Part II">

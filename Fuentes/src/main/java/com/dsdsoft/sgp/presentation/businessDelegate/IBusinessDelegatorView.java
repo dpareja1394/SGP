@@ -456,4 +456,7 @@ public interface IBusinessDelegatorView {
     
     public List<RolDTO> listaRolesDTOOrdenadaPorDescripcionAscendente() throws Exception;
 
+    public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
+    
+    public RolDTO rolDTODeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
 }

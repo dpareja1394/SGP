@@ -25,10 +25,10 @@ import com.dsdsoft.sgp.exceptions.ZMessManager;
 import com.dsdsoft.sgp.modelo.Cliente;
 import com.dsdsoft.sgp.modelo.EstadoProyecto;
 import com.dsdsoft.sgp.modelo.Proyecto;
+import com.dsdsoft.sgp.modelo.Rol;
 import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
 import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
-import com.dsdsoft.sgp.modelo.dto.RolDTO;
 import com.dsdsoft.sgp.modelo.dto.UsuarioDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
 import com.dsdsoft.sgp.utilities.FacesUtils;
@@ -77,10 +77,11 @@ public class ProyectoView implements Serializable {
 	private boolean showUsuarios;
 	private List<UsuarioDTO> listaUsuariosOrdenada;
 	private InputText txtNombreUsuario;
-	private List<RolDTO> listaRolesUsuario;
-	private List<RolDTO> listaSeleccionRolesUsuario;
 	private UsuarioDTO usuarioProyecto;
 	private ProyectoDTO proyectoAdministrar;
+	
+	private SelectOneMenu somRolesProyecto;
+	private List<SelectItem> listRolesProyecto;
 
 	public ProyectoView() {
 		super();
@@ -385,7 +386,10 @@ public class ProyectoView implements Serializable {
 					.get("usuarioSeleccionado"));
 			txtNombreUsuario.setValue(
 					usuarioProyecto.getNombreUsuario().toUpperCase() + " " + usuarioProyecto.getApellidoUsuario().toUpperCase());
-			listaRolesUsuario = businessDelegatorView.listaRolesDTOOrdenadaPorDescripcionAscendente();
+			somRolesProyecto.setDisabled(false);
+			Rol rol = businessDelegatorView.rolDeUnUsuarioEnUnProyecto(usuarioProyecto.getUsuaId(), proyectoAdministrar.getProyId());
+			somRolesProyecto.setValue(rol.getRolId());
+			
 			setShowUsuarios(false);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -690,20 +694,31 @@ public class ProyectoView implements Serializable {
 		this.txtNombreUsuario = txtNombreUsuario;
 	}
 
-	public List<RolDTO> getListaRolesUsuario() {
-		return listaRolesUsuario;
+	public SelectOneMenu getSomRolesProyecto() {
+		return somRolesProyecto;
 	}
 
-	public void setListaRolesUsuario(List<RolDTO> listaRolesUsuario) {
-		this.listaRolesUsuario = listaRolesUsuario;
+	public void setSomRolesProyecto(SelectOneMenu somRolesProyecto) {
+		this.somRolesProyecto = somRolesProyecto;
 	}
 
-	public List<RolDTO> getListaSeleccionRolesUsuario() {
-		return listaSeleccionRolesUsuario;
+	public List<SelectItem> getListRolesProyecto() {
+		try {
+			if(listRolesProyecto == null){
+				listRolesProyecto = new ArrayList<SelectItem>();
+				List<Rol> roles = businessDelegatorView.listaRolesOrdenadaPorDescripcionAscendente();
+				for (Rol rol : roles) {
+					listRolesProyecto.add(new SelectItem(rol.getRolId(), rol.getDescRol()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listRolesProyecto;
 	}
 
-	public void setListaSeleccionRolesUsuario(List<RolDTO> listaSeleccionRolesUsuario) {
-		this.listaSeleccionRolesUsuario = listaSeleccionRolesUsuario;
+	public void setListRolesProyecto(List<SelectItem> listRolesProyecto) {
+		this.listRolesProyecto = listRolesProyecto;
 	}
 
 }
