@@ -459,4 +459,7 @@ public interface IBusinessDelegatorView {
     public Rol rolDeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
     
     public RolDTO rolDTODeUnUsuarioEnUnProyecto(Integer usuaId, Integer proyId) throws Exception;
+    
+    public void guardarOActualizarProyectoUsuarioRol(Integer usuaId, Integer proyId, Integer rolId) throws Exception;
+
 }

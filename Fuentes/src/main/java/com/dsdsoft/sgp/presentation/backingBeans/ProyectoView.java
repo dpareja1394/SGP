@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpSession;
 
@@ -79,9 +80,10 @@ public class ProyectoView implements Serializable {
 	private InputText txtNombreUsuario;
 	private UsuarioDTO usuarioProyecto;
 	private ProyectoDTO proyectoAdministrar;
-	
+
 	private SelectOneMenu somRolesProyecto;
 	private List<SelectItem> listRolesProyecto;
+	private CommandButton btnGuardar, btnLimpiar;
 
 	public ProyectoView() {
 		super();
@@ -382,14 +384,14 @@ public class ProyectoView implements Serializable {
 	public String seleccionarUsuario(ActionEvent actionEvent) {
 		try {
 
-			usuarioProyecto = (UsuarioDTO) (actionEvent.getComponent().getAttributes()
-					.get("usuarioSeleccionado"));
-			txtNombreUsuario.setValue(
-					usuarioProyecto.getNombreUsuario().toUpperCase() + " " + usuarioProyecto.getApellidoUsuario().toUpperCase());
+			usuarioProyecto = (UsuarioDTO) (actionEvent.getComponent().getAttributes().get("usuarioSeleccionado"));
+			txtNombreUsuario.setValue(usuarioProyecto.getNombreUsuario().toUpperCase() + " "
+					+ usuarioProyecto.getApellidoUsuario().toUpperCase());
 			somRolesProyecto.setDisabled(false);
-			Rol rol = businessDelegatorView.rolDeUnUsuarioEnUnProyecto(usuarioProyecto.getUsuaId(), proyectoAdministrar.getProyId());
-			somRolesProyecto.setValue(rol.getRolId());
-			
+			Rol rol = businessDelegatorView.rolDeUnUsuarioEnUnProyecto(usuarioProyecto.getUsuaId(),
+					proyectoAdministrar.getProyId());
+			somRolesProyecto.setValue(rol==null?0:rol.getRolId());
+
 			setShowUsuarios(false);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -426,6 +428,34 @@ public class ProyectoView implements Serializable {
 		clienteProyecto = null;
 		listProyectosDelCliente = null;
 		listaClientesOrdenada = null;
+	}
+
+	public void escuchadorRoles() {
+		btnGuardar.setDisabled(false);
+		btnLimpiar.setDisabled(false);
+	}
+
+	public void guardarOActualizarProyectoUsuarioRol() {
+		try {
+			Rol rol = businessDelegatorView.getRol(Integer.parseInt(somRolesProyecto.getValue().toString()));
+			businessDelegatorView.guardarOActualizarProyectoUsuarioRol(usuarioProyecto.getUsuaId(),
+					proyectoAdministrar.getProyId(), Integer.parseInt(somRolesProyecto.getValue().toString()));
+			
+			FacesUtils.addInfoMessage("El usuario "+txtNombreUsuario.getValue()+" ahora tiene el rol "+rol.getDescRol().toUpperCase());
+			limpiarAdministracionProyecto();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	public void limpiarAdministracionProyecto(){
+		txtNombreUsuario.setValue(null);
+		somRolesProyecto.setValue(0);
+		somRolesProyecto.setDisabled(true);
+		usuarioProyecto = null;
+		btnGuardar.setDisabled(true);
+		btnLimpiar.setDisabled(true);
 	}
 
 	public InputText getTxtDescProyecto() {
@@ -673,7 +703,7 @@ public class ProyectoView implements Serializable {
 
 	public List<UsuarioDTO> getListaUsuariosOrdenada() {
 		try {
-			if(listaUsuariosOrdenada == null){
+			if (listaUsuariosOrdenada == null) {
 				listaUsuariosOrdenada = businessDelegatorView.getDataUsuario();
 			}
 		} catch (Exception e) {
@@ -704,7 +734,7 @@ public class ProyectoView implements Serializable {
 
 	public List<SelectItem> getListRolesProyecto() {
 		try {
-			if(listRolesProyecto == null){
+			if (listRolesProyecto == null) {
 				listRolesProyecto = new ArrayList<SelectItem>();
 				List<Rol> roles = businessDelegatorView.listaRolesOrdenadaPorDescripcionAscendente();
 				for (Rol rol : roles) {
@@ -719,6 +749,22 @@ public class ProyectoView implements Serializable {
 
 	public void setListRolesProyecto(List<SelectItem> listRolesProyecto) {
 		this.listRolesProyecto = listRolesProyecto;
+	}
+
+	public CommandButton getBtnGuardar() {
+		return btnGuardar;
+	}
+
+	public void setBtnGuardar(CommandButton btnGuardar) {
+		this.btnGuardar = btnGuardar;
+	}
+
+	public CommandButton getBtnLimpiar() {
+		return btnLimpiar;
+	}
+
+	public void setBtnLimpiar(CommandButton btnLimpiar) {
+		this.btnLimpiar = btnLimpiar;
 	}
 
 }

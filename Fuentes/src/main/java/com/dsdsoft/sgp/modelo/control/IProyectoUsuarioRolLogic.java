@@ -60,4 +60,7 @@ public interface IProyectoUsuarioRolLogic {
 
     public List<ProyectoUsuarioRolDTO> getDataProyectoUsuarioRol()
         throws Exception;
+    
+    public void guardarOActualizarProyectoUsuarioRol(Integer usuaId, Integer proyId, Integer rolId) throws Exception;
+    
 }

@@ -105,20 +105,8 @@ public class ProyectoUsuarioRolLogic implements IProyectoUsuarioRolLogic {
                 throw new ZMessManager().new EmptyFieldException("usuaId");
             }
 
-            if ((entity.getId().getUsuaId() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getId().getUsuaId(), 0, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("usuaId");
-            }
-
             if (entity.getId().getProyId() == null) {
                 throw new ZMessManager().new EmptyFieldException("proyId");
-            }
-
-            if ((entity.getId().getProyId() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getId().getProyId(), 0, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("proyId");
             }
 
             if (entity.getProyecto().getProyId() == null) {
@@ -205,20 +193,8 @@ public class ProyectoUsuarioRolLogic implements IProyectoUsuarioRolLogic {
                 throw new ZMessManager().new EmptyFieldException("usuaId");
             }
 
-            if ((entity.getId().getUsuaId() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getId().getUsuaId(), 0, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("usuaId");
-            }
-
             if (entity.getId().getProyId() == null) {
                 throw new ZMessManager().new EmptyFieldException("proyId");
-            }
-
-            if ((entity.getId().getProyId() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getId().getProyId(), 0, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("proyId");
             }
 
             if (entity.getProyecto().getProyId() == null) {
@@ -495,4 +471,54 @@ public class ProyectoUsuarioRolLogic implements IProyectoUsuarioRolLogic {
 
         return list;
     }
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+	public void guardarOActualizarProyectoUsuarioRol(Integer usuaId, Integer proyId, Integer rolId) throws Exception {
+		try {
+			if(usuaId == null){
+				throw new Exception("No ha llegado el id del usuario");
+			}
+			if(proyId == null){
+				throw new Exception("No ha llegado el id del proyecto");
+			}
+			if(rolId == null){
+				throw new Exception("No ha llegado el id del rol para guardar o actualizar");
+			}
+			
+			Usuario usuario = logicUsuario3.getUsuario(usuaId);
+			if(usuario == null){
+				throw new Exception("No se ha encontrado el usuario con el Id "+usuaId);
+			}
+			
+			Proyecto proyecto = logicProyecto1.getProyecto(proyId);
+			if(proyecto == null){
+				throw new Exception("No se ha encontrado un proyecto con el id "+proyId);
+			}
+			Rol rol = logicRol2.getRol(rolId);
+			if(rol == null){
+				throw new Exception("No se ha encontrado el rol con el id "+rolId);
+			}
+			
+			ProyectoUsuarioRolId proyectoUsuarioRolId = new ProyectoUsuarioRolId(usuario.getUsuaId().longValue(), proyecto.getProyId().longValue());
+			ProyectoUsuarioRol proyectoUsuarioRol = getProyectoUsuarioRol(proyectoUsuarioRolId);
+			if(proyectoUsuarioRol != null){
+				proyectoUsuarioRol.setRol(rol);
+				updateProyectoUsuarioRol(proyectoUsuarioRol);
+			}else{
+				proyectoUsuarioRol = new ProyectoUsuarioRol();
+				proyectoUsuarioRol.setId(proyectoUsuarioRolId);
+				proyectoUsuarioRol.setProyecto(proyecto);
+				proyectoUsuarioRol.setRol(rol);
+				proyectoUsuarioRol.setUsuario(usuario);
+				
+				saveProyectoUsuarioRol(proyectoUsuarioRol);
+			}
+			
+			
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+	}
 }

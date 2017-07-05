@@ -932,7 +932,6 @@ public class ClienteView implements Serializable {
 		try {
 			clienteSeleccionadoDTO = (ClienteDTO) (evt.getComponent().getAttributes().get("clienteCargarProyectos"));
 			this.proyectosCliente = businessDelegatorView.listaProyectosDTODadoCliente(clienteSeleccionadoDTO.getClieId());
-			log.info("Proyectos cargados: "+proyectosCliente.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

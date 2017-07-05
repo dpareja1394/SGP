@@ -52,14 +52,21 @@
 										</h:panelGrid>
 										<h:outputText value="Rol:" />
 										<p:selectOneMenu binding="#{proyectoView.somRolesProyecto}" disabled="true">
+											<p:ajax listener="#{proyectoView.escuchadorRoles}" update=":formDialog" />  
 											<f:selectItem itemValue="0" itemLabel="SELECCIONE UN ROL"/>
 											<f:selectItems value="#{proyectoView.listRolesProyecto}"/>										
 										</p:selectOneMenu>
 									</h:panelGrid>
 								
 								<h:panelGrid columns="2">
-									<p:commandButton value="Guardar" disabled="true"/>
-									<p:commandButton value="Modificar" disabled="true"/>
+									<p:commandButton value="Guardar" disabled="true" 
+													 binding="#{proyectoView.btnGuardar}"
+													 action="#{proyectoView.guardarOActualizarProyectoUsuarioRol}" 
+													 update=":formDialog"/>
+									<p:commandButton value="Limpiar" disabled="true" 
+													 binding="#{proyectoView.btnLimpiar}"
+													 action="#{proyectoView.limpiarAdministracionProyecto}"
+													 update=":formDialog"/>
 								</h:panelGrid>
 								
 								</div>
