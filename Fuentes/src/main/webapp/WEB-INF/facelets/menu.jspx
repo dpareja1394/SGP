@@ -28,8 +28,8 @@
 							<p:submenu label="Proyectos">
 								<p:menuitem value="Registrar nuevo Proyecto"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoProyecto.xhtml" />
-								<p:menuitem value="Agregar recursos a un Proyecto"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/adicionarRecursosAlProyecto.xhtml" />	
+								<p:menuitem value="Gestionar Requerimientos"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verProyectosDelCliente.xhtml" />	
 							</p:submenu>
 						</p:column>
 					</p:submenu>

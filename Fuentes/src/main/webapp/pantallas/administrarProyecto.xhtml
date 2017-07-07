@@ -38,21 +38,23 @@
 						header="Proyecto: #{proyectoView.nombreProyectoAdministrar}">
 						<p:accordionPanel multiple="true">
 							<p:tab title="Estado del Proyecto">
-								<h:panelGrid columns="2">
-									<p:outputLabel value="Estado del Proyecto: " />
-
-									<p:selectOneMenu
-										binding="#{proyectoView.somEstadoProyectoAdministrar}"
-										id="somEstadoProyectoAdministrar">
-										<p:ajax
-											listener="#{proyectoView.escuchadorEstadoProyectoAdministrar}"
-											update="btnGuardarEstadoProyecto" />
-										<f:selectItems value="#{proyectoView.listEstadosProyecto}" />
-									</p:selectOneMenu>
-
-								</h:panelGrid>
 								<div align="center">
-									<p:commandButton value="Guardar" disabled="true" id="btnGuardarEstadoProyecto"
+									<h:panelGrid columns="2">
+										<p:outputLabel value="Estado del Proyecto: " />
+
+										<p:selectOneMenu
+											binding="#{proyectoView.somEstadoProyectoAdministrar}"
+											id="somEstadoProyectoAdministrar">
+											<p:ajax
+												listener="#{proyectoView.escuchadorEstadoProyectoAdministrar}"
+												update="btnGuardarEstadoProyecto" />
+											<f:selectItems value="#{proyectoView.listEstadosProyecto}" />
+										</p:selectOneMenu>
+
+									</h:panelGrid>
+
+									<p:commandButton value="Guardar" disabled="true"
+										id="btnGuardarEstadoProyecto"
 										binding="#{proyectoView.btnGuardarEstadoProyecto}"
 										action="#{proyectoView.guardarOActualizarEstadoProyecto}"
 										update="somEstadoProyectoAdministrar, btnGuardarEstadoProyecto, @([id$=msg]), @([id$=men])" />
@@ -97,15 +99,21 @@
 							</p:tab>
 							<p:tab title="Lista Usuarios del Proyecto">
 								<p:dataTable value="#{proyectoView.listaProyectoUsuarioRol}"
-									var="pur">
+									var="pur" emptyMessage="No hay recursos asignados al proyecto">
 									<p:column headerText="Nombre completo Usuario">
-										<h:outputText value="#{pur.nombreCompletoUsuario}" />
+										<div align="center">
+											<h:outputText value="#{pur.nombreCompletoUsuario}" />
+										</div>
 									</p:column>
 									<p:column headerText="Correo electrónico">
-										<h:outputText value="#{pur.emailUsuario}" />
+										<div align="center">
+											<h:outputText value="#{pur.emailUsuario}" />
+										</div>
 									</p:column>
 									<p:column headerText="Rol">
-										<h:outputText value="#{pur.descripcionRol}" />
+										<div align="center">
+											<h:outputText value="#{pur.descripcionRol}" />
+										</div>
 									</p:column>
 								</p:dataTable>
 							</p:tab>
