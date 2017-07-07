@@ -87,7 +87,10 @@ public class ProyectoView implements Serializable {
 	private CommandButton btnGuardar, btnLimpiar;
 
 	private List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRol;
-	
+
+	private SelectOneMenu somEstadoProyectoAdministrar;
+	private CommandButton btnGuardarEstadoProyecto;
+
 	public ProyectoView() {
 		super();
 		this.usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
@@ -393,7 +396,7 @@ public class ProyectoView implements Serializable {
 			somRolesProyecto.setDisabled(false);
 			Rol rol = businessDelegatorView.rolDeUnUsuarioEnUnProyecto(usuarioProyecto.getUsuaId(),
 					proyectoAdministrar.getProyId());
-			somRolesProyecto.setValue(rol==null?0:rol.getRolId());
+			somRolesProyecto.setValue(rol == null ? 0 : rol.getRolId());
 
 			setShowUsuarios(false);
 		} catch (Exception e) {
@@ -438,21 +441,44 @@ public class ProyectoView implements Serializable {
 		btnLimpiar.setDisabled(false);
 	}
 
+	public void escuchadorEstadoProyectoAdministrar() {
+		btnGuardarEstadoProyecto.setDisabled(false);
+	}
+
+	public void guardarOActualizarEstadoProyecto() {
+		try {
+			EstadoProyecto estadoProyecto = businessDelegatorView
+					.getEstadoProyecto(Integer.parseInt(somEstadoProyectoAdministrar.getValue().toString()));
+			Proyecto proyecto = businessDelegatorView.getProyecto(proyectoAdministrar.getProyId());
+			proyecto.setEstadoProyecto(estadoProyecto);
+
+			businessDelegatorView.updateProyecto(proyecto);
+			FacesUtils.addInfoMessage(proyecto.getDescProyecto().toUpperCase() + " ahora tiene el estado "
+					+ estadoProyecto.getDescripcionEstado().toUpperCase());
+			somEstadoProyectoAdministrar.setValue(estadoProyecto.getEsprId());
+			btnGuardarEstadoProyecto.setDisabled(true);
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public void guardarOActualizarProyectoUsuarioRol() {
 		try {
 			Rol rol = businessDelegatorView.getRol(Integer.parseInt(somRolesProyecto.getValue().toString()));
 			businessDelegatorView.guardarOActualizarProyectoUsuarioRol(usuarioProyecto.getUsuaId(),
 					proyectoAdministrar.getProyId(), Integer.parseInt(somRolesProyecto.getValue().toString()));
-			
-			FacesUtils.addInfoMessage("El usuario "+txtNombreUsuario.getValue()+" ahora tiene el rol "+rol.getDescRol().toUpperCase());
+
+			FacesUtils.addInfoMessage("El usuario " + txtNombreUsuario.getValue() + " ahora tiene el rol "
+					+ rol.getDescRol().toUpperCase());
 			limpiarAdministracionProyecto();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 			e.printStackTrace();
 		}
 	}
-	
-	public void limpiarAdministracionProyecto(){
+
+	public void limpiarAdministracionProyecto() {
 		txtNombreUsuario.setValue(null);
 		somRolesProyecto.setValue(0);
 		somRolesProyecto.setDisabled(true);
@@ -691,6 +717,7 @@ public class ProyectoView implements Serializable {
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
 		proyectoAdministrar = (ProyectoDTO) session.getAttribute("proyectoAdministrar");
 		nombreProyectoAdministrar = proyectoAdministrar.getDescProyecto();
+		somEstadoProyectoAdministrar.setValue(proyectoAdministrar.getEsprId_EstadoProyecto());
 		return nombreProyectoAdministrar;
 	}
 
@@ -774,8 +801,9 @@ public class ProyectoView implements Serializable {
 
 	public List<ProyectoUsuarioRolDTO> getListaProyectoUsuarioRol() {
 		try {
-			if(listaProyectoUsuarioRol == null){
-				listaProyectoUsuarioRol = businessDelegatorView.listaProyectoUsuarioRolDadoProyecto(proyectoAdministrar.getProyId());
+			if (listaProyectoUsuarioRol == null) {
+				listaProyectoUsuarioRol = businessDelegatorView
+						.listaProyectoUsuarioRolDadoProyecto(proyectoAdministrar.getProyId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -785,6 +813,35 @@ public class ProyectoView implements Serializable {
 
 	public void setListaProyectoUsuarioRol(List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRol) {
 		this.listaProyectoUsuarioRol = listaProyectoUsuarioRol;
+	}
+
+	public SelectOneMenu getSomEstadoProyectoAdministrar() {
+		try {
+			if(somEstadoProyectoAdministrar==null){
+				somEstadoProyectoAdministrar = new SelectOneMenu();
+			}
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+			ProyectoDTO proyectoDTO = (ProyectoDTO) session.getAttribute("proyectoAdministrar");
+			
+			Proyecto proyecto = businessDelegatorView.getProyecto(proyectoDTO.getProyId());
+			
+			somEstadoProyectoAdministrar.setValue(proyecto.getEstadoProyecto().getEsprId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return somEstadoProyectoAdministrar;
+	}
+
+	public void setSomEstadoProyectoAdministrar(SelectOneMenu somEstadoProyectoAdministrar) {
+		this.somEstadoProyectoAdministrar = somEstadoProyectoAdministrar;
+	}
+
+	public CommandButton getBtnGuardarEstadoProyecto() {
+		return btnGuardarEstadoProyecto;
+	}
+
+	public void setBtnGuardarEstadoProyecto(CommandButton btnGuardarEstadoProyecto) {
+		this.btnGuardarEstadoProyecto = btnGuardarEstadoProyecto;
 	}
 
 }

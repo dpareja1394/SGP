@@ -37,6 +37,30 @@
 					<p:panel id="panelProyecto"
 						header="Proyecto: #{proyectoView.nombreProyectoAdministrar}">
 						<p:accordionPanel multiple="true">
+							<p:tab title="Estado del Proyecto">
+								<h:panelGrid columns="2">
+									<p:outputLabel value="Estado del Proyecto: " />
+
+									<p:selectOneMenu
+										binding="#{proyectoView.somEstadoProyectoAdministrar}"
+										id="somEstadoProyectoAdministrar">
+										<p:ajax
+											listener="#{proyectoView.escuchadorEstadoProyectoAdministrar}"
+											update="btnGuardarEstadoProyecto" />
+										<f:selectItems value="#{proyectoView.listEstadosProyecto}" />
+									</p:selectOneMenu>
+
+								</h:panelGrid>
+								<div align="center">
+									<p:commandButton value="Guardar" disabled="true" id="btnGuardarEstadoProyecto"
+										binding="#{proyectoView.btnGuardarEstadoProyecto}"
+										action="#{proyectoView.guardarOActualizarEstadoProyecto}"
+										update="somEstadoProyectoAdministrar, btnGuardarEstadoProyecto, @([id$=msg]), @([id$=men])" />
+								</div>
+
+
+
+							</p:tab>
 							<p:tab title="Asignar Recursos al Proyecto">
 								<div align="center">
 									<h:panelGrid columns="2">
@@ -85,7 +109,7 @@
 									</p:column>
 								</p:dataTable>
 							</p:tab>
-							
+
 						</p:accordionPanel>
 					</p:panel>
 				</h:form>
