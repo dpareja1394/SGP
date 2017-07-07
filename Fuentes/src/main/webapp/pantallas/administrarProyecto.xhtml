@@ -36,7 +36,7 @@
 					<p:growl id="men" />
 					<p:panel id="panelProyecto"
 						header="Proyecto: #{proyectoView.nombreProyectoAdministrar}">
-						<p:accordionPanel>
+						<p:accordionPanel multiple="true">
 							<p:tab title="Asignar Recursos al Proyecto">
 								<div align="center">
 									<h:panelGrid columns="2">
@@ -44,41 +44,48 @@
 										<h:panelGrid columns="2">
 											<p:inputText readonly="true"
 												binding="#{proyectoView.txtNombreUsuario}"
-												placeholder="Seleccione un Usuario"
-												style="width:350px" />
+												placeholder="Seleccione un Usuario" style="width:350px" />
 											<p:commandButton title="Buscar Usuario" icon="ui-icon-search"
 												actionListener="#{proyectoView.abrirDialogoBuscarUsuario}"
 												update=":dialogConsultaUsuarios" />
 										</h:panelGrid>
 										<h:outputText value="Rol:" />
-										<p:selectOneMenu binding="#{proyectoView.somRolesProyecto}" disabled="true">
-											<p:ajax listener="#{proyectoView.escuchadorRoles}" update=":formDialog" />  
-											<f:selectItem itemValue="0" itemLabel="SELECCIONE UN ROL"/>
-											<f:selectItems value="#{proyectoView.listRolesProyecto}"/>										
+										<p:selectOneMenu binding="#{proyectoView.somRolesProyecto}"
+											disabled="true">
+											<p:ajax listener="#{proyectoView.escuchadorRoles}"
+												update=":formDialog" />
+											<f:selectItem itemValue="0" itemLabel="SELECCIONE UN ROL" />
+											<f:selectItems value="#{proyectoView.listRolesProyecto}" />
 										</p:selectOneMenu>
 									</h:panelGrid>
-								
-								<h:panelGrid columns="2">
-									<p:commandButton value="Guardar" disabled="true" 
-													 binding="#{proyectoView.btnGuardar}"
-													 action="#{proyectoView.guardarOActualizarProyectoUsuarioRol}" 
-													 update=":formDialog"/>
-									<p:commandButton value="Limpiar" disabled="true" 
-													 binding="#{proyectoView.btnLimpiar}"
-													 action="#{proyectoView.limpiarAdministracionProyecto}"
-													 update=":formDialog"/>
-								</h:panelGrid>
-								
+
+									<h:panelGrid columns="2">
+										<p:commandButton value="Guardar" disabled="true"
+											binding="#{proyectoView.btnGuardar}"
+											action="#{proyectoView.guardarOActualizarProyectoUsuarioRol}"
+											update=":formDialog" />
+										<p:commandButton value="Limpiar" disabled="true"
+											binding="#{proyectoView.btnLimpiar}"
+											action="#{proyectoView.limpiarAdministracionProyecto}"
+											update=":formDialog" />
+									</h:panelGrid>
 								</div>
-								
-								
-								
 							</p:tab>
-							<p:tab title="Godfather Part II">
-								<h:panelGrid columns="2" cellpadding="10">
-									<h:outputText value="Francis Ford Coppola's legendary..." />
-								</h:panelGrid>
+							<p:tab title="Lista Usuarios del Proyecto">
+								<p:dataTable value="#{proyectoView.listaProyectoUsuarioRol}"
+									var="pur">
+									<p:column headerText="Nombre completo Usuario">
+										<h:outputText value="#{pur.nombreCompletoUsuario}" />
+									</p:column>
+									<p:column headerText="Correo electrónico">
+										<h:outputText value="#{pur.emailUsuario}" />
+									</p:column>
+									<p:column headerText="Rol">
+										<h:outputText value="#{pur.descripcionRol}" />
+									</p:column>
+								</p:dataTable>
 							</p:tab>
+							
 						</p:accordionPanel>
 					</p:panel>
 				</h:form>
@@ -90,7 +97,7 @@
 					width="75%" height="300px;">
 					<h:form>
 						<p:panel>
-							<p:dataTable value="#{proyectoView.listaUsuariosOrdenada}" 
+							<p:dataTable value="#{proyectoView.listaUsuariosOrdenada}"
 								var="usuario" emptyMessage="No hay usuarios">
 								<p:column headerText="Nombre completo">
 									<h:outputText

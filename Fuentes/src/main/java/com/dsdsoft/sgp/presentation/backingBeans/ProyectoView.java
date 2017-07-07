@@ -30,6 +30,7 @@ import com.dsdsoft.sgp.modelo.Rol;
 import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
 import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
+import com.dsdsoft.sgp.modelo.dto.ProyectoUsuarioRolDTO;
 import com.dsdsoft.sgp.modelo.dto.UsuarioDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
 import com.dsdsoft.sgp.utilities.FacesUtils;
@@ -85,6 +86,8 @@ public class ProyectoView implements Serializable {
 	private List<SelectItem> listRolesProyecto;
 	private CommandButton btnGuardar, btnLimpiar;
 
+	private List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRol;
+	
 	public ProyectoView() {
 		super();
 		this.usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
@@ -456,6 +459,8 @@ public class ProyectoView implements Serializable {
 		usuarioProyecto = null;
 		btnGuardar.setDisabled(true);
 		btnLimpiar.setDisabled(true);
+		listaProyectoUsuarioRol = null;
+		getListaProyectoUsuarioRol();
 	}
 
 	public InputText getTxtDescProyecto() {
@@ -765,6 +770,21 @@ public class ProyectoView implements Serializable {
 
 	public void setBtnLimpiar(CommandButton btnLimpiar) {
 		this.btnLimpiar = btnLimpiar;
+	}
+
+	public List<ProyectoUsuarioRolDTO> getListaProyectoUsuarioRol() {
+		try {
+			if(listaProyectoUsuarioRol == null){
+				listaProyectoUsuarioRol = businessDelegatorView.listaProyectoUsuarioRolDadoProyecto(proyectoAdministrar.getProyId());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return listaProyectoUsuarioRol;
+	}
+
+	public void setListaProyectoUsuarioRol(List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRol) {
+		this.listaProyectoUsuarioRol = listaProyectoUsuarioRol;
 	}
 
 }

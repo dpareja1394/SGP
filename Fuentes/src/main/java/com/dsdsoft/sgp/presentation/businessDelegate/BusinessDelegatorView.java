@@ -967,4 +967,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public void guardarOActualizarProyectoUsuarioRol(Integer usuaId, Integer proyId, Integer rolId) throws Exception {
 		proyectoUsuarioRolLogic.guardarOActualizarProyectoUsuarioRol(usuaId, proyId, rolId);
 	}
+
+	@Override
+	public List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRolDadoProyecto(Integer proyId) throws Exception {
+		return proyectoUsuarioRolLogic.listaProyectoUsuarioRolDadoProyecto(proyId);
+	}
 }

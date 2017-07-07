@@ -63,4 +63,6 @@ public interface IProyectoUsuarioRolLogic {
     
     public void guardarOActualizarProyectoUsuarioRol(Integer usuaId, Integer proyId, Integer rolId) throws Exception;
     
+	public List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRolDadoProyecto(Integer proyId) throws Exception;
+    
 }

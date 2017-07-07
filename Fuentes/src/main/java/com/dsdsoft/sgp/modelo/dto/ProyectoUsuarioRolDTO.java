@@ -24,6 +24,8 @@ public class ProyectoUsuarioRolDTO implements Serializable {
     private Integer proyId_Proyecto;
     private Integer rolId_Rol;
     private Integer usuaId_Usuario;
+    
+    private String nombreCompletoUsuario, emailUsuario, descripcionRol, descripcionProyecto;
 
     public Long getUsuaId() {
         return usuaId;
@@ -64,4 +66,36 @@ public class ProyectoUsuarioRolDTO implements Serializable {
     public void setUsuaId_Usuario(Integer usuaId_Usuario) {
         this.usuaId_Usuario = usuaId_Usuario;
     }
+
+	public String getNombreCompletoUsuario() {
+		return nombreCompletoUsuario;
+	}
+
+	public void setNombreCompletoUsuario(String nombreCompletoUsuario) {
+		this.nombreCompletoUsuario = nombreCompletoUsuario;
+	}
+
+	public String getEmailUsuario() {
+		return emailUsuario;
+	}
+
+	public void setEmailUsuario(String emailUsuario) {
+		this.emailUsuario = emailUsuario;
+	}
+
+	public String getDescripcionRol() {
+		return descripcionRol;
+	}
+
+	public void setDescripcionRol(String descripcionRol) {
+		this.descripcionRol = descripcionRol;
+	}
+
+	public String getDescripcionProyecto() {
+		return descripcionProyecto;
+	}
+
+	public void setDescripcionProyecto(String descripcionProyecto) {
+		this.descripcionProyecto = descripcionProyecto;
+	}
 }

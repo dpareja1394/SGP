@@ -1,33 +1,22 @@
 package com.dsdsoft.sgp.dataaccess.dao;
 
-import com.dsdsoft.sgp.dataaccess.api.HibernateDaoImpl;
-import com.dsdsoft.sgp.modelo.ProyectoUsuarioRol;
-import com.dsdsoft.sgp.modelo.ProyectoUsuarioRolId;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
-import org.hibernate.criterion.Example;
-
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
+import com.dsdsoft.sgp.dataaccess.api.HibernateDaoImpl;
+import com.dsdsoft.sgp.modelo.ProyectoUsuarioRol;
+import com.dsdsoft.sgp.modelo.ProyectoUsuarioRolId;
+import com.dsdsoft.sgp.modelo.dto.ProyectoUsuarioRolDTO;
 
 
 /**
@@ -52,4 +41,21 @@ public class ProyectoUsuarioRolDAO extends HibernateDaoImpl<ProyectoUsuarioRol, 
         ApplicationContext ctx) {
         return (IProyectoUsuarioRolDAO) ctx.getBean("ProyectoUsuarioRolDAO");
     }
+
+	@Override
+	public List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRolDadoProyecto(Integer proyId) throws Exception {
+		List<ProyectoUsuarioRolDTO> lista = null;
+		try {
+			Query query = getSession().getNamedQuery("consulta_proyecto_usuario_rol_dado_proyecto");
+			query.setParameter("pProyId", proyId);
+			
+			query.setResultTransformer(Transformers.aliasToBean(ProyectoUsuarioRolDTO.class));
+			lista = query.list();
+					
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
 }

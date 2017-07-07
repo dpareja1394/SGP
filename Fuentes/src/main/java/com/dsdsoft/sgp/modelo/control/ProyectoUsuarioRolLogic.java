@@ -521,4 +521,20 @@ public class ProyectoUsuarioRolLogic implements IProyectoUsuarioRolLogic {
 			throw e;
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRolDadoProyecto(Integer proyId) throws Exception {
+		List<ProyectoUsuarioRolDTO> lista = null;
+		try {
+			if(proyId == null){
+				throw new Exception("No ha llegado el id del proyecto");
+			}
+			lista = proyectoUsuarioRolDAO.listaProyectoUsuarioRolDadoProyecto(proyId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
 }
