@@ -59,8 +59,25 @@
 								update=":formDialog"/>
 							</h:panelGrid>
 
-
 						</div>
+						
+						<div align="center">
+							<p:dataTable id="dtRequerimientosPorProyecto" var="requerimiento" value="#{requerimientoView.requerimientosPorProyecto}">
+							<p:column headerText="Título">
+								<div align="center">
+									<h:outputText value="#{requerimiento.nombreRequerimiento}"/>
+								</div>
+							</p:column>
+							
+							<p:column headerText="Descripción Requerimiento">
+								<div align="center">
+									<h:outputText value="#{requerimiento.descripcionRequerimiento}"/>
+								</div>
+							</p:column>
+							
+							</p:dataTable>
+						</div>
+						
 					</p:panel>
 				</h:form>
 			</f:view>

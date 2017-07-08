@@ -1,5 +1,7 @@
 package com.dsdsoft.sgp.dataaccess.dao;
 
+import java.util.List;
+
 import com.dsdsoft.sgp.dataaccess.api.Dao;
 import com.dsdsoft.sgp.modelo.Requerimiento;
 

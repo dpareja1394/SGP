@@ -378,6 +378,8 @@ public class RequerimientoView implements Serializable {
 	}
 
 	public void limpiarGuardarNuevoRequerimiento() {
+		requerimientosPorProyecto = null;
+		getRequerimientosPorProyecto();
 		txtAreaDescripcionRequerimiento.setValue(null);
 		txtTituloRequerimiento.setValue(null);
 	}
@@ -503,8 +505,9 @@ public class RequerimientoView implements Serializable {
 
 	public List<RequerimientoDTO> getRequerimientosPorProyecto() {
 		try {
-			if(requerimientosPorProyecto == null){
-				//TODO implementar requerimientosDTO por proyecto
+			if (requerimientosPorProyecto == null) {
+				requerimientosPorProyecto = businessDelegatorView
+						.listaRequerimientosDTOPorIdProyecto(proyectoRequerimiento.getProyId());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

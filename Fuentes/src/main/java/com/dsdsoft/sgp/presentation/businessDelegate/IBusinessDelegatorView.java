@@ -463,4 +463,6 @@ public interface IBusinessDelegatorView {
     public void guardarOActualizarProyectoUsuarioRol(Integer usuaId, Integer proyId, Integer rolId) throws Exception;
 
     public List<ProyectoUsuarioRolDTO> listaProyectoUsuarioRolDadoProyecto(Integer proyId) throws Exception;
+    
+    public List<RequerimientoDTO> listaRequerimientosDTOPorIdProyecto(Integer proyId) throws Exception;
 }

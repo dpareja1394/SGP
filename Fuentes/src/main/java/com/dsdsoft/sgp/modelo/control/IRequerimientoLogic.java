@@ -58,4 +58,6 @@ public interface IRequerimientoLogic {
 
     public List<RequerimientoDTO> getDataRequerimiento()
         throws Exception;
+    
+    public List<RequerimientoDTO> listaRequerimientosDTOPorIdProyecto(Integer proyId) throws Exception;
 }
