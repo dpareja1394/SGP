@@ -88,7 +88,7 @@ public class RequerimientoView implements Serializable {
 	public RequerimientoView() {
 		super();
 		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		proyectoRequerimiento = (ProyectoDTO) session.getAttribute("proyectoAdministrar");
+		proyectoRequerimiento = (ProyectoDTO) session.getAttribute("proyectoRequerimiento");
 	}
 
 	public void rowEventListener(RowEditEvent e) {
