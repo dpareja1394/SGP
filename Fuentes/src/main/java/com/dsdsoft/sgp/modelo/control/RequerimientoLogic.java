@@ -109,17 +109,9 @@ public class RequerimientoLogic implements IRequerimientoLogic {
                     "nombreRequerimiento");
             }
 
-            if (entity.getRequId() == null) {
-                throw new ZMessManager().new EmptyFieldException("requId");
-            }
-
             if (entity.getProyecto().getProyId() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "proyId_Proyecto");
-            }
-
-            if (getRequerimiento(entity.getRequId()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             requerimientoDAO.save(entity);

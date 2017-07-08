@@ -34,16 +34,32 @@
 				<h:form id="formDialog">
 					<p:messages id="msg" />
 					<p:growl id="men" />
-					<p:panel id="panelRequerimientos" header="Gestionar Requerimientos proyecto #{requerimientoView.nombreProyectoRequerimientos}">
+					<p:panel id="panelRequerimientos"
+						header="Gestionar Requerimientos proyecto #{requerimientoView.nombreProyectoRequerimientos}">
 						<div align="center">
 							<h:panelGrid columns="2">
-								<p:outputLabel value="Título:"/>
-								<p:inputText placeholder="Escriba aquí el título" style="width:600px"/>
-								
-								<p:outputLabel value="Descripción Requerimiento:"/>
-								<p:inputTextarea placeholder="Escriba aquí la descripción" style="width:600px; height:100px"/>
-								
+								<p:outputLabel value="Título:" />
+								<p:inputText placeholder="Escriba aquí el título"
+									style="width:600px"
+									binding="#{requerimientoView.txtTituloRequerimiento}" />
+
+								<p:outputLabel value="Descripción Requerimiento:" />
+								<p:inputTextarea placeholder="Escriba aquí la descripción"
+									style="width:600px; height:100px"
+									binding="#{requerimientoView.txtAreaDescripcionRequerimiento}" />
+
 							</h:panelGrid>
+
+							<h:panelGrid columns="2">
+								<p:commandButton value="Guardar" action="#{requerimientoView.guardarNuevoRequerimiento}"
+								icon="ui-icon-check"
+								update=":formDialog"/>
+								<p:commandButton value="Limpiar" 
+								icon="ui-icon-circle-close" action="#{requerimientoView.limpiarGuardarNuevoRequerimiento}"
+								update=":formDialog"/>
+							</h:panelGrid>
+
+
 						</div>
 					</p:panel>
 				</h:form>
