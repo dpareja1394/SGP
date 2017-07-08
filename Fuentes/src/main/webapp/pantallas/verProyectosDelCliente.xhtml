@@ -122,11 +122,18 @@
 								<h:outputText value="#{proyecto.fechaCreacionEspanhol}" />
 							</p:column>
 							<p:column headerText="Acciones">
-								<p:commandButton id="btnAdministrarProyecto"
+								<div align="center">
+									<p:commandButton id="btnAdministrarProyecto"
 									actionListener="#{clienteView.abrirPantallaAdministrarProyecto}"
-									title="Administrar Proyecto" icon="ui-icon-arrowthick-1-e">
-									<f:attribute name="proyectoAdministrar" value="#{proyecto}" />
-								</p:commandButton>
+									title="Administrar Proyecto" icon="ui-icon-wrench">
+										<f:attribute name="proyectoAdministrar" value="#{proyecto}" />
+									</p:commandButton>
+									<p:commandButton id="btnAdministrarRequerimientos"
+									actionListener="#{clienteView.abrirPantallaAdministrarRequerimientos}"
+									title="Administrar Requerimientos" icon="ui-icon-document">
+										<f:attribute name="proyectoAdministrar" value="#{proyecto}" />
+									</p:commandButton>
+								</div>
 							</p:column>
 						</p:dataTable>
 					</p:panel>

@@ -109,18 +109,21 @@
 					<p:panel id="panelBotones">
 						<div align="center">
 							<p:commandButton id="btnRegistrarNuevoCliente" disabled="true"
+								icon="ui-icon-check"
 								binding="#{clienteView.btnRegistrarNuevoCliente}"
 								value="Registrar Cliente"
 								action="#{clienteView.registrarNuevoCliente()}"
 								update="panelCliente,msg,panelBotones" />
 
 							<p:commandButton id="btnModificarCliente" disabled="true"
+								icon="ui-icon-refresh"
 								binding="#{clienteView.btnModificarCliente}"
 								value="Actualizar Datos"
 								action="#{clienteView.actualizarCliente()}"
 								update="panelCliente,msg,panelBotones" />
 
 							<p:commandButton id="btnLimpiarRegistrarNuevoCliente"
+								icon="ui-icon-circle-close"
 								disabled="true" binding="#{clienteView.btnLimpiarPantalla}"
 								value="Limpiar pantalla"
 								action="#{clienteView.limpiarRegistrarNuevoCliente()}"

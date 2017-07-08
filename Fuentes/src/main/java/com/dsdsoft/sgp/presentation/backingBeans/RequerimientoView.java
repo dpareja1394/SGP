@@ -2,6 +2,7 @@ package com.dsdsoft.sgp.presentation.backingBeans;
 
 import com.dsdsoft.sgp.exceptions.*;
 import com.dsdsoft.sgp.modelo.*;
+import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
 import com.dsdsoft.sgp.modelo.dto.RequerimientoDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.*;
 import com.dsdsoft.sgp.utilities.*;
@@ -34,6 +35,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -61,8 +63,13 @@ public class RequerimientoView implements Serializable {
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
+    private String nombreProyectoRequerimientos;
+    private ProyectoDTO proyectoRequerimiento;
+    
     public RequerimientoView() {
         super();
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+    	proyectoRequerimiento = (ProyectoDTO) session.getAttribute("proyectoAdministrar");
     }
 
     public void rowEventListener(RowEditEvent e) {
@@ -452,4 +459,14 @@ public class RequerimientoView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getNombreProyectoRequerimientos() {
+		nombreProyectoRequerimientos = proyectoRequerimiento==null?"":proyectoRequerimiento.getDescProyecto();
+		return nombreProyectoRequerimientos;
+	}
+
+	public void setNombreProyectoRequerimientos(String nombreProyectoRequerimientos) {
+		this.nombreProyectoRequerimientos = nombreProyectoRequerimientos;
+	}
+
 }

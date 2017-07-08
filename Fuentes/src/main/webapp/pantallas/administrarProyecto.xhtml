@@ -54,6 +54,7 @@
 									</h:panelGrid>
 
 									<p:commandButton value="Guardar" disabled="true"
+										icon="ui-icon-check"
 										id="btnGuardarEstadoProyecto"
 										binding="#{proyectoView.btnGuardarEstadoProyecto}"
 										action="#{proyectoView.guardarOActualizarEstadoProyecto}"
@@ -87,10 +88,12 @@
 
 									<h:panelGrid columns="2">
 										<p:commandButton value="Guardar" disabled="true"
+											icon="ui-icon-check"
 											binding="#{proyectoView.btnGuardar}"
 											action="#{proyectoView.guardarOActualizarProyectoUsuarioRol}"
 											update=":formDialog" />
 										<p:commandButton value="Limpiar" disabled="true"
+											icon="ui-icon-circle-close"
 											binding="#{proyectoView.btnLimpiar}"
 											action="#{proyectoView.limpiarAdministracionProyecto}"
 											update=":formDialog" />

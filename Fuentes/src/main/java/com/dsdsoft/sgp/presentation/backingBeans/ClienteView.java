@@ -434,6 +434,28 @@ public class ClienteView implements Serializable {
 
 		return "";
 	}
+	
+	public String abrirPantallaAdministrarRequerimientos(ActionEvent evt) {
+		try {
+
+			ProyectoDTO proyectoRequerimiento = (ProyectoDTO) (evt.getComponent().getAttributes()
+					.get("proyectoRequerimiento"));
+			HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+
+			session.setAttribute("proyectoRequerimiento", proyectoRequerimiento);
+
+			/* Metodo para redireccionar a cualquier parte de la app **/
+
+			// FacesUtils.resetManagedBean("preguntaForoView");
+
+			ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+			context.redirect(context.getRequestContextPath() + "/pantallas/gestionarRequerimientos.xhtml");
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		return "";
+	}
 
 
 	public InputText getTxtCelularContacto() {

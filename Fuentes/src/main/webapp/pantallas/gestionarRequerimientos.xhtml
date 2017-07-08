@@ -34,8 +34,17 @@
 				<h:form id="formDialog">
 					<p:messages id="msg" />
 					<p:growl id="men" />
-					<p:panel id="panelRequerimientos" header="Gestionar Requerimientos">
-						
+					<p:panel id="panelRequerimientos" header="Gestionar Requerimientos proyecto #{requerimientoView.nombreProyectoRequerimientos}">
+						<div align="center">
+							<h:panelGrid columns="2">
+								<p:outputLabel value="Título:"/>
+								<p:inputText placeholder="Escriba aquí el título" style="width:600px"/>
+								
+								<p:outputLabel value="Descripción Requerimiento:"/>
+								<p:inputTextarea placeholder="Escriba aquí la descripción" style="width:600px; height:100px"/>
+								
+							</h:panelGrid>
+						</div>
 					</p:panel>
 				</h:form>
 			</f:view>

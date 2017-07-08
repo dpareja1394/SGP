@@ -15,7 +15,7 @@
 			<h:form>
 
 				<p:megaMenu style="width:989px">
-					<p:submenu label="Clientes" icon="ui-icon-pencil">
+					<p:submenu label="Clientes" icon="ui-icon-person">
 						<p:column>
 							<p:submenu label="Cliente">
 								<p:menuitem value="Registrar nuevo Cliente"
@@ -24,11 +24,14 @@
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verListadoDeClientes.xhtml" />
 							</p:submenu>
 						</p:column>
+					</p:submenu>
+					
+					<p:submenu label="Proyectos" icon="ui-icon-suitcase">
 						<p:column>
 							<p:submenu label="Proyectos">
 								<p:menuitem value="Registrar nuevo Proyecto"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoProyecto.xhtml" />
-								<p:menuitem value="Gestionar Requerimientos"
+								<p:menuitem value="Ver Proyectos del Cliente"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verProyectosDelCliente.xhtml" />	
 							</p:submenu>
 						</p:column>
