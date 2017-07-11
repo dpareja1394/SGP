@@ -51,6 +51,16 @@ public class ClienteLogic implements IClienteLogic {
 
 	@Autowired
 	private IUsuarioLogic usuarioLogic;
+	
+	@Autowired
+	private ICiudadLogic ciudadLogic;
+	
+	@Autowired
+	private IDepartamentoLogic departamentoLogic;
+	
+	@Autowired
+	private IPaisLogic paisLogic;
+	
 
 	@Transactional(readOnly = true)
 	public List<Cliente> getCliente() throws Exception {
@@ -633,6 +643,40 @@ public class ClienteLogic implements IClienteLogic {
 	@Transactional(readOnly = true)
 	public List<Cliente> listaClienteOrdenadasPorEmpresa() throws Exception {
 		return clienteDAO.listaClienteOrdenadasPorEmpresa();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ClienteDTO> listaClientesDTOConCiudad() throws Exception {
+		List<ClienteDTO> lista = null;
+		try {
+			List<Cliente> listaClientes = getCliente();
+			lista = new ArrayList<ClienteDTO>();
+			for (Cliente cliente : listaClientes) {
+				ClienteDTO clienteDTO = new ClienteDTO();
+				clienteDTO.setCelularContacto(cliente.getCelularContacto());
+				clienteDTO.setClieId(cliente.getClieId());
+				clienteDTO.setDireccionContacto(cliente.getDireccionContacto());
+				clienteDTO.setEnlaceWeb(cliente.getEnlaceWeb());
+				clienteDTO.setNit(cliente.getNit());
+				clienteDTO.setNombreContacto(cliente.getNombreContacto());
+				clienteDTO.setNombreEmpresa(cliente.getNombreEmpresa());
+				clienteDTO.setTelefonoContacto(cliente.getTelefonoContacto());
+				Ciudad ciudad = ciudadLogic.getCiudad(cliente.getCiudad().getCiudId());
+				Departamento departamento = departamentoLogic.getDepartamento(ciudad.getDepartamento().getDepaId());
+				Pais pais = paisLogic.getPais(departamento.getPais().getPaisId());
+				
+				clienteDTO.setCiudadDepartamentoPais(ciudad.getNombreCiudad().toUpperCase()+" - "
+							+departamento.getNombreDepartamento().toUpperCase()+" - "
+							+pais.getNombrePais().toUpperCase());
+				
+				lista.add(clienteDTO);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
 	}
 
 }

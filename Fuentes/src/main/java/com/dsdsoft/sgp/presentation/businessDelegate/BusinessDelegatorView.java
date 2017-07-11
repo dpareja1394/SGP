@@ -977,4 +977,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<RequerimientoDTO> listaRequerimientosDTOPorIdProyecto(Integer proyId) throws Exception {
 		return requerimientoLogic.listaRequerimientosDTOPorIdProyecto(proyId);
 	}
+
+	@Override
+	public List<ClienteDTO> listaClientesDTOConCiudad() throws Exception {
+		return clienteLogic.listaClientesDTOConCiudad();
+	}
 }

@@ -35,7 +35,7 @@
 
 					<p:panel id="panelDataTableCliente" header="Clientes">
 						<p:growl id="men" />
-						<p:dataTable value="#{clienteView.data}" var="cliente"
+						<p:dataTable value="#{clienteView.clientesConCiudad}" var="cliente"
 							paginator="true" rows="5">
 
 							<p:column filterBy="#{cliente.nombreEmpresa}"
@@ -93,10 +93,108 @@
 								</f:facet>
 								<h:outputText value="#{cliente.direccionContacto}" />
 							</p:column>
+							
+							<p:column filterBy="#{cliente.ciudadDepartamentoPais}"
+								sortBy="#{cliente.ciudadDepartamentoPais}" filterMatchMode="contains">
+								<f:facet name="header">
+									<h:outputText value="Ciudad - Departamento - País" />
+								</f:facet>
+								<h:outputText value="#{cliente.ciudadDepartamentoPais}" />
+							</p:column>
+							
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Acciones" />
+								</f:facet>
+								<div align="center">
+									<p:commandButton title="Editar Cliente" icon="ui-icon-pencil" 
+									actionListener="#{clienteView.abrirDialogoEditarCliente}"
+									update=":dialogEditarCliente">
+										<f:attribute name="clienteEditar" value="#{cliente}" />
+									</p:commandButton>
+								</div>
+								
+							</p:column>
 
 						</p:dataTable>
 					</p:panel>
 				</h:form>
+				
+				<p:dialog id="dialogEditarCliente" widgetVar="dlgEditarCliente" 
+					visible="#{clienteView.showEditarClientes}" header="Editar Cliente" width="90%" height="300px;">
+					<h:form>
+						<p:panel>
+							<h:panelGrid columns="2" id="panelGridEditarCliente">
+
+							<h:outputText id="msgNit" value=" Nit de la Empresa:*" />
+							<p:inputText id="txtNit" style="width:500px;"
+								binding="#{clienteView.txtNitEditar}"
+								disabled="true" />
+
+							<h:outputText id="msgNombreEmpresa"
+								value=" Nombre de la Empresa:*" />
+							<p:inputText id="txtNombreEmpresa" style="width:500px;"
+								placeholder="Ingrese el Nombre de la Empresa"
+								binding="#{clienteView.txtNombreEmpresaEditar}" />
+
+							<h:outputText id="msgEnlaceWeb" value=" Enlace Web:" />
+							<p:inputText id="txtEnlaceWeb" style="width:500px;"
+								placeholder="Ingrese el Enlace Web"
+								binding="#{clienteView.txtEnlaceWebEditar}" />
+
+							<h:outputText id="msgNombreContacto" value=" Nombre Contacto:*" />
+							<p:inputText id="txtNombreContacto" style="width:500px;"
+								placeholder="Ingrese el Nombre del Contacto"
+								binding="#{clienteView.txtNombreContactoEditar}" />
+								
+							<h:outputText id="msgEmailContacto" value=" Correo electrónico Contacto:" />
+							<p:inputText id="txtEmailContacto" style="width:500px;"
+								placeholder="Ingrese el Correo electrónico del Contacto"
+								binding="#{clienteView.txtEmailContactoEditar}" />
+
+							<h:outputText id="msgCelularContacto" value=" Celular Contacto:" />
+							<p:inputText id="txtCelularContacto" style="width:500px;"
+								placeholder="Ingrese el Celular del Contacto"
+								binding="#{clienteView.txtCelularContactoEditar}" />
+
+							<h:outputText id="msgTelefonoContacto"
+								value=" Telefono Contacto:" />
+							<p:inputText id="txtTelefonoContacto" style="width:500px;"
+								placeholder="Ingrese el Teléfono del Contacto"
+								binding="#{clienteView.txtTelefonoContactoEditar}" />
+
+							<h:outputText id="msgDireccionContacto"
+								value=" Direccion Contacto:" />
+							<p:inputText id="txtDireccionContacto" style="width:500px;"
+								placeholder="Ingrese la Dirección del Contacto"
+								binding="#{clienteView.txtDireccionContactoEditar}" />
+
+							<h:outputText id="msgUbicacionCliente" value=" Ubicación" />
+							<h:panelGrid columns="3">
+								<p:selectOneMenu id="somPaises"
+									binding="#{clienteView.somPaisesEditar}" disabled ="true">
+									<p:ajax listener="#{clienteView.listenerEditarPaisSeleccionado}" update="@([id$=somDepartamentos])"/>
+									<f:selectItems value="#{clienteView.listaPaises}" />
+								</p:selectOneMenu>
+
+								<p:selectOneMenu id="somDepartamentos"
+									binding="#{clienteView.somDepartamentosEditar}" disabled="true">
+									<p:ajax listener="#{clienteView.listenerEditarDepartamentoSeleccionado}" update="@([id$=somCiudades])"/>
+									<f:selectItems value="#{clienteView.listaDepartamentos}" />
+								</p:selectOneMenu>
+								
+								<p:selectOneMenu id="somCiudades"
+									binding="#{clienteView.somCiudadesEditar}" disabled="true">
+									<f:selectItems value="#{clienteView.listaCiudades}" />
+								</p:selectOneMenu>
+
+							</h:panelGrid>
+
+						</h:panelGrid>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+
 
 			</f:view>
 		</ui:define>

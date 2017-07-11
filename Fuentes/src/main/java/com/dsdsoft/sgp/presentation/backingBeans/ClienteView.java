@@ -70,6 +70,18 @@ public class ClienteView implements Serializable {
 
 	private String usuarioIniciado;
 	
+	private List<ClienteDTO> clientesConCiudad;
+	
+	private boolean showEditarClientes;
+	
+	private InputText txtNitEditar, txtNombreEmpresaEditar, txtEnlaceWebEditar,
+						txtNombreContactoEditar, txtEmailContactoEditar, txtCelularContactoEditar,
+						txtTelefonoContactoEditar, txtDireccionContactoEditar;
+	
+	private SelectOneMenu somPaisesEditar, somDepartamentosEditar, somCiudadesEditar;
+	
+	private Cliente clienteEditar;
+	
 	public ClienteView() {
 		super();
 		this.usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
@@ -456,6 +468,36 @@ public class ClienteView implements Serializable {
 
 		return "";
 	}
+	
+	public String abrirDialogoEditarCliente(ActionEvent actionEvent) {
+		try {
+			ClienteDTO clienteDTO = (ClienteDTO) (actionEvent.getComponent().getAttributes()
+					.get("clienteEditar"));
+			clienteEditar = businessDelegatorView.getCliente(clienteDTO.getClieId());
+			
+			txtNitEditar.setValue(clienteEditar.getNit());
+			txtNombreEmpresaEditar.setValue(clienteEditar.getNombreEmpresa());
+			txtEnlaceWebEditar.setValue(clienteEditar.getEnlaceWeb());
+			txtNombreContactoEditar.setValue(clienteEditar.getNombreContacto());
+			txtEmailContactoEditar.setValue(clienteEditar.getEmailContacto());
+			txtCelularContactoEditar.setValue(clienteEditar.getCelularContacto());
+			txtTelefonoContactoEditar.setValue(clienteEditar.getTelefonoContacto());
+			txtDireccionContactoEditar.setValue(clienteEditar.getDireccionContacto());
+
+			cargarUbicacionEditar(clienteEditar.getCiudad().getCiudId());
+			
+			setShowEditarClientes(true);
+			return "";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+		
+		
+	}
+	
+	/*Getters and Setters*/
 
 
 	public InputText getTxtCelularContacto() {
@@ -923,6 +965,37 @@ public class ClienteView implements Serializable {
 		}
 	}
 	
+	public void listenerEditarPaisSeleccionado() {
+		try {
+			somDepartamentosEditar.setDisabled(false);
+			getListaDepartamentos();
+			List<Departamento> lista = businessDelegatorView
+					.buscarDepartamentoPorPais(Integer.parseInt(somPaisesEditar.getValue().toString()));
+
+			for (Departamento departamento : lista) {
+				listaDepartamentos.add(new SelectItem(departamento.getDepaId(), departamento.getNombreDepartamento()));
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+
+	public void listenerEditarDepartamentoSeleccionado() {
+		try {
+			somCiudadesEditar.setDisabled(false);
+			getListaCiudades();
+			List<Ciudad> lista = businessDelegatorView
+					.buscarCiudadPorDepartamento(Integer.parseInt(somDepartamentosEditar.getValue().toString()));
+
+			for (Ciudad ciudad : lista) {
+				listaCiudades.add(new SelectItem(ciudad.getCiudId(), ciudad.getNombreCiudad()));
+			}
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+
+	
 	public void cargarUbicacion(Integer ciudId){
 		try {
 			Ciudad ciudad = businessDelegatorView.getCiudad(ciudId);
@@ -950,6 +1023,33 @@ public class ClienteView implements Serializable {
 		}
 	}
 	
+	public void cargarUbicacionEditar(Integer ciudId){
+		try {
+			Ciudad ciudad = businessDelegatorView.getCiudad(ciudId);
+			Departamento departamento = businessDelegatorView.getDepartamento(ciudad.getDepartamento().getDepaId());
+			Pais pais = businessDelegatorView.getPais(departamento.getPais().getPaisId());
+			
+			somPaisesEditar.setDisabled(false);
+			somDepartamentosEditar.setDisabled(false);
+			somCiudadesEditar.setDisabled(false);
+			listaPaises = null;
+			listaDepartamentos = null;
+			listaCiudades = null;
+			
+			getListaPaises();
+			somPaisesEditar.setValue(pais.getPaisId());
+			
+			listenerEditarPaisSeleccionado();
+			somDepartamentosEditar.setValue(departamento.getDepaId());
+			
+			listenerEditarDepartamentoSeleccionado();
+			somCiudadesEditar.setValue(ciudad.getCiudId());
+			
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
 	public String cargarProyectosDadoCliente(ActionEvent evt) {
 		try {
 			clienteSeleccionadoDTO = (ClienteDTO) (evt.getComponent().getAttributes().get("clienteCargarProyectos"));
@@ -958,5 +1058,116 @@ public class ClienteView implements Serializable {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	public List<ClienteDTO> getClientesConCiudad() {
+		try {
+			if(clientesConCiudad == null){
+				clientesConCiudad = businessDelegatorView.listaClientesDTOConCiudad();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return clientesConCiudad;
+	}
+
+	public void setClientesConCiudad(List<ClienteDTO> clientesConCiudad) {
+		this.clientesConCiudad = clientesConCiudad;
+	}
+
+	public boolean isShowEditarClientes() {
+		return showEditarClientes;
+	}
+
+	public void setShowEditarClientes(boolean showEditarClientes) {
+		this.showEditarClientes = showEditarClientes;
+	}
+
+	public InputText getTxtNitEditar() {
+		return txtNitEditar;
+	}
+
+	public void setTxtNitEditar(InputText txtNitEditar) {
+		this.txtNitEditar = txtNitEditar;
+	}
+
+	public InputText getTxtNombreEmpresaEditar() {
+		return txtNombreEmpresaEditar;
+	}
+
+	public void setTxtNombreEmpresaEditar(InputText txtNombreEmpresaEditar) {
+		this.txtNombreEmpresaEditar = txtNombreEmpresaEditar;
+	}
+
+	public InputText getTxtEnlaceWebEditar() {
+		return txtEnlaceWebEditar;
+	}
+
+	public void setTxtEnlaceWebEditar(InputText txtEnlaceWebEditar) {
+		this.txtEnlaceWebEditar = txtEnlaceWebEditar;
+	}
+
+	public InputText getTxtNombreContactoEditar() {
+		return txtNombreContactoEditar;
+	}
+
+	public void setTxtNombreContactoEditar(InputText txtNombreContactoEditar) {
+		this.txtNombreContactoEditar = txtNombreContactoEditar;
+	}
+
+	public InputText getTxtEmailContactoEditar() {
+		return txtEmailContactoEditar;
+	}
+
+	public void setTxtEmailContactoEditar(InputText txtEmailContactoEditar) {
+		this.txtEmailContactoEditar = txtEmailContactoEditar;
+	}
+
+	public InputText getTxtCelularContactoEditar() {
+		return txtCelularContactoEditar;
+	}
+
+	public void setTxtCelularContactoEditar(InputText txtCelularContactoEditar) {
+		this.txtCelularContactoEditar = txtCelularContactoEditar;
+	}
+
+	public InputText getTxtTelefonoContactoEditar() {
+		return txtTelefonoContactoEditar;
+	}
+
+	public void setTxtTelefonoContactoEditar(InputText txtTelefonoContactoEditar) {
+		this.txtTelefonoContactoEditar = txtTelefonoContactoEditar;
+	}
+
+	public InputText getTxtDireccionContactoEditar() {
+		return txtDireccionContactoEditar;
+	}
+
+	public void setTxtDireccionContactoEditar(InputText txtDireccionContactoEditar) {
+		this.txtDireccionContactoEditar = txtDireccionContactoEditar;
+	}
+
+	public SelectOneMenu getSomPaisesEditar() {
+		return somPaisesEditar;
+	}
+
+	public void setSomPaisesEditar(SelectOneMenu somPaisesEditar) {
+		this.somPaisesEditar = somPaisesEditar;
+	}
+
+	public SelectOneMenu getSomDepartamentosEditar() {
+		return somDepartamentosEditar;
+	}
+
+	public void setSomDepartamentosEditar(SelectOneMenu somDepartamentosEditar) {
+		this.somDepartamentosEditar = somDepartamentosEditar;
+	}
+
+	public SelectOneMenu getSomCiudadesEditar() {
+		return somCiudadesEditar;
+	}
+
+	public void setSomCiudadesEditar(SelectOneMenu somCiudadesEditar) {
+		this.somCiudadesEditar = somCiudadesEditar;
 	}
 }

@@ -27,6 +27,7 @@ public class ClienteDTO implements Serializable {
     private String nombreContacto;
     private String nombreEmpresa;
     private String telefonoContacto;
+    private String ciudadDepartamentoPais;
 
     public String getCelularContacto() {
         return celularContacto;
@@ -91,4 +92,12 @@ public class ClienteDTO implements Serializable {
     public void setTelefonoContacto(String telefonoContacto) {
         this.telefonoContacto = telefonoContacto;
     }
+
+	public String getCiudadDepartamentoPais() {
+		return ciudadDepartamentoPais;
+	}
+
+	public void setCiudadDepartamentoPais(String ciudadDepartamentoPais) {
+		this.ciudadDepartamentoPais = ciudadDepartamentoPais;
+	}
 }
