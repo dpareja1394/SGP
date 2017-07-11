@@ -51,7 +51,7 @@
 							</h:panelGrid>
 
 							<h:panelGrid columns="2">
-								<p:commandButton value="Guardar" action="#{requerimientoView.guardarNuevoRequerimiento}"
+								<p:commandButton value="Guardar" action="#{requerimientoView.guardarRequerimiento}"
 								icon="ui-icon-check"
 								update=":formDialog"/>
 								<p:commandButton value="Limpiar" 
@@ -72,6 +72,17 @@
 							<p:column headerText="Descripción Requerimiento">
 								<div align="center">
 									<h:outputText value="#{requerimiento.descripcionRequerimiento}"/>
+								</div>
+							</p:column>
+							
+							<p:column headerText="Acciones">
+								<div align="center">
+									<p:commandButton id="btnModificarRequerimiento"
+									actionListener="#{requerimientoView.tomarDatosModificarRequerimiento}"
+									title="Modificar Requerimiento" icon="ui-icon-pencil"
+									update="@([id$=panelRequerimientos])">
+										<f:attribute name="requerimientoModificar" value="#{requerimiento}" />
+									</p:commandButton>
 								</div>
 							</p:column>
 							

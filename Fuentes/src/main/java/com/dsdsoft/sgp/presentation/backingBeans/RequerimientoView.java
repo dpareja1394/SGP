@@ -33,6 +33,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
@@ -66,6 +67,8 @@ public class RequerimientoView implements Serializable {
 	private ProyectoDTO proyectoRequerimiento;
 	private InputText txtTituloRequerimiento;
 	private InputTextarea txtAreaDescripcionRequerimiento;
+	
+	private RequerimientoDTO requerimientoEditar;
 
 	private List<RequerimientoDTO> requerimientosPorProyecto;
 
@@ -355,23 +358,34 @@ public class RequerimientoView implements Serializable {
 		return "";
 	}
 
-	public void guardarNuevoRequerimiento() {
+	public void guardarRequerimiento() {
 		try {
-			Requerimiento requerimiento = new Requerimiento();
-			Proyecto proyecto = businessDelegatorView.getProyecto(proyectoRequerimiento.getProyId());
-			requerimiento.setProyecto(proyecto);
-			requerimiento.setRequId(null);
-			requerimiento.setDescripcionRequerimiento(txtAreaDescripcionRequerimiento.getValue().toString());
-			requerimiento.setNombreRequerimiento(txtTituloRequerimiento.getValue().toString());
+			if(this.requerimientoEditar==null){
+				Requerimiento requerimiento = new Requerimiento();
+				Proyecto proyecto = businessDelegatorView.getProyecto(proyectoRequerimiento.getProyId());
+				requerimiento.setProyecto(proyecto);
+				requerimiento.setRequId(null);
+				requerimiento.setDescripcionRequerimiento(txtAreaDescripcionRequerimiento.getValue().toString());
+				requerimiento.setNombreRequerimiento(txtTituloRequerimiento.getValue().toString());
 
-			businessDelegatorView.saveRequerimiento(requerimiento);
-			FacesUtils.addInfoMessage(
-					"Se ha guardado el nuevo requerimiento " + requerimiento.getNombreRequerimiento().toUpperCase()
-							+ " en el proyecto " + proyecto.getDescProyecto().toUpperCase());
-			limpiarGuardarNuevoRequerimiento();
-			requerimiento = null;
-			proyecto = null;
-
+				businessDelegatorView.saveRequerimiento(requerimiento);
+				FacesUtils.addInfoMessage(
+						"Se ha guardado el nuevo requerimiento " + requerimiento.getNombreRequerimiento().toUpperCase()
+								+ " en el proyecto " + proyecto.getDescProyecto().toUpperCase());
+				limpiarGuardarNuevoRequerimiento();
+				requerimiento = null;
+				proyecto = null;
+			}else{
+				Requerimiento requerimiento = businessDelegatorView.getRequerimiento(requerimientoEditar.getRequId());
+				requerimiento.setDescripcionRequerimiento(txtAreaDescripcionRequerimiento.getValue().toString());
+				requerimiento.setNombreRequerimiento(txtTituloRequerimiento.getValue().toString());
+				
+				businessDelegatorView.updateRequerimiento(requerimiento);
+				FacesUtils.addInfoMessage(
+						"Se ha actualizado el requerimiento " + requerimiento.getNombreRequerimiento().toUpperCase());
+				limpiarGuardarNuevoRequerimiento();
+				requerimiento = null;
+			}
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -382,6 +396,22 @@ public class RequerimientoView implements Serializable {
 		getRequerimientosPorProyecto();
 		txtAreaDescripcionRequerimiento.setValue(null);
 		txtTituloRequerimiento.setValue(null);
+		this.requerimientoEditar = null;
+	}
+	
+	public String tomarDatosModificarRequerimiento(ActionEvent evt) {
+		try {
+
+			this.requerimientoEditar = (RequerimientoDTO) (evt.getComponent().getAttributes()
+					.get("requerimientoModificar"));
+			
+			txtTituloRequerimiento.setValue(requerimientoEditar.getNombreRequerimiento());
+			txtAreaDescripcionRequerimiento.setValue(requerimientoEditar.getDescripcionRequerimiento());
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+
+		return "";
 	}
 
 	/* Getters and Setters */
