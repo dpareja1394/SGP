@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <sql-query name="consultar_rol_dado_usuario_proyecto">
+		<return alias="ro" class="com.dsdsoft.sgp.modelo.Rol"></return>
+         <![CDATA[ 
+		    select ro.* from rol ro
+			inner join proyecto_usuario_rol pur on pur.rol_id = ro.rol_id
+			where pur.usua_id = :pUsuaId
+			and pur.proy_id = :pProyId
+       ]]>
+	</sql-query>
+	
+	 <sql-query name="consulta_proyecto_usuario_rol_dado_proyecto">
+		<return-scalar column="nombreCompletoUsuario" type="java.lang.String" />
+		<return-scalar column="emailUsuario" type="java.lang.String" />
+		<return-scalar column="descripcionRol" type="java.lang.String" />
+		<return-scalar column="descripcionProyecto" type="java.lang.String" />
+		
+		
+		<![CDATA[
+			select 
+				usu.nombre_usuario||' '||usu.apellido_usuario nombreCompletoUsuario,
+				usu.email_usuario emailUsuario,
+				r.desc_rol descripcionRol,
+				pro.desc_proyecto descripcionProyecto
+			from proyecto_usuario_rol pur
+			inner join rol r on pur.rol_id = r.rol_id
+			inner join usuario usu on usu.usua_id = pur.usua_id
+			inner join proyecto pro on pro.proy_id = pur.proy_id
+			where pro.proy_id = :pProyId
+
+		]]>
+	</sql-query>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28/05/2017 09:42:05 PM by Hibernate Tools 5.1.0.Final -->
+<hibernate-mapping>
+    <class name="com.dsdsoft.sgp.modelo.Pais" table="pais" schema="public" optimistic-lock="version">
+        <id name="paisId" type="java.lang.Integer">
+            <column name="pais_id" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombrePais" type="java.lang.String">
+            <column name="nombre_pais" length="200" not-null="true" />
+        </property>
+        <set name="departamentos" table="departamento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pais_id" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.Departamento" />
+        </set>
+    </class>
+</hibernate-mapping>
