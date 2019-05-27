@@ -1,0 +1,25 @@
+Sacar el backup de PRD
+
+cd /Library/PostgreSQL/11/bin/
+./pg_dump -h 34.205.193.77 -p 5432 -U postgres -F c -b -v -f  "/Users/dpareja/BackupGlu/gluPRD" glu-19824
+./pg_dump -h 34.205.193.77 -p 5432 -U postgres -F c -b -v -f  "/Users/dpareja/BackupGlu/gluJebala" glu-1982401
+1ng3n13r0sf3l1c3s
+
+./psql -h 34.205.193.77 -U postgres -p 5432 -d glu-19824
+
+create database sgpdev with owner sgpadm;
+./psql -h 127.0.0.1 -U postgres -p 5432 -d postgres
+./psql -h 127.0.0.1 -U sgpadm -p 5432 -d sgpdev
+
+./pg_restore -h 127.0.0.1 -p 5432 -U postgres -d gluerp -v "/Users/dpareja/BackupGlu/gluPRD"
+
+./pg_restore -h 127.0.0.1 -p 5432 -U postgres -d gluresguardo -v "/Users/dpareja/BackupGlu/gluPaniquita"
+./pg_restore -h 127.0.0.1 -p 5432 -U postgres -d gluresguardo -v "/Users/dpareja/BackupGlu/gluJebala"
+
+
+UPDATE seg_usuario set usu_constrasena = md5('admin') where usu_login = 'ADMIN_GLUON';
+update gluo_parametro set valor = 'http://127.0.0.1:8080/seguridad_system/controller/loginRestService/' where codigo = 'USR';
+update gluo_parametro set valor = '/Users/dpareja/glu/erp-reports/' where codigo = 'RBR';
+
+
+select * from gluo_parametro where codigo = 'BUC_NAME';
