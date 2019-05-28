@@ -1,0 +1,4 @@
+Julio 11 de 2017 
+- Cuando se va a editar un cliente, no permite modiifcar la ciudad, cuando se cambia de departamento
+no cambia la lista de ciudades o municipios de ese departamento.
+- Falta poder actualizar el cliente desde la lista de clientes.

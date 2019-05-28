@@ -1,0 +1,4 @@
+Julio 5 de 2017 Desarrolladas
+- Al seleccionar un usuario dentro de la administración del proyecto, mostrar los roles que tiene.
+- Si no tiene roles poder asignar los roles y guardar.
+- Si tiene roles, poder actualizar la lista de roles del usuario dentro del proyecto.

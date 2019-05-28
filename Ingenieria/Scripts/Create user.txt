@@ -1,0 +1,4 @@
+CREATE USER sgpadm password 'sgp_user';
+
+
+create database sgpdev with owner sgpadm;
