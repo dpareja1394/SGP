@@ -496,6 +496,20 @@ public class ClienteView implements Serializable {
 		
 		
 	}
+
+	public String cerrarDialogoEditarCliente() {
+		try {
+			setShowEditarClientes(false);
+			return "";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+		
+		
+	}
+
 	
 	/*Getters and Setters*/
 

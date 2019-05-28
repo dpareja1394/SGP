@@ -191,6 +191,12 @@
 							</h:panelGrid>
 
 						</h:panelGrid>
+						
+						<div align="center">
+							<p:commandButton value="Modificar" icon="ui-icon-pencil"/>
+							<p:commandButton value="Cancelar" icon="ui-icon-cancel" update=":dialogEditarCliente" action="#{clienteView.cerrarDialogoEditarCliente}"/>
+						</div>
+						
 						</p:panel>
 					</h:form>
 				</p:dialog>
