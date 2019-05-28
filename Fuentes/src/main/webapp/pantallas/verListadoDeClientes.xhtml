@@ -193,7 +193,7 @@
 						</h:panelGrid>
 						
 						<div align="center">
-							<p:commandButton value="Modificar" icon="ui-icon-pencil"/>
+							<p:commandButton value="Modificar" icon="ui-icon-pencil" action="#{clienteView.editarCliente}" update=":dialogEditarCliente, @([id$=panelDataTableCliente])"/>
 							<p:commandButton value="Cancelar" icon="ui-icon-cancel" update=":dialogEditarCliente" action="#{clienteView.cerrarDialogoEditarCliente}"/>
 						</div>
 						

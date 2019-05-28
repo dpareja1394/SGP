@@ -2,6 +2,7 @@ package com.dsdsoft.sgp.presentation.backingBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -508,6 +509,35 @@ public class ClienteView implements Serializable {
 		return "";
 		
 		
+	}
+	
+	public void editarCliente() {
+		try {
+			clienteEditar.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresaEditar));
+			clienteEditar.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWebEditar));
+			clienteEditar.setNombreContacto(FacesUtils.checkString(txtNombreContactoEditar));
+			clienteEditar.setEmailContacto(FacesUtils.checkString(txtEmailContactoEditar));
+			clienteEditar.setCelularContacto(FacesUtils.checkString(txtCelularContactoEditar));
+			clienteEditar.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContactoEditar));
+			clienteEditar.setDireccionContacto(FacesUtils.checkString(txtDireccionContactoEditar));
+			
+			Ciudad ciudad = businessDelegatorView.getCiudad(FacesUtils.checkInteger(somCiudadesEditar));
+			clienteEditar.setCiudad(ciudad);
+			
+			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			clienteEditar.setUsuarioByUsuarioModificacion(usuario);
+			clienteEditar.setFechaModificacion(new Date());
+			
+			businessDelegatorView.updateCliente(clienteEditar);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+			
+			setClientesConCiudad(null);
+			getClientesConCiudad();
+			cerrarDialogoEditarCliente();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
 	}
 
 	
