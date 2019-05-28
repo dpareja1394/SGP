@@ -33,6 +33,8 @@
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoProyecto.xhtml" />
 								<p:menuitem value="Ver Proyectos del Cliente"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verProyectosDelCliente.xhtml" />	
+								<p:menuitem value="Registrar Historias de Usuario"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarHU.xhtml" />	
 							</p:submenu>
 						</p:column>
 					</p:submenu>

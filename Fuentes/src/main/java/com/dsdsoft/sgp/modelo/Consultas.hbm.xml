@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
-    <sql-query name="consultar_rol_dado_usuario_proyecto">
+	<sql-query name="consultar_rol_dado_usuario_proyecto">
 		<return alias="ro" class="com.dsdsoft.sgp.modelo.Rol"></return>
          <![CDATA[ 
 		    select ro.* from rol ro
@@ -12,14 +12,12 @@
 			and pur.proy_id = :pProyId
        ]]>
 	</sql-query>
-	
-	 <sql-query name="consulta_proyecto_usuario_rol_dado_proyecto">
+
+	<sql-query name="consulta_proyecto_usuario_rol_dado_proyecto">
 		<return-scalar column="nombreCompletoUsuario" type="java.lang.String" />
 		<return-scalar column="emailUsuario" type="java.lang.String" />
 		<return-scalar column="descripcionRol" type="java.lang.String" />
 		<return-scalar column="descripcionProyecto" type="java.lang.String" />
-		
-		
 		<![CDATA[
 			select 
 				usu.nombre_usuario||' '||usu.apellido_usuario nombreCompletoUsuario,
@@ -32,6 +30,22 @@
 			inner join proyecto pro on pro.proy_id = pur.proy_id
 			where pro.proy_id = :pProyId
 
+		]]>
+	</sql-query>
+
+	<sql-query name="consultarProyectosClientesPorUsuario">
+		<return-scalar column="proyId" type="java.lang.Integer" />
+		<return-scalar column="descProyecto" type="java.lang.String" />
+		<return-scalar column="nombreEmpresa" type="java.lang.String" />
+		<![CDATA[
+			select  
+				proy.proy_id as proyId,
+				proy.desc_proyecto as descProyecto,
+				clie.nombre_empresa as nombreEmpresa
+			from proyecto proy
+			inner join cliente clie on clie.clie_id = proy.clie_id
+			inner join proyecto_usuario_rol prur on prur.proy_id = proy.proy_id
+			where prur.usua_id = :pUsuaId
 		]]>
 	</sql-query>
 </hibernate-mapping>

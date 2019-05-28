@@ -1,5 +1,7 @@
 package com.dsdsoft.sgp.presentation.businessDelegate;
 
+import java.util.List;
+
 import com.dsdsoft.sgp.modelo.Actividad;
 import com.dsdsoft.sgp.modelo.CasoSoporte;
 import com.dsdsoft.sgp.modelo.Ciudad;
@@ -18,34 +20,6 @@ import com.dsdsoft.sgp.modelo.Rol;
 import com.dsdsoft.sgp.modelo.SeguimientoCaso;
 import com.dsdsoft.sgp.modelo.TipoActividad;
 import com.dsdsoft.sgp.modelo.Usuario;
-import com.dsdsoft.sgp.modelo.control.ActividadLogic;
-import com.dsdsoft.sgp.modelo.control.CasoSoporteLogic;
-import com.dsdsoft.sgp.modelo.control.ClienteLogic;
-import com.dsdsoft.sgp.modelo.control.EstadoHistoriaUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.EstadoProyectoLogic;
-import com.dsdsoft.sgp.modelo.control.HistoriaDeUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.IActividadLogic;
-import com.dsdsoft.sgp.modelo.control.ICasoSoporteLogic;
-import com.dsdsoft.sgp.modelo.control.IClienteLogic;
-import com.dsdsoft.sgp.modelo.control.IEstadoHistoriaUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.IEstadoProyectoLogic;
-import com.dsdsoft.sgp.modelo.control.IHistoriaDeUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.IParametroLogic;
-import com.dsdsoft.sgp.modelo.control.IProyectoLogic;
-import com.dsdsoft.sgp.modelo.control.IProyectoUsuarioRolLogic;
-import com.dsdsoft.sgp.modelo.control.IRequerimientoLogic;
-import com.dsdsoft.sgp.modelo.control.IRolLogic;
-import com.dsdsoft.sgp.modelo.control.ISeguimientoCasoLogic;
-import com.dsdsoft.sgp.modelo.control.ITipoActividadLogic;
-import com.dsdsoft.sgp.modelo.control.IUsuarioLogic;
-import com.dsdsoft.sgp.modelo.control.ParametroLogic;
-import com.dsdsoft.sgp.modelo.control.ProyectoLogic;
-import com.dsdsoft.sgp.modelo.control.ProyectoUsuarioRolLogic;
-import com.dsdsoft.sgp.modelo.control.RequerimientoLogic;
-import com.dsdsoft.sgp.modelo.control.RolLogic;
-import com.dsdsoft.sgp.modelo.control.SeguimientoCasoLogic;
-import com.dsdsoft.sgp.modelo.control.TipoActividadLogic;
-import com.dsdsoft.sgp.modelo.control.UsuarioLogic;
 import com.dsdsoft.sgp.modelo.dto.ActividadDTO;
 import com.dsdsoft.sgp.modelo.dto.CasoSoporteDTO;
 import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
@@ -60,18 +34,6 @@ import com.dsdsoft.sgp.modelo.dto.RolDTO;
 import com.dsdsoft.sgp.modelo.dto.SeguimientoCasoDTO;
 import com.dsdsoft.sgp.modelo.dto.TipoActividadDTO;
 import com.dsdsoft.sgp.modelo.dto.UsuarioDTO;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -467,4 +429,15 @@ public interface IBusinessDelegatorView {
     public List<RequerimientoDTO> listaRequerimientosDTOPorIdProyecto(Integer proyId) throws Exception;
     
     public List<ClienteDTO> listaClientesDTOConCiudad() throws Exception;
+    
+    /**
+     * @author Daniel Pareja Londoño
+     * @version may. 28, 2019
+     * @since 1.8
+     * @param usuaId
+     * @return
+     * @throws Exception
+     * @return <b>{@code }</b> Start here...
+     */
+    public List<ProyectoDTO> consultarProyectosClientesPorUsuario(Integer usuaId) throws Exception;
 }

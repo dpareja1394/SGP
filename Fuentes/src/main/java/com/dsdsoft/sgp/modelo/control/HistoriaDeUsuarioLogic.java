@@ -114,10 +114,6 @@ public class HistoriaDeUsuarioLogic implements IHistoriaDeUsuarioLogic {
                     "detalleHistoria");
             }
 
-            if (entity.getHiusId() == null) {
-                throw new ZMessManager().new EmptyFieldException("hiusId");
-            }
-
             if (entity.getTituloHistoria() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "tituloHistoria");
@@ -143,10 +139,6 @@ public class HistoriaDeUsuarioLogic implements IHistoriaDeUsuarioLogic {
             if (entity.getUsuario().getUsuaId() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "usuaId_Usuario");
-            }
-
-            if (getHistoriaDeUsuario(entity.getHiusId()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             historiaDeUsuarioDAO.save(entity);

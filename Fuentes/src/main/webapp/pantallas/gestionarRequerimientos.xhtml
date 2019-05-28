@@ -51,44 +51,50 @@
 							</h:panelGrid>
 
 							<h:panelGrid columns="2">
-								<p:commandButton value="Guardar" action="#{requerimientoView.guardarRequerimiento}"
-								icon="ui-icon-check"
-								update=":formDialog"/>
-								<p:commandButton value="Limpiar" 
-								icon="ui-icon-circle-close" action="#{requerimientoView.limpiarGuardarNuevoRequerimiento}"
-								update=":formDialog"/>
+								<p:commandButton value="Guardar"
+									action="#{requerimientoView.guardarRequerimiento}"
+									icon="ui-icon-check" update=":formDialog" />
+								<p:commandButton value="Limpiar" icon="ui-icon-circle-close"
+									action="#{requerimientoView.limpiarGuardarNuevoRequerimiento}"
+									update=":formDialog" />
 							</h:panelGrid>
 
 						</div>
-						
+
 						<div align="center">
-							<p:dataTable id="dtRequerimientosPorProyecto" var="requerimiento" value="#{requerimientoView.requerimientosPorProyecto}">
-							<p:column headerText="Título">
-								<div align="center">
-									<h:outputText value="#{requerimiento.nombreRequerimiento}"/>
-								</div>
-							</p:column>
-							
-							<p:column headerText="Descripción Requerimiento">
-								<div align="center">
-									<h:outputText value="#{requerimiento.descripcionRequerimiento}"/>
-								</div>
-							</p:column>
-							
-							<p:column headerText="Acciones">
-								<div align="center">
-									<p:commandButton id="btnModificarRequerimiento"
-									actionListener="#{requerimientoView.tomarDatosModificarRequerimiento}"
-									title="Modificar Requerimiento" icon="ui-icon-pencil"
-									update="@([id$=panelRequerimientos])">
-										<f:attribute name="requerimientoModificar" value="#{requerimiento}" />
-									</p:commandButton>
-								</div>
-							</p:column>
-							
+							<p:dataTable id="dtRequerimientosPorProyecto" var="requerimiento"
+								value="#{requerimientoView.requerimientosPorProyecto}" rows="10"
+								paginator="true"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15">
+								<p:column headerText="Título">
+									<div align="center">
+										<h:outputText value="#{requerimiento.nombreRequerimiento}" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Descripción Requerimiento">
+									<div align="center">
+										<h:outputText
+											value="#{requerimiento.descripcionRequerimiento}" />
+									</div>
+								</p:column>
+
+								<p:column headerText="Acciones">
+									<div align="center">
+										<p:commandButton id="btnModificarRequerimiento"
+											actionListener="#{requerimientoView.tomarDatosModificarRequerimiento}"
+											title="Modificar Requerimiento" icon="ui-icon-pencil"
+											update="@([id$=panelRequerimientos])">
+											<f:attribute name="requerimientoModificar"
+												value="#{requerimiento}" />
+										</p:commandButton>
+									</div>
+								</p:column>
+
 							</p:dataTable>
 						</div>
-						
+
 					</p:panel>
 				</h:form>
 			</f:view>

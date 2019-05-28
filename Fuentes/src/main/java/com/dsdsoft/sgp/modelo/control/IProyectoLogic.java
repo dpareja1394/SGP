@@ -57,4 +57,15 @@ public interface IProyectoLogic {
     public List<Proyecto> listaProyectosDadoCliente(Integer clieId) throws Exception;
     
     public List<ProyectoDTO> listaProyectosDTODadoCliente(Integer clieId) throws Exception;
+    
+    /**
+     * @author Daniel Pareja Londoño
+     * @version may. 28, 2019
+     * @since 1.8
+     * @param usuaId
+     * @return
+     * @throws Exception
+     * @return <b>{@code }</b> Start here...
+     */
+    public List<ProyectoDTO> consultarProyectosClientesPorUsuario(Integer usuaId) throws Exception;
 }

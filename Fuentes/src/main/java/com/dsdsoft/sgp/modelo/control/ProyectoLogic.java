@@ -541,4 +541,25 @@ public class ProyectoLogic implements IProyectoLogic {
 		}
 		return lista;
 	}
+
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 *
+	 * @see com.dsdsoft.sgp.modelo.control.IProyectoLogic#consultarProyectosClientesPorUsuario(java.lang.Integer)
+	 *
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<ProyectoDTO> consultarProyectosClientesPorUsuario(Integer usuaId) throws Exception {
+		try {
+			if(usuaId == null || usuaId.equals(0)) {
+				throw new Exception("No hay un usuario autenticado");
+			}
+			return proyectoDAO.consultarProyectosClientesPorUsuario(usuaId);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+	}
 }

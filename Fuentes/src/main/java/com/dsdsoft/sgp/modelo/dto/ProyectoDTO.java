@@ -27,6 +27,8 @@ public class ProyectoDTO implements Serializable {
     private Date fechaCreacion, fechaModificacion;
     private String usuarioCreacion, usuarioModificacion;
     private String fechaCreacionEspanhol, fechaModificacionEspanhol;
+    
+    private String nombreEmpresa;
 
     public String getDescProyecto() {
         return descProyecto;
@@ -114,5 +116,29 @@ public class ProyectoDTO implements Serializable {
 
 	public void setFechaModificacionEspanhol(String fechaModificacionEspanhol) {
 		this.fechaModificacionEspanhol = fechaModificacionEspanhol;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La nombreEmpresa
+	 *
+	 */
+	public String getNombreEmpresa() {
+		return nombreEmpresa;
+	}
+
+	/**
+	 *
+	 * @param nombreEmpresa El/La nombreEmpresa a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setNombreEmpresa(String nombreEmpresa) {
+		this.nombreEmpresa = nombreEmpresa;
 	}
 }
