@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.dsdsoft.sgp.modelo.Cliente" table="cliente" schema="public">
+        <id name="clieId" type="java.lang.Integer">
+            <column name="clie_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="ciudad" class="com.dsdsoft.sgp.modelo.Ciudad" fetch="select">
+            <column name="ciud_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioByUsuarioCreacion" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usuario_creacion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="usuarioByUsuarioModificacion" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usuario_modificacion" />
+        </many-to-one>
+        <property name="nombreEmpresa" type="java.lang.String">
+            <column name="nombre_empresa" length="200" />
+        </property>
+        <property name="nit" type="java.lang.String">
+            <column name="nit" length="30" />
+        </property>
+        <property name="telefonoContacto" type="java.lang.String">
+            <column name="telefono_contacto" length="20" />
+        </property>
+        <property name="direccionContacto" type="java.lang.String">
+            <column name="direccion_contacto" length="200" />
+        </property>
+        <property name="nombreContacto" type="java.lang.String">
+            <column name="nombre_contacto" length="200" not-null="true" />
+        </property>
+        <property name="celularContacto" type="java.lang.String">
+            <column name="celular_contacto" length="200"  />
+        </property>
+        <property name="enlaceWeb" type="java.lang.String">
+            <column name="enlace_web" length="200" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="fecha_creacion" length="13" not-null="true" />
+        </property>
+        <property name="fechaModificacion" type="java.util.Date">
+            <column name="fecha_modificacion" length="13" />
+        </property>
+        <property name="emailContacto" type="java.lang.String">
+            <column name="email_contacto" length="200" />
+        </property>
+        <set name="proyectos" table="proyecto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="clie_id" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.Proyecto" />
+        </set>
+    </class>
+</hibernate-mapping>

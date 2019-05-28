@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.dsdsoft.sgp.modelo.Usuario" table="usuario" schema="public">
+        <id name="usuaId" type="java.lang.Integer">
+            <column name="usua_id" />
+            <generator class="identity" />
+        </id>
+        <property name="nombreUsuario" type="java.lang.String">
+            <column name="nombre_usuario" length="150" not-null="true" />
+        </property>
+        <property name="apellidoUsuario" type="java.lang.String">
+            <column name="apellido_usuario" length="150" not-null="true" />
+        </property>
+        <property name="emailUsuario" type="java.lang.String">
+            <column name="email_usuario" length="150" not-null="true" />
+        </property>
+        <property name="passwordUsuario" type="java.lang.String">
+            <column name="password_usuario" length="20" not-null="true" />
+        </property>
+        <property name="estadoRegistroUsuario" type="java.lang.String">
+            <column name="estado_registro_usuario" length="1" not-null="true" />
+        </property>
+        <property name="nudocUsuario" type="java.lang.String">
+            <column name="nudoc_usuario" length="15" not-null="true" />
+        </property>
+        <set name="seguimientoCasos" table="seguimiento_caso" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usuario_actividad" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.SeguimientoCaso" />
+        </set>
+        <set name="historiaDeUsuarios" table="historia_de_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usua_id" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.HistoriaDeUsuario" />
+        </set>
+        <set name="casoSoportes" table="caso_soporte" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usuario_receptor" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.CasoSoporte" />
+        </set>
+        <set name="proyectoUsuarioRols" table="proyecto_usuario_rol" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usua_id" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.ProyectoUsuarioRol" />
+        </set>
+        <set name="actividads" table="actividad" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="usua_id" not-null="true" />
+            </key>
+            <one-to-many class="com.dsdsoft.sgp.modelo.Actividad" />
+        </set>
+    </class>
+</hibernate-mapping>

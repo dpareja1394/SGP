@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+
+				<!-- Expired session -->
+				<p:idleMonitor onactive="PF('sessionTimeOutDialog').show();"
+					timeout="#{session.maxInactiveInterval * 1000}" />
+				<p:dialog modal="true" widgetVar="sessionTimeOutDialog"
+					header="Expired session" draggable="false" closable="false">
+					<h:outputText value="The session is finished" />
+					<input id="confirmBackToLogin" type="button" value="Sign in"
+						onclick="window.location='#{facesContext.externalContext.requestContextPath}/index.jsp';" />
+				</p:dialog>
+
+
+				<h:form id="formDialog">
+					<p:messages id="msg" />
+					<p:growl id="men" />
+					<p:panel id="pnlHU" header="Registrar Historia de Usuario">
+						<h:panelGrid columns="4" id="panelGrid">
+
+							<h:outputText value="Proyecto:*" />
+							<p:selectOneMenu binding="#{registrarHU.somProyectos}">
+								<p:ajax listener="#{registrarHU.listenerProyecto}"
+									update="@([id$=formDialog])" />
+								<f:selectItems value="#{registrarHU.siProyectos}" />
+							</p:selectOneMenu>
+							<h:outputText value="Requisito :*" />
+							<h:panelGrid columns="2">
+								<p:inputTextarea binding="#{registrarHU.txtRequisito}"
+									style="width:200px;" readonly="true" />
+								<p:commandButton binding="#{registrarHU.btnBuscarRequisito}"
+									icon="ui-icon-search" disabled="true"
+									action="#{registrarHU.abrirDialogoRequisitos}"
+									update=":dialogRequisitos" />
+							</h:panelGrid>
+							
+							<h:outputText value="Estado:*" />
+							<p:selectOneMenu binding="#{registrarHU.somEstadoHU}">
+								<f:selectItems value="#{registrarHU.siEstadoHU}" />
+							</p:selectOneMenu>
+							
+							<h:outputText value="Título :*" />
+							<p:inputTextarea binding="#{registrarHU.txtTitulo}"
+									style="width:200px;" />
+							<h:outputText value="Descripción :*" />
+							<p:inputTextarea binding="#{registrarHU.txtDescripcion}"
+									style="width:300px;" />
+
+						</h:panelGrid>
+					</p:panel>
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton icon="ui-icon-check"
+								value="Guardar" update=":formDialog" action="#{registrarHU.guardar}"/>
+							<p:commandButton icon="ui-icon-trash"
+								value="Limpiar" update=":formDialog" action="#{registrarHU.limpiarPantalla}"/>
+
+						</div>
+					</p:panel>
+				</h:form>
+
+				<!-- 				Dialogo Consultar Requisitos para Historia de Usuario -->
+				<p:dialog id="dialogRequisitos" widgetVar="dialogRequisitos"
+					visible="#{registrarHU.showRequisitos}" header="Requisitos"
+					width="75%" height="300px;">
+					<h:form>
+						<p:panel>
+							<p:dataTable value="#{registrarHU.requisitos}" var="item"
+								emptyMessage="No hay requisitos para el proyecto #{registrarHU.nombreProyecto}"
+								paginator="true" rows="5"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15">
+								<p:column headerText="Título" width="30%"
+									sortBy="#{item.nombreRequerimiento}"
+									filterBy="#{item.nombreRequerimiento}">
+									<h:outputText value="#{item.nombreRequerimiento}" />
+								</p:column>
+								<p:column headerText="Descripción" width="40%"
+									sortBy="#{item.descripcionRequerimiento}"
+									filterBy="#{item.descripcionRequerimiento}">
+									<h:outputText value="#{item.descripcionRequerimiento}" />
+								</p:column>
+								<p:column headerText="Seleccionar" width="15%">
+									<p:commandButton icon="ui-icon-check"
+										title="Seleccionar Requisito"
+										actionListener="#{registrarHU.seleccionarRequisito(item.requId)}"
+										update=":dialogRequisitos :formDialog" />
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

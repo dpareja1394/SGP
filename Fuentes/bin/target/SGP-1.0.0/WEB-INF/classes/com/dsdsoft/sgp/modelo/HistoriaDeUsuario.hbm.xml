@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.dsdsoft.sgp.modelo.HistoriaDeUsuario" table="historia_de_usuario" schema="public">
+        <id name="hiusId" type="java.lang.Integer">
+            <column name="hius_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="usuario" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
+            <column name="usua_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="requerimiento" class="com.dsdsoft.sgp.modelo.Requerimiento" fetch="select">
+            <column name="requ_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="estadoHistoriaUsuario" class="com.dsdsoft.sgp.modelo.EstadoHistoriaUsuario" fetch="select">
+            <column name="estado_hu" not-null="true" />
+        </many-to-one>
+        <property name="detalleHistoria" type="java.lang.String">
+            <column name="detalle_historia" length="2000" not-null="true" />
+        </property>
+        <property name="tituloHistoria" type="java.lang.String">
+            <column name="titulo_historia" length="150" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>
