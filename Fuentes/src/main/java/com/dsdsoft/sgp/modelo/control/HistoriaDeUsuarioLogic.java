@@ -1,29 +1,22 @@
 package com.dsdsoft.sgp.modelo.control;
 
-import com.dsdsoft.sgp.dataaccess.dao.*;
-import com.dsdsoft.sgp.exceptions.*;
-import com.dsdsoft.sgp.modelo.*;
-import com.dsdsoft.sgp.modelo.dto.HistoriaDeUsuarioDTO;
-import com.dsdsoft.sgp.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.dsdsoft.sgp.dataaccess.dao.IHistoriaDeUsuarioDAO;
+import com.dsdsoft.sgp.exceptions.ZMessManager;
+import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
+import com.dsdsoft.sgp.modelo.dto.HistoriaDeUsuarioDTO;
+import com.dsdsoft.sgp.utilities.Utilities;
 
 
 /**
@@ -505,4 +498,28 @@ public class HistoriaDeUsuarioLogic implements IHistoriaDeUsuarioLogic {
 
         return list;
     }
+
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 *
+	 * @see com.dsdsoft.sgp.modelo.control.IHistoriaDeUsuarioLogic#consultarHistoriasUsuarioPorFiltros(java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
+	 *
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<HistoriaDeUsuarioDTO> consultarHistoriasUsuarioPorFiltros(Integer usuaId, Integer proyId,
+			Integer requId, Integer eshiId) throws Exception {
+		try {
+			proyId = proyId==null?-1:proyId;
+			requId = requId==null?-1:requId;
+			eshiId = eshiId==null?-1:eshiId;
+			
+			return historiaDeUsuarioDAO.consultarHistoriasUsuarioPorFiltros(usuaId, proyId, requId, eshiId);
+			
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+	}
 }

@@ -48,4 +48,31 @@
 			where prur.usua_id = :pUsuaId
 		]]>
 	</sql-query>
+
+	<sql-query name="consultarHistoriasUsuarioPorFiltros">
+		<return-scalar column="hiusId" type="java.lang.Integer" />
+		<return-scalar column="detalleHistoria" type="java.lang.String" />
+		<return-scalar column="tituloHistoria" type="java.lang.String" />
+		<return-scalar column="nombreRequerimiento" type="java.lang.String" />
+		<return-scalar column="descripcionRequerimiento" type="java.lang.String" />
+		<![CDATA[
+			select 
+				hidu.hius_id as hiusId,
+				hidu.detalle_historia as detalleHistoria,
+				hidu.titulo_historia as tituloHistoria,
+				requ.nombre_requerimiento as nombreRequerimiento,
+				requ.descripcion_requerimiento as descripcionRequerimiento
+			from historia_de_usuario hidu
+			inner join requerimiento requ on requ.requ_id = hidu.requ_id
+			inner join estado_historia_usuario eshi on eshi.eshi_id = hidu.estado_hu
+			inner join proyecto proy on proy.proy_id = requ.proy_id
+			inner join proyecto_usuario_rol prur on prur.proy_id = proy.proy_id
+			inner join usuario usua on usua.usua_id = prur.usua_id and usua.usua_id = :pUsuaId
+			where 
+				((:pProyId <> -1 AND proy.proy_id = :pProyId) OR (:pProyId = -1))
+				and ((:pRequId <> -1 AND requ.requ_id = :pRequId) OR (:pRequId = -1))
+				and ((:pEshiId <> -1 AND eshi.eshi_id = :pEshiId) OR (:pEshiId = -1))
+
+		]]>
+	</sql-query>
 </hibernate-mapping>

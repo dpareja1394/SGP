@@ -35,57 +35,82 @@
 					<p:messages id="msg" />
 					<p:growl id="men" />
 					<p:panel id="pnlHU" header="Registrar Historia de Usuario">
-						<h:panelGrid columns="4" id="panelGrid">
+						<h:panelGrid columns="6" id="panelGrid">
 
 							<h:outputText value="Proyecto:*" />
-							<p:selectOneMenu binding="#{registrarHUView.somProyectos}">
-								<p:ajax listener="#{registrarHUView.listenerProyecto}"
+							<p:selectOneMenu binding="#{historiasUsuarioView.somProyectos}">
+								<p:ajax listener="#{historiasUsuarioView.listenerProyecto}"
 									update="@([id$=formDialog])" />
-								<f:selectItems value="#{registrarHUView.siProyectos}" />
+								<f:selectItems value="#{historiasUsuarioView.siProyectos}" />
 							</p:selectOneMenu>
+
 							<h:outputText value="Requisito :*" />
 							<h:panelGrid columns="2">
-								<p:inputTextarea binding="#{registrarHUView.txtRequisito}"
+								<p:inputTextarea binding="#{historiasUsuarioView.txtRequisito}"
 									style="width:200px;" readonly="true" />
-								<p:commandButton binding="#{registrarHUView.btnBuscarRequisito}"
+								<p:commandButton binding="#{historiasUsuarioView.btnBuscarRequisito}"
 									icon="ui-icon-search" disabled="true"
-									action="#{registrarHUView.abrirDialogoRequisitos}"
+									action="#{historiasUsuarioView.abrirDialogoRequisitos}"
 									update=":dialogRequisitos" />
 							</h:panelGrid>
 							
 							<h:outputText value="Estado:*" />
-							<p:selectOneMenu binding="#{registrarHUView.somEstadoHU}">
-								<f:selectItems value="#{registrarHUView.siEstadoHU}" />
+							<p:selectOneMenu binding="#{historiasUsuarioView.somEstadoHU}">
+								<f:selectItems value="#{historiasUsuarioView.siEstadoHU}" />
 							</p:selectOneMenu>
 							
-							<h:outputText value="Título :*" />
-							<p:inputTextarea binding="#{registrarHUView.txtTitulo}"
-									style="width:200px;" />
-							<h:outputText value="Descripción :*" />
-							<p:inputTextarea binding="#{registrarHUView.txtDescripcion}"
-									style="width:300px;" />
-
 						</h:panelGrid>
 					</p:panel>
 					<p:panel id="panelBotones">
 						<div align="center">
 							<p:commandButton icon="ui-icon-check"
-								value="Guardar" update=":formDialog" action="#{registrarHUView.guardar}"/>
+								value="Consultar" action="#{historiasUsuarioView.consultarHistoriasUsuario}" update=":formDialog"/>
 							<p:commandButton icon="ui-icon-trash"
-								value="Limpiar" update=":formDialog" action="#{registrarHUView.limpiarPantalla}"/>
+								value="Limpiar" action="#{historiasUsuarioView.limpiar}" update=":formDialog"/>
 
 						</div>
+					</p:panel>
+					<p:panel id="panelHistoriasUsuario">
+						<p:dataTable value="#{historiasUsuarioView.historiasUsuario}" var="item"
+								emptyMessage="No hay historias de Usuario registradas"
+								paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15">
+								<p:column headerText="Título"
+									sortBy="#{item.tituloHistoria}"
+									filterBy="#{item.tituloHistoria}">
+									<h:outputText value="#{item.tituloHistoria}" />
+								</p:column>
+								<p:column headerText="Detalle"
+									sortBy="#{item.detalleHistoria}"
+									filterBy="#{item.detalleHistoria}">
+									<h:outputText value="#{item.detalleHistoria}" />
+								</p:column>
+								<p:column headerText="Requisito"
+									sortBy="#{item.nombreRequerimiento}"
+									filterBy="#{item.nombreRequerimiento}">
+									<h:outputText value="#{item.nombreRequerimiento}" />
+								</p:column>
+								<p:column headerText="Descripción Req."
+									sortBy="#{item.descripcionRequerimiento}"
+									filterBy="#{item.descripcionRequerimiento}">
+									<h:outputText value="#{item.descripcionRequerimiento}" />
+								</p:column>
+								
+							</p:dataTable>
+
+
 					</p:panel>
 				</h:form>
 
 				<!-- 				Dialogo Consultar Requisitos para Historia de Usuario -->
 				<p:dialog id="dialogRequisitos" widgetVar="dialogRequisitos"
-					visible="#{registrarHUView.showRequisitos}" header="Requisitos"
+					visible="#{historiasUsuarioView.showRequisitos}" header="Requisitos"
 					width="75%" height="300px;">
 					<h:form>
 						<p:panel>
-							<p:dataTable value="#{registrarHUView.requisitos}" var="item"
-								emptyMessage="No hay requisitos para el proyecto #{registrarHUView.nombreProyecto}"
+							<p:dataTable value="#{historiasUsuarioView.requisitos}" var="item"
+								emptyMessage="No hay requisitos para el proyecto #{historiasUsuarioView.nombreProyecto}"
 								paginator="true" rows="5"
 								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 								rowsPerPageTemplate="5,10,15">
@@ -102,7 +127,7 @@
 								<p:column headerText="Seleccionar" width="15%">
 									<p:commandButton icon="ui-icon-check"
 										title="Seleccionar Requisito"
-										actionListener="#{registrarHUView.seleccionarRequisito(item.requId)}"
+										actionListener="#{historiasUsuarioView.seleccionarRequisito(item.requId)}"
 										update=":dialogRequisitos :formDialog" />
 								</p:column>
 							</p:dataTable>

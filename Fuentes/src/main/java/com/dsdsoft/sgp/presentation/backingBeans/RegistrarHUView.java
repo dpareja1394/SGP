@@ -34,9 +34,9 @@ import com.dsdsoft.sgp.utilities.FacesUtils;
  */
 @ManagedBean
 @ViewScoped
-public class RegistrarHU implements Serializable {
+public class RegistrarHUView implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(RegistrarHU.class);
+	private static final Logger log = LoggerFactory.getLogger(RegistrarHUView.class);
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -53,7 +53,7 @@ public class RegistrarHU implements Serializable {
 	private boolean showRequisitos;
 	private Usuario usuario;
 
-	public RegistrarHU() {
+	public RegistrarHUView() {
 		super();
 		usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
 	}
