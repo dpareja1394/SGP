@@ -994,4 +994,17 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 	public List<ProyectoDTO> consultarProyectosClientesPorUsuario(Integer usuaId) throws Exception {
 		return proyectoLogic.consultarProyectosClientesPorUsuario(usuaId);
 	}
+
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 *
+	 * @see com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView#consultarHistoriasUsuarioPorFiltros(java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
+	 *
+	 */
+	@Override
+	public List<HistoriaDeUsuarioDTO> consultarHistoriasUsuarioPorFiltros(Integer usuaId, Integer proyId,
+			Integer requId, Integer eshiId) throws Exception {
+		return historiaDeUsuarioLogic.consultarHistoriasUsuarioPorFiltros(usuaId, proyId, requId, eshiId);
+	}
 }

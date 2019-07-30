@@ -1,32 +1,21 @@
 package com.dsdsoft.sgp.dataaccess.dao;
 
-import com.dsdsoft.sgp.dataaccess.api.HibernateDaoImpl;
-import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
+import java.util.List;
+
+import javax.annotation.Resource;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
-import org.hibernate.criterion.Example;
-
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
+import com.dsdsoft.sgp.dataaccess.api.HibernateDaoImpl;
+import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
+import com.dsdsoft.sgp.modelo.dto.HistoriaDeUsuarioDTO;
 
 
 /**
@@ -51,4 +40,32 @@ public class HistoriaDeUsuarioDAO extends HibernateDaoImpl<HistoriaDeUsuario, In
         ApplicationContext ctx) {
         return (IHistoriaDeUsuarioDAO) ctx.getBean("HistoriaDeUsuarioDAO");
     }
+
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 *
+	 * @see com.dsdsoft.sgp.dataaccess.dao.IHistoriaDeUsuarioDAO#consultarHistoriasUsuarioPorFiltros(java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
+	 *
+	 */
+	@Override
+	public List<HistoriaDeUsuarioDTO> consultarHistoriasUsuarioPorFiltros(Integer usuaId, Integer proyId,
+			Integer requId, Integer eshiId) throws Exception {
+		List<HistoriaDeUsuarioDTO> lista = null;
+		
+		try {
+			Query query = getSession().getNamedQuery("consultarHistoriasUsuarioPorFiltros");
+			query.setParameter("pUsuaId", usuaId);
+			query.setParameter("pProyId", proyId);
+			query.setParameter("pRequId", requId);
+			query.setParameter("pEshiId", eshiId);
+
+			query.setResultTransformer(Transformers.aliasToBean(HistoriaDeUsuarioDTO.class));
+			lista = query.list();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
 }

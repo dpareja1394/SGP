@@ -1,13 +1,9 @@
 package com.dsdsoft.sgp.modelo.dto;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.Serializable;
 
-import java.sql.*;
-
-import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -25,6 +21,8 @@ public class HistoriaDeUsuarioDTO implements Serializable {
     private Integer eshiId_EstadoHistoriaUsuario;
     private Integer requId_Requerimiento;
     private Integer usuaId_Usuario;
+    
+    private String nombreRequerimiento, descripcionRequerimiento;
 
     public String getDetalleHistoria() {
         return detalleHistoria;
@@ -74,4 +72,52 @@ public class HistoriaDeUsuarioDTO implements Serializable {
     public void setUsuaId_Usuario(Integer usuaId_Usuario) {
         this.usuaId_Usuario = usuaId_Usuario;
     }
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La nombreRequerimiento
+	 *
+	 */
+	public String getNombreRequerimiento() {
+		return nombreRequerimiento;
+	}
+
+	/**
+	 *
+	 * @param nombreRequerimiento El/La nombreRequerimiento a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setNombreRequerimiento(String nombreRequerimiento) {
+		this.nombreRequerimiento = nombreRequerimiento;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La descripcionRequerimiento
+	 *
+	 */
+	public String getDescripcionRequerimiento() {
+		return descripcionRequerimiento;
+	}
+
+	/**
+	 *
+	 * @param descripcionRequerimiento El/La descripcionRequerimiento a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setDescripcionRequerimiento(String descripcionRequerimiento) {
+		this.descripcionRequerimiento = descripcionRequerimiento;
+	}
 }

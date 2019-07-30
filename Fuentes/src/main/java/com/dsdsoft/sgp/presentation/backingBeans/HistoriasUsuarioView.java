@@ -15,13 +15,11 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.dsdsoft.sgp.exceptions.ZMessManager;
-import com.dsdsoft.sgp.modelo.EstadoHistoriaUsuario;
-import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
 import com.dsdsoft.sgp.modelo.Proyecto;
 import com.dsdsoft.sgp.modelo.Requerimiento;
 import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.modelo.dto.EstadoHistoriaUsuarioDTO;
+import com.dsdsoft.sgp.modelo.dto.HistoriaDeUsuarioDTO;
 import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
 import com.dsdsoft.sgp.modelo.dto.RequerimientoDTO;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
@@ -34,9 +32,9 @@ import com.dsdsoft.sgp.utilities.FacesUtils;
  */
 @ManagedBean
 @ViewScoped
-public class RegistrarHU implements Serializable {
+public class HistoriasUsuarioView implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = LoggerFactory.getLogger(RegistrarHU.class);
+	private static final Logger log = LoggerFactory.getLogger(HistoriasUsuarioView.class);
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -45,15 +43,18 @@ public class RegistrarHU implements Serializable {
 
 	private List<SelectItem> siProyectos, siEstadoHU;
 	private SelectOneMenu somProyectos, somEstadoHU;
-	private InputTextarea txtRequisito, txtTitulo, txtDescripcion;
+	private InputTextarea txtRequisito;
 	private CommandButton btnBuscarRequisito;
 	private List<RequerimientoDTO> requisitos;
 	private String nombreProyecto;
 	private Requerimiento requisito;
 	private boolean showRequisitos;
 	private Usuario usuario;
+	
+	private List<HistoriaDeUsuarioDTO> historiasUsuario;
 
-	public RegistrarHU() {
+	
+	public HistoriasUsuarioView() {
 		super();
 		usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
 	}
@@ -90,41 +91,27 @@ public class RegistrarHU implements Serializable {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
-
-	public void limpiarPantalla() {
-		somProyectos.setValue(null);
-		this.requisito = null;
-		txtRequisito.setValue(null);
-		setRequisitos(null);
-		somEstadoHU.setValue(null);
-		txtTitulo.setValue(null);
-		txtDescripcion.setValue(null);
-	}
-
-	public void guardar() {
+	
+	public void consultarHistoriasUsuario() {
 		try {
-			HistoriaDeUsuario hu = new HistoriaDeUsuario();
-			hu.setRequerimiento(this.requisito);
-
-			EstadoHistoriaUsuario estadoHistoriaUsuario = businessDelegatorView
-					.getEstadoHistoriaUsuario(FacesUtils.checkInteger(somEstadoHU));
-
-			hu.setEstadoHistoriaUsuario(estadoHistoriaUsuario);
-			
-			hu.setTituloHistoria(FacesUtils.checkString(txtTitulo));
-			hu.setDetalleHistoria(FacesUtils.checkString(txtDescripcion));
-			hu.setUsuario(usuario);
-			
-			businessDelegatorView.saveHistoriaDeUsuario(hu);
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-			limpiarPantalla();
+			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			this.historiasUsuario = businessDelegatorView.consultarHistoriasUsuarioPorFiltros(usuario.getUsuaId(), FacesUtils.checkInteger(somProyectos),
+					requisito==null?-1:requisito.getRequId(), FacesUtils.checkInteger(somEstadoHU));
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
+	
+	public void limpiar() {
+		setHistoriasUsuario(null);
+		getHistoriasUsuario();
+		somProyectos.setValue(-1);
+		requisito = null;
+		somEstadoHU.setValue(-1);
+		txtRequisito.setValue(null);
+	}
 
-	/* Getters and Setters */
 
 	/**
 	 *
@@ -138,6 +125,7 @@ public class RegistrarHU implements Serializable {
 		return businessDelegatorView;
 	}
 
+
 	/**
 	 *
 	 * @param businessDelegatorView El/La businessDelegatorView a setear
@@ -149,6 +137,33 @@ public class RegistrarHU implements Serializable {
 	public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
 		this.businessDelegatorView = businessDelegatorView;
 	}
+
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La usuarioIniciado
+	 *
+	 */
+	public String getUsuarioIniciado() {
+		return usuarioIniciado;
+	}
+
+
+	/**
+	 *
+	 * @param usuarioIniciado El/La usuarioIniciado a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setUsuarioIniciado(String usuarioIniciado) {
+		this.usuarioIniciado = usuarioIniciado;
+	}
+
 
 	/**
 	 *
@@ -162,7 +177,7 @@ public class RegistrarHU implements Serializable {
 		try {
 			if (siProyectos == null) {
 				siProyectos = new ArrayList<SelectItem>();
-				siProyectos.add(new SelectItem(0, "Seleccione un Proyecto"));
+				siProyectos.add(new SelectItem(-1, "Seleccione un Proyecto"));
 
 				usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
 
@@ -180,6 +195,7 @@ public class RegistrarHU implements Serializable {
 		return siProyectos;
 	}
 
+
 	/**
 	 *
 	 * @param siProyectos El/La siProyectos a setear
@@ -191,6 +207,50 @@ public class RegistrarHU implements Serializable {
 	public void setSiProyectos(List<SelectItem> siProyectos) {
 		this.siProyectos = siProyectos;
 	}
+
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La siEstadoHU
+	 *
+	 */
+	public List<SelectItem> getSiEstadoHU() {
+		try {
+			if (siEstadoHU == null) {
+				siEstadoHU = new ArrayList<SelectItem>();
+				siEstadoHU.add(new SelectItem(-1, "Seleccione un Estado"));
+
+				List<EstadoHistoriaUsuarioDTO> estados = businessDelegatorView.getDataEstadoHistoriaUsuario();
+				for (EstadoHistoriaUsuarioDTO estadoHistoriaUsuarioDTO : estados) {
+					siEstadoHU.add(new SelectItem(estadoHistoriaUsuarioDTO.getEshiId(),
+							estadoHistoriaUsuarioDTO.getDescripcionEstado()));
+				}
+
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return siEstadoHU;
+	}
+
+
+
+	/**
+	 *
+	 * @param siEstadoHU El/La siEstadoHU a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setSiEstadoHU(List<SelectItem> siEstadoHU) {
+		this.siEstadoHU = siEstadoHU;
+	}
+
 
 	/**
 	 *
@@ -204,6 +264,7 @@ public class RegistrarHU implements Serializable {
 		return somProyectos;
 	}
 
+
 	/**
 	 *
 	 * @param somProyectos El/La somProyectos a setear
@@ -216,13 +277,32 @@ public class RegistrarHU implements Serializable {
 		this.somProyectos = somProyectos;
 	}
 
-	public String getUsuarioIniciado() {
-		return this.usuarioIniciado;
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La somEstadoHU
+	 *
+	 */
+	public SelectOneMenu getSomEstadoHU() {
+		return somEstadoHU;
 	}
 
-	public void setUsuarioIniciado(String usuarioIniciado) {
-		this.usuarioIniciado = usuarioIniciado;
+
+	/**
+	 *
+	 * @param somEstadoHU El/La somEstadoHU a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setSomEstadoHU(SelectOneMenu somEstadoHU) {
+		this.somEstadoHU = somEstadoHU;
 	}
+
 
 	/**
 	 *
@@ -236,6 +316,7 @@ public class RegistrarHU implements Serializable {
 		return txtRequisito;
 	}
 
+
 	/**
 	 *
 	 * @param txtRequisito El/La txtRequisito a setear
@@ -247,6 +328,7 @@ public class RegistrarHU implements Serializable {
 	public void setTxtRequisito(InputTextarea txtRequisito) {
 		this.txtRequisito = txtRequisito;
 	}
+
 
 	/**
 	 *
@@ -260,6 +342,7 @@ public class RegistrarHU implements Serializable {
 		return btnBuscarRequisito;
 	}
 
+
 	/**
 	 *
 	 * @param btnBuscarRequisito El/La btnBuscarRequisito a setear
@@ -271,6 +354,7 @@ public class RegistrarHU implements Serializable {
 	public void setBtnBuscarRequisito(CommandButton btnBuscarRequisito) {
 		this.btnBuscarRequisito = btnBuscarRequisito;
 	}
+
 
 	/**
 	 *
@@ -293,6 +377,7 @@ public class RegistrarHU implements Serializable {
 		return requisitos;
 	}
 
+
 	/**
 	 *
 	 * @param requisitos El/La requisitos a setear
@@ -304,6 +389,7 @@ public class RegistrarHU implements Serializable {
 	public void setRequisitos(List<RequerimientoDTO> requisitos) {
 		this.requisitos = requisitos;
 	}
+
 
 	/**
 	 *
@@ -317,6 +403,7 @@ public class RegistrarHU implements Serializable {
 		return nombreProyecto;
 	}
 
+
 	/**
 	 *
 	 * @param nombreProyecto El/La nombreProyecto a setear
@@ -328,6 +415,7 @@ public class RegistrarHU implements Serializable {
 	public void setNombreProyecto(String nombreProyecto) {
 		this.nombreProyecto = nombreProyecto;
 	}
+
 
 	/**
 	 *
@@ -341,6 +429,7 @@ public class RegistrarHU implements Serializable {
 		return requisito;
 	}
 
+
 	/**
 	 *
 	 * @param requisito El/La requisito a setear
@@ -352,6 +441,7 @@ public class RegistrarHU implements Serializable {
 	public void setRequisito(Requerimiento requisito) {
 		this.requisito = requisito;
 	}
+
 
 	/**
 	 *
@@ -365,6 +455,7 @@ public class RegistrarHU implements Serializable {
 		return showRequisitos;
 	}
 
+
 	/**
 	 *
 	 * @param showRequisitos El/La showRequisitos a setear
@@ -377,116 +468,63 @@ public class RegistrarHU implements Serializable {
 		this.showRequisitos = showRequisitos;
 	}
 
+
 	/**
 	 *
 	 * @author Daniel Pareja Londoño
 	 * @version may. 28, 2019
 	 * @since 1.8
-	 * @return El/La siEstadoHU
+	 * @return El/La usuario
 	 *
 	 */
-	public List<SelectItem> getSiEstadoHU() {
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+
+	/**
+	 *
+	 * @param usuario El/La usuario a setear
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version may. 28, 2019
+	 * @since 1.8
+	 * @return El/La historiasUsuario
+	 *
+	 */
+	public List<HistoriaDeUsuarioDTO> getHistoriasUsuario() {
 		try {
-			if (siEstadoHU == null) {
-				siEstadoHU = new ArrayList<SelectItem>();
-				siEstadoHU.add(new SelectItem(0, "Seleccione un Estado"));
-
-				List<EstadoHistoriaUsuarioDTO> estados = businessDelegatorView.getDataEstadoHistoriaUsuario();
-				for (EstadoHistoriaUsuarioDTO estadoHistoriaUsuarioDTO : estados) {
-					siEstadoHU.add(new SelectItem(estadoHistoriaUsuarioDTO.getEshiId(),
-							estadoHistoriaUsuarioDTO.getDescripcionEstado()));
-				}
-
+			if(historiasUsuario == null) {
+				Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+				historiasUsuario = businessDelegatorView.consultarHistoriasUsuarioPorFiltros(usuario.getUsuaId(), -1, -1, -1);
 			}
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 			e.printStackTrace();
 		}
-		return siEstadoHU;
+		return historiasUsuario;
 	}
 
 	/**
 	 *
-	 * @param siEstadoHU El/La siEstadoHU a setear
+	 * @param historiasUsuario El/La historiasUsuario a setear
 	 * @author Daniel Pareja Londoño
 	 * @version may. 28, 2019
 	 * @since 1.8
 	 *
 	 */
-	public void setSiEstadoHU(List<SelectItem> siEstadoHU) {
-		this.siEstadoHU = siEstadoHU;
-	}
-
-	/**
-	 *
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 * @return El/La somEstadoHU
-	 *
-	 */
-	public SelectOneMenu getSomEstadoHU() {
-		return somEstadoHU;
-	}
-
-	/**
-	 *
-	 * @param somEstadoHU El/La somEstadoHU a setear
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 *
-	 */
-	public void setSomEstadoHU(SelectOneMenu somEstadoHU) {
-		this.somEstadoHU = somEstadoHU;
-	}
-
-	/**
-	 *
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 * @return El/La txtTitulo
-	 *
-	 */
-	public InputTextarea getTxtTitulo() {
-		return txtTitulo;
-	}
-
-	/**
-	 *
-	 * @param txtTitulo El/La txtTitulo a setear
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 *
-	 */
-	public void setTxtTitulo(InputTextarea txtTitulo) {
-		this.txtTitulo = txtTitulo;
-	}
-
-	/**
-	 *
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 * @return El/La txtDescripcion
-	 *
-	 */
-	public InputTextarea getTxtDescripcion() {
-		return txtDescripcion;
-	}
-
-	/**
-	 *
-	 * @param txtDescripcion El/La txtDescripcion a setear
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 *
-	 */
-	public void setTxtDescripcion(InputTextarea txtDescripcion) {
-		this.txtDescripcion = txtDescripcion;
+	public void setHistoriasUsuario(List<HistoriaDeUsuarioDTO> historiasUsuario) {
+		this.historiasUsuario = historiasUsuario;
 	}
 
 }
