@@ -109,6 +109,7 @@ public class HistoriasUsuarioView implements Serializable {
 		somProyectos.setValue(-1);
 		requisito = null;
 		somEstadoHU.setValue(-1);
+		txtRequisito.setValue(null);
 	}
 
 
