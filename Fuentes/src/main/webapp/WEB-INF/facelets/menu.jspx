@@ -25,22 +25,31 @@
 							</p:submenu>
 						</p:column>
 					</p:submenu>
-					
+
 					<p:submenu label="Proyectos" icon="ui-icon-suitcase">
 						<p:column>
 							<p:submenu label="Proyectos">
 								<p:menuitem value="Registrar nuevo Proyecto"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarNuevoProyecto.xhtml" />
 								<p:menuitem value="Ver Proyectos del Cliente"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verProyectosDelCliente.xhtml" />	
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/verProyectosDelCliente.xhtml" />
 								<p:menuitem value="Registrar Historias de Usuario"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarHU.xhtml" />	
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registrarHU.xhtml" />
 								<p:menuitem value="Historias de Usuario"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/historiasUsuario.xhtml" />	
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/historiasUsuario.xhtml" />
 							</p:submenu>
 						</p:column>
 					</p:submenu>
-					
+
+					<p:submenu label="Actividades" icon="ui-icon-note">
+						<p:column>
+							<p:submenu label="Actividades">
+								<p:menuitem value="Registrar Actividades"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/pantallas/registroActividades.xhtml" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+
 
 					<p:menuitem value="Quit"
 						url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"
