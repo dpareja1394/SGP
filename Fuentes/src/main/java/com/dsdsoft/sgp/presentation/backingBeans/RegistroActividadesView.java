@@ -9,6 +9,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 
+import org.primefaces.component.calendar.Calendar;
+import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +44,8 @@ public class RegistroActividadesView implements Serializable {
 	
 	private SelectOneMenu somTipoActividad;
 	private List<SelectItem> siTipoActividad;
-	
+	private InputTextarea txtDescripcionActividad;
+	private Calendar calFechaHoraInicio, calFechaHoraFin;
 
 	/**
 	 * @author Daniel Pareja Londoño
@@ -186,6 +189,78 @@ public class RegistroActividadesView implements Serializable {
 	 */
 	public void setSiTipoActividad(List<SelectItem> siTipoActividad) {
 		this.siTipoActividad = siTipoActividad;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 * @return El/La txtDescripcionActividad
+	 *
+	 */
+	public InputTextarea getTxtDescripcionActividad() {
+		return txtDescripcionActividad;
+	}
+
+	/**
+	 *
+	 * @param txtDescripcionActividad El/La txtDescripcionActividad a setear
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setTxtDescripcionActividad(InputTextarea txtDescripcionActividad) {
+		this.txtDescripcionActividad = txtDescripcionActividad;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 * @return El/La calFechaHoraInicio
+	 *
+	 */
+	public Calendar getCalFechaHoraInicio() {
+		return calFechaHoraInicio;
+	}
+
+	/**
+	 *
+	 * @param calFechaHoraInicio El/La calFechaHoraInicio a setear
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setCalFechaHoraInicio(Calendar calFechaHoraInicio) {
+		this.calFechaHoraInicio = calFechaHoraInicio;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 * @return El/La calFechaHoraFin
+	 *
+	 */
+	public Calendar getCalFechaHoraFin() {
+		return calFechaHoraFin;
+	}
+
+	/**
+	 *
+	 * @param calFechaHoraFin El/La calFechaHoraFin a setear
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setCalFechaHoraFin(Calendar calFechaHoraFin) {
+		this.calFechaHoraFin = calFechaHoraFin;
 	}
 
 }

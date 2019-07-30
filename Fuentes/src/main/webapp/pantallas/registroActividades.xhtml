@@ -35,19 +35,35 @@
 					<p:messages id="msg" />
 					<p:growl id="men" />
 					<p:panel id="pnlRegistroActividades" header="Registrar Actividades">
-						<h:panelGrid columns="2" id="panelGrid">
+						<h:panelGrid columns="4" id="panelGrid">
 
 							<h:outputText value="Tipo Actividad:*" />
-							<p:selectOneMenu binding="#{registroActividadesView.somTipoActividad}">
-								<f:selectItems value="#{registroActividadesView.siTipoActividad}" />
+							<p:selectOneMenu
+								binding="#{registroActividadesView.somTipoActividad}">
+								<f:selectItems
+									value="#{registroActividadesView.siTipoActividad}" />
 							</p:selectOneMenu>
+
+							<h:outputText value="Descripción:*" />
+							<p:inputTextarea
+								binding="#{registroActividadesView.txtDescripcionActividad}" />
+
+							<h:outputText value="Fecha/Hora Inicio:*" />
+							<p:calendar pattern="dd MMM yyyy h:mm a" readonlyInput="true"
+								showButtonPanel="true"
+								binding="#{registroActividadesView.calFechaHoraInicio}" />
+
+							<h:outputText value="Fecha/Hora Final:*" />
+							<p:calendar pattern="dd MMM yyyy h:mm a" readonlyInput="true"
+								showButtonPanel="true"
+								binding="#{registroActividadesView.calFechaHoraFin}" />
+
+
 
 						</h:panelGrid>
 					</p:panel>
 					<p:panel id="panelBotones">
-						<div align="center">
-
-						</div>
+						<div align="center"></div>
 					</p:panel>
 				</h:form>
 
