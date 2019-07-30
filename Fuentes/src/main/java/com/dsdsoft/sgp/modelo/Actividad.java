@@ -16,17 +16,19 @@ public class Actividad  implements java.io.Serializable {
      private String descripcionActividad;
      private Date fechaHoraInicio;
      private Date fechaHoraFin;
+     private HistoriaDeUsuario historiaDeUsuario;
 
     public Actividad() {
     }
 
-    public Actividad(Integer actiId, Usuario usuario, TipoActividad tipoActividad, String descripcionActividad, Date fechaHoraInicio, Date fechaHoraFin) {
+    public Actividad(Integer actiId, Usuario usuario, TipoActividad tipoActividad, String descripcionActividad, Date fechaHoraInicio, Date fechaHoraFin, HistoriaDeUsuario historiaDeUsuario) {
        this.actiId = actiId;
        this.usuario = usuario;
        this.tipoActividad = tipoActividad;
        this.descripcionActividad = descripcionActividad;
        this.fechaHoraInicio = fechaHoraInicio;
        this.fechaHoraFin = fechaHoraFin;
+       this.historiaDeUsuario = historiaDeUsuario;
     }
    
     public Integer getActiId() {
@@ -71,9 +73,14 @@ public class Actividad  implements java.io.Serializable {
     public void setFechaHoraFin(Date fechaHoraFin) {
         this.fechaHoraFin = fechaHoraFin;
     }
-
-
-
+    
+    public HistoriaDeUsuario getHistoriaDeUsuario() {
+    	return this.historiaDeUsuario;
+    }
+    
+    public void setHistoriaDeUsuario(HistoriaDeUsuario historiaDeUsuario) {
+    	this.historiaDeUsuario = historiaDeUsuario;
+    }
 
 }
 

@@ -42,6 +42,7 @@ create table ACTIVIDAD (
    DESCRIPCION_ACTIVIDAD CHARACTER VARYING(2000)        not null,
    FECHA_HORA_INICIO    DATE                 not null,
    FECHA_HORA_FIN       DATE                 not null,
+   HIUS_ID              BIGINT               null,
    constraint PK_ACTIVIDAD primary key (ACTI_ID)
 );
 
@@ -238,6 +239,11 @@ alter table ACTIVIDAD
 alter table ACTIVIDAD
    add constraint FK_ACTIVIDA_REFERENCE_USUARIO foreign key (USUA_ID)
       references USUARIO (USUA_ID)
+      on delete restrict on update restrict;
+
+alter table ACTIVIDAD
+   add constraint FK_ACTIVIDAD_REFERENCE_HIUS foreign key (HIUS_ID)
+      references HISTORIA_DE_USUARIO (HIUS_ID)
       on delete restrict on update restrict;
 
 alter table CASO_SOPORTE

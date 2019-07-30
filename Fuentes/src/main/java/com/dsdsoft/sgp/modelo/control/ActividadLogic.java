@@ -88,10 +88,6 @@ public class ActividadLogic implements IActividadLogic {
                 throw new ZMessManager().new ForeignException("usuario");
             }
 
-            if (entity.getActiId() == null) {
-                throw new ZMessManager().new EmptyFieldException("actiId");
-            }
-
             if (entity.getDescripcionActividad() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "descripcionActividad");

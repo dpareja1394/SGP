@@ -6,13 +6,16 @@
     <class name="com.dsdsoft.sgp.modelo.Actividad" table="actividad" schema="public">
         <id name="actiId" type="java.lang.Integer">
             <column name="acti_id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="usuario" class="com.dsdsoft.sgp.modelo.Usuario" fetch="select">
             <column name="usua_id" not-null="true" />
         </many-to-one>
         <many-to-one name="tipoActividad" class="com.dsdsoft.sgp.modelo.TipoActividad" fetch="select">
             <column name="tiac_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="historiaDeUsuario" class="com.dsdsoft.sgp.modelo.HistoriaDeUsuario" fetch="select">
+            <column name="hius_id" not-null="true" />
         </many-to-one>
         <property name="descripcionActividad" type="java.lang.String">
             <column name="descripcion_actividad" length="2000" not-null="true" />

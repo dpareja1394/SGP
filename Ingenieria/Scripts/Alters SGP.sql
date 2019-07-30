@@ -104,3 +104,13 @@ alter table CLIENTE
    add constraint FK_PROY_REFER_USUA2 foreign key (USUARIO_MODIFICACION)
       references USUARIO (USUA_ID)
       on delete restrict on update restrict;
+
+--30 Julio 2019
+--Agregar la historia de usuario a una columna en la tabla actividad
+alter table ACTIVIDAD
+   add column HIUS_ID BIGINT;
+
+alter table ACTIVIDAD
+   add constraint FK_ACTI_REFER_HIUS foreign key (HIUS_ID)
+      references HISTORIA_DE_USUARIO (HIUS_ID)
+      on delete restrict on update restrict;
