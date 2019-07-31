@@ -114,3 +114,11 @@ alter table ACTIVIDAD
    add constraint FK_ACTI_REFER_HIUS foreign key (HIUS_ID)
       references HISTORIA_DE_USUARIO (HIUS_ID)
       on delete restrict on update restrict;
+
+--31 Julio 2019
+--Modificar el tipo de dato de fecha hora inicio y fin para que sea timestamp
+alter table actividad
+alter column fecha_hora_inicio type timestamp;
+
+alter table actividad
+alter column fecha_hora_fin type timestamp;

@@ -15,6 +15,8 @@ import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.dsdsoft.sgp.modelo.Actividad;
+import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
 import com.dsdsoft.sgp.modelo.TipoActividad;
 import com.dsdsoft.sgp.modelo.Usuario;
 import com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView;
@@ -46,6 +48,7 @@ public class RegistroActividadesView implements Serializable {
 	private List<SelectItem> siTipoActividad;
 	private InputTextarea txtDescripcionActividad;
 	private Calendar calFechaHoraInicio, calFechaHoraFin;
+	private HistoriaDeUsuario historiaDeUsuario;
 
 	/**
 	 * @author Daniel Pareja Londoño
@@ -59,6 +62,42 @@ public class RegistroActividadesView implements Serializable {
 	}
 
 	/* Métodos y acciones */
+	
+	public void guardarNueva() {
+		try {
+			
+			
+			
+			TipoActividad tipoActividad = businessDelegatorView.getTipoActividad(FacesUtils.checkInteger(somTipoActividad));
+			
+			Actividad actividad = new Actividad();
+			actividad.setTipoActividad(tipoActividad);
+			actividad.setDescripcionActividad(FacesUtils.checkString(txtDescripcionActividad));
+			actividad.setFechaHoraInicio(FacesUtils.checkDate(calFechaHoraInicio));
+			actividad.setFechaHoraFin(FacesUtils.checkDate(calFechaHoraFin));
+
+			usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			
+			actividad.setUsuario(usuario);
+			//TODO Pendiente agregar la historia de usuario
+			
+			businessDelegatorView.saveActividad(actividad);
+			
+			FacesUtils.addInfoMessage("Se ha guardado la actividad");
+			limpiar();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	}
+	
+	public void limpiar() {
+		somTipoActividad.setValue(null);
+		txtDescripcionActividad.setValue(null);
+		calFechaHoraInicio.setValue(null);
+		calFechaHoraFin.setValue(null);
+		historiaDeUsuario = null;
+	}
 
 	/**
 	 *
@@ -261,6 +300,30 @@ public class RegistroActividadesView implements Serializable {
 	 */
 	public void setCalFechaHoraFin(Calendar calFechaHoraFin) {
 		this.calFechaHoraFin = calFechaHoraFin;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 * @return El/La historiaDeUsuario
+	 *
+	 */
+	public HistoriaDeUsuario getHistoriaDeUsuario() {
+		return historiaDeUsuario;
+	}
+
+	/**
+	 *
+	 * @param historiaDeUsuario El/La historiaDeUsuario a setear
+	 * @author Daniel Pareja Londoño
+	 * @version jul. 30, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setHistoriaDeUsuario(HistoriaDeUsuario historiaDeUsuario) {
+		this.historiaDeUsuario = historiaDeUsuario;
 	}
 
 }

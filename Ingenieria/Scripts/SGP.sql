@@ -40,8 +40,8 @@ create table ACTIVIDAD (
    TIAC_ID              BIGINT                 not null,
    USUA_ID              BIGINT                 not null,
    DESCRIPCION_ACTIVIDAD CHARACTER VARYING(2000)        not null,
-   FECHA_HORA_INICIO    DATE                 not null,
-   FECHA_HORA_FIN       DATE                 not null,
+   FECHA_HORA_INICIO    TIMESTAMP                 not null,
+   FECHA_HORA_FIN       TIMESTAMP                 not null,
    HIUS_ID              BIGINT               null,
    constraint PK_ACTIVIDAD primary key (ACTI_ID)
 );

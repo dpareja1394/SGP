@@ -15,7 +15,7 @@
             <column name="tiac_id" not-null="true" />
         </many-to-one>
         <many-to-one name="historiaDeUsuario" class="com.dsdsoft.sgp.modelo.HistoriaDeUsuario" fetch="select">
-            <column name="hius_id" not-null="true" />
+            <column name="hius_id" />
         </many-to-one>
         <property name="descripcionActividad" type="java.lang.String">
             <column name="descripcion_actividad" length="2000" not-null="true" />

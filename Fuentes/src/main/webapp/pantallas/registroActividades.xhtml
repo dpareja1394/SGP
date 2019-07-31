@@ -50,12 +50,12 @@
 
 							<h:outputText value="Fecha/Hora Inicio:*" />
 							<p:calendar pattern="dd MMM yyyy h:mm a" readonlyInput="true"
-								showButtonPanel="true"
+								showButtonPanel="true" 
 								binding="#{registroActividadesView.calFechaHoraInicio}" />
 
 							<h:outputText value="Fecha/Hora Final:*" />
 							<p:calendar pattern="dd MMM yyyy h:mm a" readonlyInput="true"
-								showButtonPanel="true"
+								showButtonPanel="true" 
 								binding="#{registroActividadesView.calFechaHoraFin}" />
 
 
@@ -63,7 +63,14 @@
 						</h:panelGrid>
 					</p:panel>
 					<p:panel id="panelBotones">
-						<div align="center"></div>
+						<div align="center">
+
+							<p:commandButton icon="ui-icon-check" value="Guardar"
+								update=":formDialog" action="#{registroActividadesView.guardarNueva}" />
+							<p:commandButton icon="ui-icon-trash" value="Limpiar"
+								update=":formDialog" action="#{registroActividadesView.limpiar}" />
+
+						</div>
 					</p:panel>
 				</h:form>
 

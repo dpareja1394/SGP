@@ -119,10 +119,6 @@ public class ActividadLogic implements IActividadLogic {
                     "usuaId_Usuario");
             }
 
-            if (getActividad(entity.getActiId()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
-
             actividadDAO.save(entity);
 
             log.debug("save Actividad successful");
