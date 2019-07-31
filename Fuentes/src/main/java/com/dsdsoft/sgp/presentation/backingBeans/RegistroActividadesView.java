@@ -39,11 +39,11 @@ public class RegistroActividadesView implements Serializable {
 	private String usuarioIniciado;
 
 	private Usuario usuario;
-	
+
 	/**
 	 * Atributos entidad {Actividad}
 	 */
-	
+
 	private SelectOneMenu somTipoActividad;
 	private List<SelectItem> siTipoActividad;
 	private InputTextarea txtDescripcionActividad;
@@ -62,14 +62,13 @@ public class RegistroActividadesView implements Serializable {
 	}
 
 	/* Métodos y acciones */
-	
+
 	public void guardarNueva() {
 		try {
-			
-			
-			
-			TipoActividad tipoActividad = businessDelegatorView.getTipoActividad(FacesUtils.checkInteger(somTipoActividad));
-			
+
+			TipoActividad tipoActividad = businessDelegatorView
+					.getTipoActividad(FacesUtils.checkInteger(somTipoActividad));
+
 			Actividad actividad = new Actividad();
 			actividad.setTipoActividad(tipoActividad);
 			actividad.setDescripcionActividad(FacesUtils.checkString(txtDescripcionActividad));
@@ -77,12 +76,12 @@ public class RegistroActividadesView implements Serializable {
 			actividad.setFechaHoraFin(FacesUtils.checkDate(calFechaHoraFin));
 
 			usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
-			
+
 			actividad.setUsuario(usuario);
-			//TODO Pendiente agregar la historia de usuario
-			
+			// TODO Pendiente agregar la historia de usuario
+
 			businessDelegatorView.saveActividad(actividad);
-			
+
 			FacesUtils.addInfoMessage("Se ha guardado la actividad");
 			limpiar();
 		} catch (Exception e) {
@@ -90,7 +89,7 @@ public class RegistroActividadesView implements Serializable {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
-	
+
 	public void limpiar() {
 		somTipoActividad.setValue(null);
 		txtDescripcionActividad.setValue(null);
@@ -205,7 +204,7 @@ public class RegistroActividadesView implements Serializable {
 	 */
 	public List<SelectItem> getSiTipoActividad() {
 		try {
-			if(siTipoActividad == null) {
+			if (siTipoActividad == null) {
 				siTipoActividad = new ArrayList<SelectItem>();
 				List<TipoActividad> tiposActividad = businessDelegatorView.getTipoActividad();
 				for (TipoActividad tipoActividad : tiposActividad) {
