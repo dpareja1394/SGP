@@ -821,17 +821,17 @@ public class ClienteView implements Serializable {
 		try {
 			entity = new Cliente();
 
-			entity.setCelularContacto(txtCelularContacto.getValue().toString());
+			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
 			entity.setClieId(null);
-			entity.setDireccionContacto(txtDireccionContacto.getValue().toString());
-			entity.setEnlaceWeb(txtEnlaceWeb.getValue().toString());
-			entity.setNit(txtNit.getValue().toString());
-			entity.setNombreContacto(txtNombreContacto.getValue().toString());
-			entity.setNombreEmpresa(txtNombreEmpresa.getValue().toString());
-			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString());
-			entity.setEmailContacto(txtEmailContacto.getValue().toString());
+			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
+			entity.setNit(FacesUtils.checkString(txtNit));
+			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
+			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
+			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			entity.setEmailContacto(FacesUtils.checkString(txtEmailContacto));
 			
-			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
+			Ciudad ciudad = businessDelegatorView.getCiudad(FacesUtils.checkInteger(somCiudades));
 			entity.setCiudad(ciudad);
 			
 			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
@@ -884,7 +884,7 @@ public class ClienteView implements Serializable {
 
 	public void listenerNit() {
 		try {
-			String nit = txtNit.getValue().toString().trim();
+			String nit = FacesUtils.checkString(txtNit);
 			entity = (nit != null) ? businessDelegatorView.buscarClientePorNit(nit) : null;
 
 			if (entity == null) {
@@ -949,21 +949,21 @@ public class ClienteView implements Serializable {
 	public void actualizarCliente() {
 		try {
 			try {
-				String nit = txtNit.getValue().toString().trim();
+				String nit = FacesUtils.checkString(txtNit);
 				entity = (nit != null) ? businessDelegatorView.buscarClientePorNit(nit) : null;
 			} catch (Exception e) {
 				entity = null;
 			}
 
-			entity.setCelularContacto(txtCelularContacto.getValue().toString().trim());
-			entity.setDireccionContacto(txtDireccionContacto.getValue().toString().trim());
-			entity.setEnlaceWeb(txtEnlaceWeb.getValue().toString().trim());
+			entity.setCelularContacto(FacesUtils.checkString(txtCelularContacto));
+			entity.setDireccionContacto(FacesUtils.checkString(txtDireccionContacto));
+			entity.setEnlaceWeb(FacesUtils.checkString(txtEnlaceWeb));
 
-			entity.setNombreContacto(txtNombreContacto.getValue().toString().trim());
+			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
 
-			entity.setTelefonoContacto(txtTelefonoContacto.getValue().toString().trim());
-			entity.setEmailContacto(txtEmailContacto.getValue().toString().trim());
-			Ciudad ciudad = businessDelegatorView.getCiudad(Integer.parseInt(somCiudades.getValue().toString()));
+			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
+			entity.setEmailContacto(FacesUtils.checkString(txtEmailContacto));
+			Ciudad ciudad = businessDelegatorView.getCiudad(FacesUtils.checkInteger(somCiudades));
 			entity.setCiudad(ciudad);
 			
 			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
@@ -984,7 +984,7 @@ public class ClienteView implements Serializable {
 			somDepartamentos.setDisabled(false);
 			getListaDepartamentos();
 			List<Departamento> lista = businessDelegatorView
-					.buscarDepartamentoPorPais(Integer.parseInt(somPaises.getValue().toString()));
+					.buscarDepartamentoPorPais(FacesUtils.checkInteger(somPaises));
 
 			for (Departamento departamento : lista) {
 				listaDepartamentos.add(new SelectItem(departamento.getDepaId(), departamento.getNombreDepartamento()));
@@ -999,7 +999,7 @@ public class ClienteView implements Serializable {
 			somCiudades.setDisabled(false);
 			getListaCiudades();
 			List<Ciudad> lista = businessDelegatorView
-					.buscarCiudadPorDepartamento(Integer.parseInt(somDepartamentos.getValue().toString()));
+					.buscarCiudadPorDepartamento(FacesUtils.checkInteger(somDepartamentos));
 
 			for (Ciudad ciudad : lista) {
 				listaCiudades.add(new SelectItem(ciudad.getCiudId(), ciudad.getNombreCiudad()));
@@ -1014,7 +1014,7 @@ public class ClienteView implements Serializable {
 			somDepartamentosEditar.setDisabled(false);
 			getListaDepartamentos();
 			List<Departamento> lista = businessDelegatorView
-					.buscarDepartamentoPorPais(Integer.parseInt(somPaisesEditar.getValue().toString()));
+					.buscarDepartamentoPorPais(FacesUtils.checkInteger(somPaisesEditar));
 
 			for (Departamento departamento : lista) {
 				listaDepartamentos.add(new SelectItem(departamento.getDepaId(), departamento.getNombreDepartamento()));
@@ -1029,7 +1029,7 @@ public class ClienteView implements Serializable {
 			somCiudadesEditar.setDisabled(false);
 			getListaCiudades();
 			List<Ciudad> lista = businessDelegatorView
-					.buscarCiudadPorDepartamento(Integer.parseInt(somDepartamentosEditar.getValue().toString()));
+					.buscarCiudadPorDepartamento(FacesUtils.checkInteger(somDepartamentosEditar));
 
 			for (Ciudad ciudad : lista) {
 				listaCiudades.add(new SelectItem(ciudad.getCiudId(), ciudad.getNombreCiudad()));
