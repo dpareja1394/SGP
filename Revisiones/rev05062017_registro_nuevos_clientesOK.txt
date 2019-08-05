@@ -3,10 +3,10 @@ Desarrolladas
 - Agregar Placeholder a la pantalla de registro de clientes. OK 26052017
 - Controlar cambios para, agregar en la direcci�n los campos para Pa�s, Departamento, Ciudad.
 - Agregar validaci�n para la URL de la empresa contacto, si no tiene la palabra http agregarla al principio y validar.
-- Está quedando el nombre del cliente como nombre de la empresa. Validar.
-- Volver la direcci�n web no obligatoria, existen empresas sin pag web.
-- En la validaci�n de la URL, validar tambien que no exista una empresa con esa direcci�n web.
-- Agregar columnas de Fecha registro, fecha modificacion, usuario registro, usuario modificacion.
-- Agregar columna correo electrónico contacto cliente.
+- Está quedando el nombre del cliente como nombre de la empresa. Validar. OK 04082019
+- Volver la direcci�n web no obligatoria, existen empresas sin pag web. OK 04082019
+- En la validaci�n de la URL, validar tambien que no exista una empresa con esa direcci�n web. OK 04082019
+- Agregar columnas de Fecha registro, fecha modificacion, usuario registro, usuario modificacion. OK 04082019
+- Agregar columna correo electrónico contacto cliente. OK 04082019
 - Cuando registra el cliente, limpia la pantalla pero no limpia el campo de Correo electrónico. OK 19062017
 

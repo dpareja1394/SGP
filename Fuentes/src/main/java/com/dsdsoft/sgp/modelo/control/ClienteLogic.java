@@ -581,7 +581,7 @@ public class ClienteLogic implements IClienteLogic {
 						throw new Exception("Enlace Web no es correcto");
 					}
 				} else {
-					String enlaceWeb = "https://" + cliente.getEnlaceWeb().trim();
+					String enlaceWeb = "http://" + cliente.getEnlaceWeb().trim();
 					UrlValidator urlValidator = new UrlValidator();
 					if (urlValidator.isValid(enlaceWeb) == false) {
 						throw new Exception("Enlace Web no es correcto");
