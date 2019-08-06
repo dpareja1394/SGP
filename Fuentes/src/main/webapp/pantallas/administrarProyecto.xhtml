@@ -45,20 +45,22 @@
 										<p:selectOneMenu
 											binding="#{proyectoView.somEstadoProyectoAdministrar}"
 											id="somEstadoProyectoAdministrar">
-											<p:ajax
-												listener="#{proyectoView.escuchadorEstadoProyectoAdministrar}"
-												update="btnGuardarEstadoProyecto" />
 											<f:selectItems value="#{proyectoView.listEstadosProyecto}" />
 										</p:selectOneMenu>
+										
+										<p:outputLabel value="Descripción del Proyecto: " />
+										
+										<p:inputTextarea placeholder="Ingrese aquí la descripción del nuevo proyecto" style="width:600px; height:100px" 
+										binding="#{proyectoView.txtDescripcionProyectoAdministrar}"/>
 
 									</h:panelGrid>
 
-									<p:commandButton value="Guardar" disabled="true"
+									<p:commandButton value="Guardar"
 										icon="ui-icon-check"
 										id="btnGuardarEstadoProyecto"
 										binding="#{proyectoView.btnGuardarEstadoProyecto}"
 										action="#{proyectoView.guardarOActualizarEstadoProyecto}"
-										update="somEstadoProyectoAdministrar, btnGuardarEstadoProyecto, @([id$=msg]), @([id$=men])" />
+										update="@([id$=formDialog])" />
 								</div>
 
 

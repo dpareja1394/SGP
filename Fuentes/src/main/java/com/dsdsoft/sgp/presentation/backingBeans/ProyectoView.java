@@ -2,6 +2,7 @@ package com.dsdsoft.sgp.presentation.backingBeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -90,7 +91,8 @@ public class ProyectoView implements Serializable {
 
 	private SelectOneMenu somEstadoProyectoAdministrar;
 	private CommandButton btnGuardarEstadoProyecto;
-
+	private InputTextarea txtDescripcionProyectoAdministrar;
+	
 	public ProyectoView() {
 		super();
 		this.usuarioIniciado = FacesUtils.getHttpSession(true).getAttribute("usuario_iniciado").toString();
@@ -441,22 +443,27 @@ public class ProyectoView implements Serializable {
 		btnLimpiar.setDisabled(false);
 	}
 
-	public void escuchadorEstadoProyectoAdministrar() {
-		btnGuardarEstadoProyecto.setDisabled(false);
-	}
-
 	public void guardarOActualizarEstadoProyecto() {
 		try {
 			EstadoProyecto estadoProyecto = businessDelegatorView
-					.getEstadoProyecto(Integer.parseInt(somEstadoProyectoAdministrar.getValue().toString()));
+					.getEstadoProyecto(Integer.parseInt(FacesUtils.checkString(somEstadoProyectoAdministrar)));
 			Proyecto proyecto = businessDelegatorView.getProyecto(proyectoAdministrar.getProyId());
 			proyecto.setEstadoProyecto(estadoProyecto);
-
+			proyecto.setDescProyecto(FacesUtils.checkString(txtDescripcionProyectoAdministrar));
+			
+			//Agregar el usuario que modifica la fecha
+			proyecto.setFechaModificacion(new Date());
+			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
+			proyecto.setUsuarioByUsuarioModificacion(usuario);
 			businessDelegatorView.updateProyecto(proyecto);
 			FacesUtils.addInfoMessage(proyecto.getDescProyecto().toUpperCase() + " ahora tiene el estado "
 					+ estadoProyecto.getDescripcionEstado().toUpperCase());
 			somEstadoProyectoAdministrar.setValue(estadoProyecto.getEsprId());
-			btnGuardarEstadoProyecto.setDisabled(true);
+			
+			FacesUtils.setManagedBeanInSession("proyectoAdministrar", businessDelegatorView.toProyectoDTO(proyecto));
+			setNombreProyectoAdministrar(null);
+			getNombreProyectoAdministrar();
+			
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 			e.printStackTrace();
@@ -714,8 +721,7 @@ public class ProyectoView implements Serializable {
 	}
 
 	public String getNombreProyectoAdministrar() {
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-		proyectoAdministrar = (ProyectoDTO) session.getAttribute("proyectoAdministrar");
+		proyectoAdministrar = (ProyectoDTO) FacesUtils.getfromSession("proyectoAdministrar");
 		nombreProyectoAdministrar = proyectoAdministrar.getDescProyecto();
 		somEstadoProyectoAdministrar.setValue(proyectoAdministrar.getEsprId_EstadoProyecto());
 		return nombreProyectoAdministrar;
@@ -842,6 +848,41 @@ public class ProyectoView implements Serializable {
 
 	public void setBtnGuardarEstadoProyecto(CommandButton btnGuardarEstadoProyecto) {
 		this.btnGuardarEstadoProyecto = btnGuardarEstadoProyecto;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version ago. 05, 2019
+	 * @since 1.8
+	 * @return El/La txtDescripcionProyectoAdministrar
+	 *
+	 */
+	public InputTextarea getTxtDescripcionProyectoAdministrar() {
+		try {
+			if(txtDescripcionProyectoAdministrar == null) {
+				txtDescripcionProyectoAdministrar = new InputTextarea();
+			}
+			ProyectoDTO proyectoDTO = (ProyectoDTO) FacesUtils.getfromSession("proyectoAdministrar");
+			Proyecto proyecto = businessDelegatorView.getProyecto(proyectoDTO.getProyId());
+			txtDescripcionProyectoAdministrar.setValue(proyecto.getDescProyecto());
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			e.printStackTrace();
+		}
+		return txtDescripcionProyectoAdministrar;
+	}
+
+	/**
+	 *
+	 * @param txtDescripcionProyectoAdministrar El/La txtDescripcionProyectoAdministrar a setear
+	 * @author Daniel Pareja Londoño
+	 * @version ago. 05, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setTxtDescripcionProyectoAdministrar(InputTextarea txtDescripcionProyectoAdministrar) {
+		this.txtDescripcionProyectoAdministrar = txtDescripcionProyectoAdministrar;
 	}
 
 }
