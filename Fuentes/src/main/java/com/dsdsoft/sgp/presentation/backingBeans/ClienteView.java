@@ -982,6 +982,7 @@ public class ClienteView implements Serializable {
 	public void listenerPaisSeleccionado() {
 		try {
 			somDepartamentos.setDisabled(false);
+			setListaDepartamentos(null);
 			getListaDepartamentos();
 			List<Departamento> lista = businessDelegatorView
 					.buscarDepartamentoPorPais(FacesUtils.checkInteger(somPaises));
@@ -997,6 +998,7 @@ public class ClienteView implements Serializable {
 	public void listenerDepartamentoSeleccionado() {
 		try {
 			somCiudades.setDisabled(false);
+			setListaCiudades(null);
 			getListaCiudades();
 			List<Ciudad> lista = businessDelegatorView
 					.buscarCiudadPorDepartamento(FacesUtils.checkInteger(somDepartamentos));
@@ -1012,6 +1014,7 @@ public class ClienteView implements Serializable {
 	public void listenerEditarPaisSeleccionado() {
 		try {
 			somDepartamentosEditar.setDisabled(false);
+			setListaDepartamentos(null);
 			getListaDepartamentos();
 			List<Departamento> lista = businessDelegatorView
 					.buscarDepartamentoPorPais(FacesUtils.checkInteger(somPaisesEditar));
@@ -1027,6 +1030,7 @@ public class ClienteView implements Serializable {
 	public void listenerEditarDepartamentoSeleccionado() {
 		try {
 			somCiudadesEditar.setDisabled(false);
+			setListaCiudades(null);
 			getListaCiudades();
 			List<Ciudad> lista = businessDelegatorView
 					.buscarCiudadPorDepartamento(FacesUtils.checkInteger(somDepartamentosEditar));

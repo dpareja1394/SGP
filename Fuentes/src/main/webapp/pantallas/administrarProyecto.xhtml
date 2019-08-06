@@ -133,8 +133,14 @@
 					<h:form>
 						<p:panel>
 							<p:dataTable value="#{proyectoView.listaUsuariosOrdenada}"
-								var="usuario" emptyMessage="No hay usuarios">
-								<p:column headerText="Nombre completo">
+								var="usuario" emptyMessage="No hay usuarios" 
+								rows="10"
+				                paginator="true"
+				                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				                rowsPerPageTemplate="5,10,15">
+								<p:column headerText="Nombre completo" 
+									filterBy="#{usuario.nombreUsuario} #{usuario.apellidoUsuario}" 
+									sortBy="#{usuario.nombreUsuario} #{usuario.apellidoUsuario}">
 									<h:outputText
 										value="#{usuario.nombreUsuario} #{usuario.apellidoUsuario}" />
 								</p:column>
