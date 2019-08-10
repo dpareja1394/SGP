@@ -35,7 +35,7 @@
 					<p:messages id="msg" />
 					<p:growl id="men" />
 					<p:panel id="pnlRegistroActividades" header="Registrar Actividades">
-						<h:panelGrid columns="4" id="panelGrid">
+						<h:panelGrid columns="6" id="panelGrid">
 
 							<h:outputText value="Tipo Actividad:*" />
 							<p:selectOneMenu
@@ -47,6 +47,15 @@
 							<h:outputText value="Descripción:*" />
 							<p:inputTextarea
 								binding="#{registroActividadesView.txtDescripcionActividad}" />
+								
+							<p:outputLabel value="Historia de Usuario: "/>
+							<h:panelGrid columns="2">
+								<p:inputText readonly="true" binding="#{registroActividadesView.txtHistoriaUsuario}" 
+								placeholder="Buscar una Historia de Usuario"/>
+								<p:commandButton title="Buscar Cliente" icon="ui-icon-search"
+									actionListener="#{registroActividadesView.abrirDialogoHistoriasUsuario}"
+									update=":dialogConsultaHistoriasUsuario"/>
+							</h:panelGrid>
 
 							<h:outputText value="Fecha/Hora Inicio:*" />
 							<p:calendar pattern="dd MMM yyyy h:mm a" readonlyInput="true"
@@ -58,7 +67,7 @@
 								showButtonPanel="true" 
 								binding="#{registroActividadesView.calFechaHoraFin}" />
 
-
+							
 
 						</h:panelGrid>
 					</p:panel>
@@ -73,7 +82,66 @@
 						</div>
 					</p:panel>
 				</h:form>
+			<p:dialog id="dialogConsultaHistoriasUsuario" widgetVar="dialogConsultaHistoriasUsuario" 
+					visible="#{registroActividadesView.showDialogHistoriasUsuarios}" header="Historias de Usuario" width="75%" height="300px;">
+					<h:form>
+						<p:panel id="pnlHU" header="Registrar Historia de Usuario">
+						<h:panelGrid columns="6" id="panelGrid">
 
+							<h:outputText value="Proyecto:*" />
+							<p:selectOneMenu binding="#{registroActividadesView.somProyectos}">
+								<f:selectItems value="#{registroActividadesView.siProyectos}" />
+							</p:selectOneMenu>
+
+							<h:outputText value="Estado:*" />
+							<p:selectOneMenu binding="#{registroActividadesView.somEstadoHU}">
+								<f:selectItems value="#{registroActividadesView.siEstadoHU}" />
+							</p:selectOneMenu>
+							
+						</h:panelGrid>
+					</p:panel>
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton icon="ui-icon-check"
+								value="Consultar" action="#{registroActividadesView.consultarHistoriasUsuario}" update=":dialogConsultaHistoriasUsuario"/>
+							<p:commandButton icon="ui-icon-trash"
+								value="Limpiar" action="#{registroActividadesView.limpiarBusquedaHistoriaUsuario}" update=":dialogConsultaHistoriasUsuario"/>
+
+						</div>
+					</p:panel>
+					<p:panel id="panelHistoriasUsuario">
+						<p:dataTable value="#{registroActividadesView.historiasUsuario}" var="item"
+								emptyMessage="No hay historias de Usuario registradas"
+								paginator="true" rows="10"
+								paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+								rowsPerPageTemplate="5,10,15">
+								<p:column headerText="Título"
+									sortBy="#{item.tituloHistoria}"
+									filterBy="#{item.tituloHistoria}">
+									<h:outputText value="#{item.tituloHistoria}" />
+								</p:column>
+								<p:column headerText="Detalle"
+									sortBy="#{item.detalleHistoria}"
+									filterBy="#{item.detalleHistoria}">
+									<h:outputText value="#{item.detalleHistoria}" />
+								</p:column>
+								<p:column headerText="Requisito"
+									sortBy="#{item.nombreRequerimiento}"
+									filterBy="#{item.nombreRequerimiento}">
+									<h:outputText value="#{item.nombreRequerimiento}" />
+								</p:column>
+								<p:column headerText="Descripción Req."
+									sortBy="#{item.descripcionRequerimiento}"
+									filterBy="#{item.descripcionRequerimiento}">
+									<h:outputText value="#{item.descripcionRequerimiento}" />
+								</p:column>
+								
+							</p:dataTable>
+
+
+					</p:panel>
+					</h:form>
+				</p:dialog>
 
 			</f:view>
 		</ui:define>
