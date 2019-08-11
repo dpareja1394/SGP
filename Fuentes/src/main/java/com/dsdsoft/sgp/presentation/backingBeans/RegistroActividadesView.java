@@ -63,7 +63,6 @@ public class RegistroActividadesView implements Serializable {
 	 */
 	private List<SelectItem> siProyectos, siEstadoHU;
 	private SelectOneMenu somProyectos, somEstadoHU;
-	private InputTextarea txtRequisito;
 	private CommandButton btnBuscarRequisito;
 	private List<RequerimientoDTO> requisitos;
 	private String nombreProyecto;
@@ -99,6 +98,7 @@ public class RegistroActividadesView implements Serializable {
 
 			actividad.setUsuario(usuario);
 			// TODO Pendiente agregar la historia de usuario
+			actividad.setHistoriaDeUsuario(this.historiaDeUsuario);
 
 			businessDelegatorView.saveActividad(actividad);
 
@@ -116,6 +116,7 @@ public class RegistroActividadesView implements Serializable {
 		calFechaHoraInicio.setValue(null);
 		calFechaHoraFin.setValue(null);
 		historiaDeUsuario = null;
+		txtHistoriaUsuario.setValue(null);
 	}
 
 	public void abrirDialogoHistoriasUsuario() {
@@ -142,7 +143,17 @@ public class RegistroActividadesView implements Serializable {
 		getHistoriasUsuario();
 		somProyectos.setValue(-1);
 		somEstadoHU.setValue(-1);
-		txtRequisito.setValue(null);
+	}
+	
+	public void seleccionarHistoriaUsuario(Integer hiusId) {
+		try {
+			this.historiaDeUsuario = businessDelegatorView.getHistoriaDeUsuario(hiusId);
+			txtHistoriaUsuario.setValue(this.historiaDeUsuario.getTituloHistoria().trim());
+			setShowDialogHistoriasUsuarios(false);;
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
 	}
 
 	/**
@@ -524,30 +535,6 @@ public class RegistroActividadesView implements Serializable {
 	 */
 	public void setSomEstadoHU(SelectOneMenu somEstadoHU) {
 		this.somEstadoHU = somEstadoHU;
-	}
-
-	/**
-	 *
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 * @return El/La txtRequisito
-	 *
-	 */
-	public InputTextarea getTxtRequisito() {
-		return txtRequisito;
-	}
-
-	/**
-	 *
-	 * @param txtRequisito El/La txtRequisito a setear
-	 * @author Daniel Pareja Londoño
-	 * @version may. 28, 2019
-	 * @since 1.8
-	 *
-	 */
-	public void setTxtRequisito(InputTextarea txtRequisito) {
-		this.txtRequisito = txtRequisito;
 	}
 
 	/**

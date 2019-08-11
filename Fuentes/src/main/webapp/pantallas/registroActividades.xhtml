@@ -135,6 +135,12 @@
 									filterBy="#{item.descripcionRequerimiento}">
 									<h:outputText value="#{item.descripcionRequerimiento}" />
 								</p:column>
+								<p:column headerText="Seleccionar" width="15%">
+									<p:commandButton icon="ui-icon-check"
+										title="Seleccionar Historia de Usuario"
+										actionListener="#{registroActividadesView.seleccionarHistoriaUsuario(item.hiusId)}"
+										update=":dialogConsultaHistoriasUsuario :formDialog" />
+								</p:column>
 								
 							</p:dataTable>
 
