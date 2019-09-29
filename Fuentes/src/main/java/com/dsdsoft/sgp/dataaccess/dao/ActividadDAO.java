@@ -2,12 +2,14 @@ package com.dsdsoft.sgp.dataaccess.dao;
 
 import com.dsdsoft.sgp.dataaccess.api.HibernateDaoImpl;
 import com.dsdsoft.sgp.modelo.Actividad;
+import com.dsdsoft.sgp.modelo.dto.ActividadDTO;
+import com.dsdsoft.sgp.modelo.dto.HistoriaDeUsuarioDTO;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 
 import org.hibernate.criterion.Example;
-
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,4 +53,27 @@ public class ActividadDAO extends HibernateDaoImpl<Actividad, Integer>
         ApplicationContext ctx) {
         return (IActividadDAO) ctx.getBean("ActividadDAO");
     }
+
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version sept. 29, 2019
+	 *
+	 * @see com.dsdsoft.sgp.dataaccess.dao.IActividadDAO#consultarActividadesDeUsuario(java.lang.String)
+	 *
+	 */
+	@Override
+	public List<ActividadDTO> consultarActividadesDeUsuario(String emailUsuario) throws Exception {
+		List<ActividadDTO> lista = null;
+		try {
+			Query query = getSession().getNamedQuery("consultarActividadesDeUsuario");
+			query.setParameter("pEmail", emailUsuario);
+
+			query.setResultTransformer(Transformers.aliasToBean(ActividadDTO.class));
+			lista = query.list();
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+		return lista;
+	}
 }

@@ -75,4 +75,27 @@
 
 		]]>
 	</sql-query>
+	<sql-query name="consultarActividadesDeUsuario">
+		<return-scalar column="actiId" type="java.lang.Integer" />
+ 		<return-scalar column="descripcionActividad" type="java.lang.String" />
+		<return-scalar column="fechaHoraInicio" type="java.util.Date" />
+		<return-scalar column="fechaHoraFin" type="java.util.Date" />
+		<return-scalar column="detalleHistoriaUsuario" type="java.lang.String" />
+		<return-scalar column="descripcionTipoActividad" type="java.lang.String" />
+		<![CDATA[
+			select 
+				acti.acti_id as actiId,
+				acti.descripcion_actividad as descripcionActividad,
+				acti.fecha_hora_inicio as fechaHoraInicio,
+				acti.fecha_hora_fin as fechaHoraFin,
+				hius.detalle_historia as detalleHistoriaUsuario,
+				tiac.descripcion_tiact as descripcionTipoActividad
+			from actividad acti
+				inner join usuario usua on usua.usua_id = acti.usua_id and usua.email_usuario = :pEmail
+				left outer join historia_de_usuario hius on hius.hius_id = acti.hius_id
+				inner join tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
+			order by acti.acti_id desc
+
+		]]>
+	</sql-query>
 </hibernate-mapping>

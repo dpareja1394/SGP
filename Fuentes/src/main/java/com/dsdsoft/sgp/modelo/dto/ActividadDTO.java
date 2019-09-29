@@ -25,6 +25,11 @@ public class ActividadDTO implements Serializable {
     private Date fechaHoraInicio;
     private Integer tiacId_TipoActividad;
     private Integer usuaId_Usuario;
+    
+    /**
+     * Agregadas para consultas
+     */
+    private String detalleHistoriaUsuario, descripcionTipoActividad;
 
     public Integer getActiId() {
         return actiId;
@@ -73,4 +78,52 @@ public class ActividadDTO implements Serializable {
     public void setUsuaId_Usuario(Integer usuaId_Usuario) {
         this.usuaId_Usuario = usuaId_Usuario;
     }
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version sept. 29, 2019
+	 * @since 1.8
+	 * @return El/La detalleHistoriaUsuario
+	 *
+	 */
+	public String getDetalleHistoriaUsuario() {
+		return detalleHistoriaUsuario;
+	}
+
+	/**
+	 *
+	 * @param detalleHistoriaUsuario El/La detalleHistoriaUsuario a setear
+	 * @author Daniel Pareja Londoño
+	 * @version sept. 29, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setDetalleHistoriaUsuario(String detalleHistoriaUsuario) {
+		this.detalleHistoriaUsuario = detalleHistoriaUsuario;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version sept. 29, 2019
+	 * @since 1.8
+	 * @return El/La descripcionTipoActividad
+	 *
+	 */
+	public String getDescripcionTipoActividad() {
+		return descripcionTipoActividad;
+	}
+
+	/**
+	 *
+	 * @param descripcionTipoActividad El/La descripcionTipoActividad a setear
+	 * @author Daniel Pareja Londoño
+	 * @version sept. 29, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setDescripcionTipoActividad(String descripcionTipoActividad) {
+		this.descripcionTipoActividad = descripcionTipoActividad;
+	}
 }
