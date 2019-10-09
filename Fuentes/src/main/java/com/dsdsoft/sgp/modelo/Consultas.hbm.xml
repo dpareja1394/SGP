@@ -3,6 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 24/06/2016 11:19:56 PM by Hibernate Tools 4.0.0 -->
 <hibernate-mapping>
+
 	<sql-query name="consultar_rol_dado_usuario_proyecto">
 		<return alias="ro" class="com.dsdsoft.sgp.modelo.Rol"></return>
          <![CDATA[ 
@@ -75,9 +76,10 @@
 
 		]]>
 	</sql-query>
+	
 	<sql-query name="consultarActividadesDeUsuario">
 		<return-scalar column="actiId" type="java.lang.Integer" />
- 		<return-scalar column="descripcionActividad" type="java.lang.String" />
+		<return-scalar column="descripcionActividad" type="java.lang.String" />
 		<return-scalar column="fechaHoraInicio" type="java.util.Date" />
 		<return-scalar column="fechaHoraFin" type="java.util.Date" />
 		<return-scalar column="detalleHistoriaUsuario" type="java.lang.String" />
@@ -91,11 +93,11 @@
 				hius.detalle_historia as detalleHistoriaUsuario,
 				tiac.descripcion_tiact as descripcionTipoActividad
 			from actividad acti
-				inner join usuario usua on usua.usua_id = acti.usua_id and usua.email_usuario = :pEmail
+				inner join usuario usua on usua.usua_id = acti.usua_id 
 				left outer join historia_de_usuario hius on hius.hius_id = acti.hius_id
 				inner join tipo_actividad tiac on tiac.tiac_id = acti.tiac_id
-			order by acti.acti_id desc
-
+			where usua.email_usuario = :pEmail
+			order by acti.fecha_hora_inicio desc
 		]]>
 	</sql-query>
 </hibernate-mapping>

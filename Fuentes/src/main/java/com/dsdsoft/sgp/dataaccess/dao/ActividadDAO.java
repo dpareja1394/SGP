@@ -66,6 +66,7 @@ public class ActividadDAO extends HibernateDaoImpl<Actividad, Integer>
 		List<ActividadDTO> lista = null;
 		try {
 			Query query = getSession().getNamedQuery("consultarActividadesDeUsuario");
+			log.debug("query "+query.getQueryString());
 			query.setParameter("pEmail", emailUsuario);
 
 			query.setResultTransformer(Transformers.aliasToBean(ActividadDTO.class));

@@ -496,5 +496,16 @@ public interface IBusinessDelegatorView {
 	 * @throws Exception
 	 * @return <b>{@code }</b> Start here...
 	 */
-	List<Proyecto> toProyectoList(List<ProyectoDTO> listProyectoDTO) throws Exception;	
+	List<Proyecto> toProyectoList(List<ProyectoDTO> listProyectoDTO) throws Exception;
+	
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version oct. 06, 2019
+	 * @since 1.8
+	 * @param emailUsuario
+	 * @return
+	 * @throws Exception
+	 * @return <b>{@code }</b> Start here...
+	 */
+	public List<ActividadDTO> consultarActividadesDeUsuario(String emailUsuario) throws Exception;
 }

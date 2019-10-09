@@ -21,6 +21,7 @@ import com.dsdsoft.sgp.modelo.Actividad;
 import com.dsdsoft.sgp.modelo.HistoriaDeUsuario;
 import com.dsdsoft.sgp.modelo.TipoActividad;
 import com.dsdsoft.sgp.modelo.Usuario;
+import com.dsdsoft.sgp.modelo.dto.ActividadDTO;
 import com.dsdsoft.sgp.modelo.dto.EstadoHistoriaUsuarioDTO;
 import com.dsdsoft.sgp.modelo.dto.HistoriaDeUsuarioDTO;
 import com.dsdsoft.sgp.modelo.dto.ProyectoDTO;
@@ -68,6 +69,11 @@ public class RegistroActividadesView implements Serializable {
 	private String nombreProyecto;
 	private boolean showRequisitos;
 	private List<HistoriaDeUsuarioDTO> historiasUsuario;
+	
+	/**
+	 * Tabla para vista de Actividades
+	 */
+	private List<ActividadDTO> actividades;
 
 	/**
 	 * @author Daniel Pareja Londoño
@@ -698,6 +704,38 @@ public class RegistroActividadesView implements Serializable {
 	 */
 	public void setHistoriasUsuario(List<HistoriaDeUsuarioDTO> historiasUsuario) {
 		this.historiasUsuario = historiasUsuario;
+	}
+
+	/**
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version oct. 06, 2019
+	 * @since 1.8
+	 * @return El/La actividades
+	 *
+	 */
+	public List<ActividadDTO> getActividades() {
+		try {
+			if(actividades == null) {
+				actividades = businessDelegatorView.consultarActividadesDeUsuario(usuarioIniciado);
+			}
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return actividades;
+	}
+
+	/**
+	 *
+	 * @param actividades El/La actividades a setear
+	 * @author Daniel Pareja Londoño
+	 * @version oct. 06, 2019
+	 * @since 1.8
+	 *
+	 */
+	public void setActividades(List<ActividadDTO> actividades) {
+		this.actividades = actividades;
 	}
 
 }

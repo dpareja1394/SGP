@@ -1,29 +1,22 @@
 package com.dsdsoft.sgp.modelo.control;
 
-import com.dsdsoft.sgp.dataaccess.dao.*;
-import com.dsdsoft.sgp.exceptions.*;
-import com.dsdsoft.sgp.modelo.*;
-import com.dsdsoft.sgp.modelo.dto.ActividadDTO;
-import com.dsdsoft.sgp.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.dsdsoft.sgp.dataaccess.dao.IActividadDAO;
+import com.dsdsoft.sgp.exceptions.ZMessManager;
+import com.dsdsoft.sgp.modelo.Actividad;
+import com.dsdsoft.sgp.modelo.dto.ActividadDTO;
+import com.dsdsoft.sgp.utilities.Utilities;
 
 
 /**
@@ -458,4 +451,25 @@ public class ActividadLogic implements IActividadLogic {
 
         return list;
     }
+
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version oct. 06, 2019
+	 *
+	 * @see com.dsdsoft.sgp.modelo.control.IActividadLogic#consultarActividadesDeUsuario(java.lang.String)
+	 *
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<ActividadDTO> consultarActividadesDeUsuario(String emailUsuario) throws Exception {
+		try {
+			if(emailUsuario == null || emailUsuario.trim().equals("")) {
+				throw new Exception("No se ha encontrado el usuario para consultar las actividades");
+			}
+			return actividadDAO.consultarActividadesDeUsuario(emailUsuario);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			throw e;
+		}
+	}
 }

@@ -53,4 +53,17 @@ public interface IActividadLogic {
     public Long findTotalNumberActividad() throws Exception;
 
     public List<ActividadDTO> getDataActividad() throws Exception;
+    
+    /**
+     * Consulta una lista de Actividades por el email del usuario
+     * @author Daniel Pareja Londoño
+     * @version oct. 06, 2019
+     * @since 1.8
+     * @param emailUsuario
+     * @return
+     * @throws Exception
+     * @return <b>{@code }</b> Start here...
+     *
+     */
+    public List<ActividadDTO> consultarActividadesDeUsuario(String emailUsuario) throws Exception;
 }

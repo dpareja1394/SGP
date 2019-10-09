@@ -989,4 +989,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return proyectoMapper.toEntityList(listProyectoDTO);
 	}
 
+	/**
+	 * @author Daniel Pareja Londoño
+	 * @version oct. 06, 2019
+	 *
+	 * @see com.dsdsoft.sgp.presentation.businessDelegate.IBusinessDelegatorView#consultarActividadesDeUsuario(java.lang.String)
+	 *
+	 */
+	@Override
+	public List<ActividadDTO> consultarActividadesDeUsuario(String emailUsuario) throws Exception {
+		return actividadLogic.consultarActividadesDeUsuario(emailUsuario);
+	}
+
 }
