@@ -1,6 +1,8 @@
 package com.dsdsoft.sgp.modelo.control;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -81,6 +83,7 @@ public class ClienteLogic implements IClienteLogic {
 
 		try {
 			list = clienteDAO.findAll();
+			list.sort( (c1, c2) -> c2.getClieId().compareTo(c1.getClieId()) );
 		} catch (Exception e) {
 			log.error("Error en método obtenerTodosLosClientes", e);
 			throw new ZMessManager().new GettingException(ZMessManager.ALL + "Cliente");
@@ -132,19 +135,19 @@ public class ClienteLogic implements IClienteLogic {
 					throw new Exception("Debe ingresar un correo electrónico para el contacto.");
 				}
 			}
-			
+
 			// Consultar el usuario que va a hacer la creación
 			Usuario usuarioCreador = usuarioLogic.getUsuario(cliente.getUsuarioByUsuarioCreacion().getUsuaId());
-			if(ValidacionUtils.esNulo(usuarioCreador)) {
+			if (ValidacionUtils.esNulo(usuarioCreador)) {
 				throw new Exception("El usuario de creación no está registrado en la base de datos");
 			}
-			
+
 			// Instanciar la fecha de creación
 			cliente.setFechaCreacion(new Date());
-			
+
 			// Persistir el cliente en Base de Datos
 			clienteDAO.save(cliente);
-			log.info("El cliente "+cliente.getNombreEmpresa()+" ha sido registrado correctamente");
+			log.info("El cliente " + cliente.getNombreEmpresa() + " ha sido registrado correctamente");
 		} catch (Exception e) {
 			log.error("Error guardando el cliente {}" + cliente, e);
 			throw e;
@@ -183,97 +186,62 @@ public class ClienteLogic implements IClienteLogic {
 		}
 	}
 
+	/**
+	 * Modificar un cliente existente
+	 * 
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 30, 2020
+	 *
+	 * @see com.dsdsoft.sgp.modelo.control.IClienteLogic#modificarCliente(com.dsdsoft.sgp.modelo.Cliente)
+	 *
+	 */
+	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void updateCliente(Cliente entity) throws Exception {
+	public void modificarCliente(Cliente cliente) throws Exception {
 		log.debug("Actualizando un cliente");
 
 		try {
-			if (entity.getClieId() == null) {
-				throw new ZMessManager().new EmptyFieldException("clieId");
-			}
 
-			if (entity == null) {
-				throw new ZMessManager().new NullEntityExcepcion("Cliente");
-			}
+			this.validarDatosRequeridosCliente(cliente, false);
+			this.validarTamanoCamposCadena(cliente);
 
-			if (entity.getCelularContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("Celular Contacto");
-			}
-
-			if ((entity.getCelularContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getCelularContacto(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Celular Contacto");
-			}
-
-			if ((entity.getDireccionContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getDireccionContacto(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Dirección Contacto");
-			}
-
-			if ((entity.getEnlaceWeb() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getEnlaceWeb(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Enlace Web");
-			}
-
-			if ((entity.getNit() != null) && (Utilities.checkWordAndCheckWithlength(entity.getNit(), 30) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Nit de la Empresa");
-			}
-
-			if (entity.getNombreContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("Nombre del Contacto");
-			}
-
-			if ((entity.getNombreContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getNombreContacto(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Nombre del Contacto");
-			}
-
-			if ((entity.getNombreEmpresa() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getNombreEmpresa(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Nombre de la Empresa");
-			}
-
-			if (entity.getTelefonoContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("Teléfono Contacto");
-			}
-
-			if ((entity.getTelefonoContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getTelefonoContacto(), 20) == false)) {
-				throw new ZMessManager().new NotValidFormatException("Teléfono Contacto");
-			}
-
-			if (entity.getEnlaceWeb() != null && entity.getEnlaceWeb().trim().equals("") == false) {
-				if (entity.getEnlaceWeb().trim().substring(0, 4).equals("http")) {
+			// Validar si el cliente tiene enlace web y que haya ingresado correctamente la
+			// página
+			if (!ValidacionUtils.cadenaNulaOVacia(cliente.getEnlaceWeb())) {
+				if (cliente.getEnlaceWeb().trim().substring(0, 4).equals("http")) {
 					UrlValidator urlValidator = new UrlValidator();
-					if (urlValidator.isValid(entity.getEnlaceWeb()) == false) {
+					if (!urlValidator.isValid(cliente.getEnlaceWeb())) {
 						throw new Exception("Enlace Web no es correcto");
 					}
 				} else {
-					String enlaceWeb = "https://" + entity.getEnlaceWeb().trim();
+					String enlaceWeb = "https://" + cliente.getEnlaceWeb().trim();
 					UrlValidator urlValidator = new UrlValidator();
-					if (urlValidator.isValid(enlaceWeb) == false) {
+					if (!urlValidator.isValid(enlaceWeb)) {
 						throw new Exception("Enlace Web no es correcto");
 					}
-					entity.setEnlaceWeb(enlaceWeb);
+					cliente.setEnlaceWeb(enlaceWeb);
 				}
 			}
 
-			if (entity.getEmailContacto() != null && entity.getEmailContacto().trim().equals("") == false) {
-				if (EmailValidator.getInstance().isValid(entity.getEmailContacto()) == false) {
+			// Validar si el cliente tiene correo electrónico, validar su forma
+			if (!ValidacionUtils.cadenaNulaOVacia(cliente.getEmailContacto())) {
+				if (!EmailValidator.getInstance().isValid(cliente.getEmailContacto())) {
 					throw new Exception("Debe ingresar un correo electrónico para el contacto.");
 				}
 			}
 
-			if (entity.getUsuarioByUsuarioModificacion() == null) {
-				throw new Exception("No ha llegado el usuario para la modificación");
-			}
-			Usuario usuarioModifica = usuarioLogic.getUsuario(entity.getUsuarioByUsuarioModificacion().getUsuaId());
-			if (usuarioModifica == null) {
+			// Consultar el usuario que va a hacer la creación
+			Usuario usuarioModificador = usuarioLogic.getUsuario(cliente.getUsuarioByUsuarioModificacion().getUsuaId());
+			if (ValidacionUtils.esNulo(usuarioModificador)) {
 				throw new Exception("El usuario de modificación no está registrado en la base de datos");
 			}
-			entity.setFechaModificacion(new Date());
 
-			clienteDAO.update(entity);
+			// Instanciar la fecha de creación
+			cliente.setFechaModificacion(new Date());
+
+			// Persistir el cliente en Base de Datos
+			clienteDAO.update(cliente);
+			log.info("El cliente " + cliente.getNombreEmpresa() + " ha sido modificado correctamente");
 
 			log.debug("Cliente actualizado correctamente");
 		} catch (Exception e) {

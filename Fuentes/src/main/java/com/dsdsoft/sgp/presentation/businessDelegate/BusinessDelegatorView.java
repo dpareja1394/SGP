@@ -277,12 +277,13 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		clienteLogic.guardarCliente(cliente);
 	}
 
+	@Override
 	public void deleteCliente(Cliente entity) throws Exception {
 		clienteLogic.deleteCliente(entity);
 	}
 
-	public void updateCliente(Cliente entity) throws Exception {
-		clienteLogic.updateCliente(entity);
+	public void modificarCliente(Cliente cliente) throws Exception {
+		clienteLogic.modificarCliente(cliente);
 	}
 
 	public Cliente getCliente(Integer clieId) throws Exception {

@@ -108,7 +108,18 @@ public interface IBusinessDelegatorView {
 
 	public void deleteCliente(Cliente entity) throws Exception;
 
-	public void updateCliente(Cliente entity) throws Exception;
+	/**
+	 * Modificar un cliente existente
+	 * 
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 30, 2020
+	 * @since 1.8
+	 * @param cliente
+	 * @throws Exception
+	 *
+	 */
+	public void modificarCliente(Cliente cliente) throws Exception;
+
 
 	public Cliente getCliente(Integer clieId) throws Exception;
 

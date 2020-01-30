@@ -333,7 +333,7 @@ public class ClienteView implements Serializable {
 			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
 			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
 			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
-			businessDelegatorView.updateCliente(entity);
+			businessDelegatorView.modificarCliente(entity);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
 		} catch (Exception e) {
 			data = null;
@@ -415,7 +415,7 @@ public class ClienteView implements Serializable {
 			entity.setNombreContacto(FacesUtils.checkString(nombreContacto));
 			entity.setNombreEmpresa(FacesUtils.checkString(nombreEmpresa));
 			entity.setTelefonoContacto(FacesUtils.checkString(telefonoContacto));
-			businessDelegatorView.updateCliente(entity);
+			businessDelegatorView.modificarCliente(entity);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
 		} catch (Exception e) {
 			// renderManager.getOnDemandRenderer("ClienteView").requestRender();
@@ -528,7 +528,7 @@ public class ClienteView implements Serializable {
 			clienteEditar.setUsuarioByUsuarioModificacion(usuario);
 			clienteEditar.setFechaModificacion(new Date());
 			
-			businessDelegatorView.updateCliente(clienteEditar);
+			businessDelegatorView.modificarCliente(clienteEditar);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
 			
 			setClientesConCiudad(null);
@@ -969,7 +969,7 @@ public class ClienteView implements Serializable {
 			Usuario usuario = businessDelegatorView.buscarUsuarioPorEmail(usuarioIniciado);
 			entity.setUsuarioByUsuarioModificacion(usuario);
 			
-			businessDelegatorView.updateCliente(entity);
+			businessDelegatorView.modificarCliente(entity);
 			FacesUtils.addInfoMessage("Se ha actualizado los datos del cliente");
 			limpiarRegistrarNuevoCliente();
 		} catch (Exception e) {
