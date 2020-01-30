@@ -17,12 +17,29 @@ import java.util.Set;
 *
 */
 public interface IClienteLogic {
-    public List<Cliente> getCliente() throws Exception;
+	
+	/**
+	 * Método para obtener la lista de todos los clientes
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 29, 2020
+	 * @since 1.8
+	 * @return
+	 * @throws Exception
+	 * @return <b>{@code List<Cliente>}</b> Lista con todos los clientes del sistema
+	 *
+	 */
+    public List<Cliente> obtenerTodosLosClientes() throws Exception;
 
     /**
-         * Save an new Cliente entity
-         */
-    public void saveCliente(Cliente entity) throws Exception;
+     * Registrar un cliente nuevo
+     * @author Daniel Pareja Londoño
+     * @version ene. 29, 2020
+     * @since 1.8
+     * @param cliente
+     * @throws Exception
+     *
+     */
+    public void guardarCliente(Cliente cliente) throws Exception;
 
     /**
          * Delete an existing Cliente entity

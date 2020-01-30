@@ -257,12 +257,24 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		return casoSoporteLogic.getDataCasoSoporte();
 	}
 
-	public List<Cliente> getCliente() throws Exception {
-		return clienteLogic.getCliente();
+	/**
+	 * Método para obtener la lista de todos los clientes
+	 * 
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 29, 2020
+	 * @since 1.8
+	 * @return
+	 * @throws Exception
+	 * @return <b>{@code List<Cliente>}</b> Lista con todos los clientes del sistema
+	 *
+	 */
+	public List<Cliente> obtenerTodosLosClientes() throws Exception {
+		return clienteLogic.obtenerTodosLosClientes();
 	}
 
-	public void saveCliente(Cliente entity) throws Exception {
-		clienteLogic.saveCliente(entity);
+	@Override
+	public void guardarCliente(Cliente cliente) throws Exception {
+		clienteLogic.guardarCliente(cliente);
 	}
 
 	public void deleteCliente(Cliente entity) throws Exception {

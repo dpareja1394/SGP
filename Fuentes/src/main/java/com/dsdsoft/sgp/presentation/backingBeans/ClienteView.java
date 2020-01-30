@@ -308,7 +308,7 @@ public class ClienteView implements Serializable {
 			entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
 			entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
 			entity.setTelefonoContacto(FacesUtils.checkString(txtTelefonoContacto));
-			businessDelegatorView.saveCliente(entity);
+			businessDelegatorView.guardarCliente(entity);
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
 			action_clear();
 		} catch (Exception e) {

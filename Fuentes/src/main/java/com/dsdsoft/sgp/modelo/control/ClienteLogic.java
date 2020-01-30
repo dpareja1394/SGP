@@ -1,29 +1,31 @@
 package com.dsdsoft.sgp.modelo.control;
 
-import com.dsdsoft.sgp.dataaccess.dao.*;
-import com.dsdsoft.sgp.exceptions.*;
-import com.dsdsoft.sgp.modelo.*;
-import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
-import com.dsdsoft.sgp.utilities.Utilities;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.context.annotation.Scope;
-
-import org.springframework.stereotype.Service;
-
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-import org.apache.commons.validator.routines.EmailValidator;
-import org.apache.commons.validator.routines.UrlValidator;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+
+import org.apache.commons.validator.routines.EmailValidator;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.dsdsoft.sgp.dataaccess.dao.IClienteDAO;
+import com.dsdsoft.sgp.dataaccess.dao.IProyectoDAO;
+import com.dsdsoft.sgp.exceptions.ZMessManager;
+import com.dsdsoft.sgp.modelo.Ciudad;
+import com.dsdsoft.sgp.modelo.Cliente;
+import com.dsdsoft.sgp.modelo.Departamento;
+import com.dsdsoft.sgp.modelo.Pais;
+import com.dsdsoft.sgp.modelo.Proyecto;
+import com.dsdsoft.sgp.modelo.Usuario;
+import com.dsdsoft.sgp.modelo.dto.ClienteDTO;
+import com.dsdsoft.sgp.utilities.Utilities;
+import com.dsdsoft.sgp.utilities.ValidacionUtils;
 
 /**
  * @author Zathura Code Generator http://code.google.com/p/zathura
@@ -51,27 +53,36 @@ public class ClienteLogic implements IClienteLogic {
 
 	@Autowired
 	private IUsuarioLogic usuarioLogic;
-	
+
 	@Autowired
 	private ICiudadLogic ciudadLogic;
-	
+
 	@Autowired
 	private IDepartamentoLogic departamentoLogic;
-	
+
 	@Autowired
 	private IPaisLogic paisLogic;
-	
 
+	/**
+	 * Método para obtener la lista de todos los clientes
+	 * 
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 29, 2020
+	 *
+	 * @see com.dsdsoft.sgp.modelo.control.IClienteLogic#obtenerTodosLosClientes()
+	 *
+	 */
+	@Override
 	@Transactional(readOnly = true)
-	public List<Cliente> getCliente() throws Exception {
-		log.debug("finding all Cliente instances");
+	public List<Cliente> obtenerTodosLosClientes() throws Exception {
+		log.debug("Buscando todos los clientes");
 
 		List<Cliente> list = new ArrayList<Cliente>();
 
 		try {
 			list = clienteDAO.findAll();
 		} catch (Exception e) {
-			log.error("finding all Cliente failed", e);
+			log.error("Error en método obtenerTodosLosClientes", e);
 			throw new ZMessManager().new GettingException(ZMessManager.ALL + "Cliente");
 		} finally {
 		}
@@ -79,62 +90,63 @@ public class ClienteLogic implements IClienteLogic {
 		return list;
 	}
 
+	/**
+	 * Registrar un cliente nuevo
+	 * 
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 29, 2020
+	 *
+	 * @see com.dsdsoft.sgp.modelo.control.IClienteLogic#guardarCliente(com.dsdsoft.sgp.modelo.Cliente)
+	 *
+	 */
+	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
-	public void saveCliente(Cliente entity) throws Exception {
-		log.debug("Guardando un cliente, " + entity.getNombreEmpresa());
+	public void guardarCliente(Cliente cliente) throws Exception {
+		log.debug("Guardando un cliente {}" + cliente);
 
 		try {
-			if (entity.getCelularContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("celularContacto");
+			this.validarDatosRequeridosCliente(cliente, true);
+			this.validarTamanoCamposCadena(cliente);
+
+			// Validar si el cliente tiene enlace web y que haya ingresado correctamente la
+			// página
+			if (!ValidacionUtils.cadenaNulaOVacia(cliente.getEnlaceWeb())) {
+				if (cliente.getEnlaceWeb().trim().substring(0, 4).equals("http")) {
+					UrlValidator urlValidator = new UrlValidator();
+					if (!urlValidator.isValid(cliente.getEnlaceWeb())) {
+						throw new Exception("Enlace Web no es correcto");
+					}
+				} else {
+					String enlaceWeb = "https://" + cliente.getEnlaceWeb().trim();
+					UrlValidator urlValidator = new UrlValidator();
+					if (!urlValidator.isValid(enlaceWeb)) {
+						throw new Exception("Enlace Web no es correcto");
+					}
+					cliente.setEnlaceWeb(enlaceWeb);
+				}
 			}
 
-			if ((entity.getCelularContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getCelularContacto(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("celularContacto");
+			// Validar si el cliente tiene correo electrónico, validar su forma
+			if (!ValidacionUtils.cadenaNulaOVacia(cliente.getEmailContacto())) {
+				if (!EmailValidator.getInstance().isValid(cliente.getEmailContacto())) {
+					throw new Exception("Debe ingresar un correo electrónico para el contacto.");
+				}
 			}
-
-			if ((entity.getDireccionContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getDireccionContacto(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("direccionContacto");
+			
+			// Consultar el usuario que va a hacer la creación
+			Usuario usuarioCreador = usuarioLogic.getUsuario(cliente.getUsuarioByUsuarioCreacion().getUsuaId());
+			if(ValidacionUtils.esNulo(usuarioCreador)) {
+				throw new Exception("El usuario de creación no está registrado en la base de datos");
 			}
-
-			if ((entity.getEnlaceWeb() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getEnlaceWeb(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("enlaceWeb");
-			}
-
-			if ((entity.getNit() != null) && (Utilities.checkWordAndCheckWithlength(entity.getNit(), 30) == false)) {
-				throw new ZMessManager().new NotValidFormatException("nit");
-			}
-
-			if (entity.getNombreContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("nombreContacto");
-			}
-
-			if ((entity.getNombreContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getNombreContacto(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("nombreContacto");
-			}
-
-			if ((entity.getNombreEmpresa() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getNombreEmpresa(), 200) == false)) {
-				throw new ZMessManager().new NotValidFormatException("nombreEmpresa");
-			}
-
-			if (entity.getTelefonoContacto() == null) {
-				throw new ZMessManager().new EmptyFieldException("telefonoContacto");
-			}
-
-			if ((entity.getTelefonoContacto() != null)
-					&& (Utilities.checkWordAndCheckWithlength(entity.getTelefonoContacto(), 20) == false)) {
-				throw new ZMessManager().new NotValidFormatException("telefonoContacto");
-			}
-
-			clienteDAO.save(entity);
-
-			log.info("Se ha registrado el cliente, " + entity.getNombreEmpresa());
+			
+			// Instanciar la fecha de creación
+			cliente.setFechaCreacion(new Date());
+			
+			// Persistir el cliente en Base de Datos
+			clienteDAO.save(cliente);
+			log.info("El cliente "+cliente.getNombreEmpresa()+" ha sido registrado correctamente");
 		} catch (Exception e) {
-			log.error("Error guardando el cliente, " + entity.getNombreEmpresa(), e);
+			log.error("Error guardando el cliente {}" + cliente, e);
 			throw e;
 		} finally {
 		}
@@ -176,6 +188,10 @@ public class ClienteLogic implements IClienteLogic {
 		log.debug("Actualizando un cliente");
 
 		try {
+			if (entity.getClieId() == null) {
+				throw new ZMessManager().new EmptyFieldException("clieId");
+			}
+
 			if (entity == null) {
 				throw new ZMessManager().new NullEntityExcepcion("Cliente");
 			}
@@ -187,10 +203,6 @@ public class ClienteLogic implements IClienteLogic {
 			if ((entity.getCelularContacto() != null)
 					&& (Utilities.checkWordAndCheckWithlength(entity.getCelularContacto(), 200) == false)) {
 				throw new ZMessManager().new NotValidFormatException("Celular Contacto");
-			}
-
-			if (entity.getClieId() == null) {
-				throw new ZMessManager().new EmptyFieldException("clieId");
 			}
 
 			if ((entity.getDireccionContacto() != null)
@@ -351,61 +363,61 @@ public class ClienteLogic implements IClienteLogic {
 
 	/**
 	 *
-	 * @param varibles
-	 *            este arreglo debera tener:
+	 * @param varibles         este arreglo debera tener:
 	 *
-	 *            [0] = String variable = (String) varibles[i]; representa como
-	 *            se llama la variable en el pojo
+	 *                         [0] = String variable = (String) varibles[i];
+	 *                         representa como se llama la variable en el pojo
 	 *
-	 *            [1] = Boolean booVariable = (Boolean) varibles[i + 1];
-	 *            representa si el valor necesita o no ''(comillas simples)usado
-	 *            para campos de tipo string
+	 *                         [1] = Boolean booVariable = (Boolean) varibles[i +
+	 *                         1]; representa si el valor necesita o no ''(comillas
+	 *                         simples)usado para campos de tipo string
 	 *
-	 *            [2] = Object value = varibles[i + 2]; representa el valor que
-	 *            se va a buscar en la BD
+	 *                         [2] = Object value = varibles[i + 2]; representa el
+	 *                         valor que se va a buscar en la BD
 	 *
-	 *            [3] = String comparator = (String) varibles[i + 3]; representa
-	 *            que tipo de busqueda voy a hacer.., ejemplo: where
-	 *            nombre=william o where nombre<>william, en este campo iria el
-	 *            tipo de comparador que quiero si es = o <>
+	 *                         [3] = String comparator = (String) varibles[i + 3];
+	 *                         representa que tipo de busqueda voy a hacer..,
+	 *                         ejemplo: where nombre=william o where
+	 *                         nombre<>william, en este campo iria el tipo de
+	 *                         comparador que quiero si es = o <>
 	 *
-	 *            Se itera de 4 en 4..., entonces 4 registros del arreglo
-	 *            representan 1 busqueda en un campo, si se ponen mas pues el
-	 *            continuara buscando en lo que se le ingresen en los otros 4
+	 *                         Se itera de 4 en 4..., entonces 4 registros del
+	 *                         arreglo representan 1 busqueda en un campo, si se
+	 *                         ponen mas pues el continuara buscando en lo que se le
+	 *                         ingresen en los otros 4
 	 *
 	 *
 	 * @param variablesBetween
 	 *
-	 *            la diferencia son estas dos posiciones
+	 *                         la diferencia son estas dos posiciones
 	 *
-	 *            [0] = String variable = (String) varibles[j]; la variable ne
-	 *            la BD que va a ser buscada en un rango
+	 *                         [0] = String variable = (String) varibles[j]; la
+	 *                         variable ne la BD que va a ser buscada en un rango
 	 *
-	 *            [1] = Object value = varibles[j + 1]; valor 1 para buscar en
-	 *            un rango
+	 *                         [1] = Object value = varibles[j + 1]; valor 1 para
+	 *                         buscar en un rango
 	 *
-	 *            [2] = Object value2 = varibles[j + 2]; valor 2 para buscar en
-	 *            un rango ejempolo: a > 1 and a < 5 --> 1 seria value y 5 seria
-	 *            value2
+	 *                         [2] = Object value2 = varibles[j + 2]; valor 2 para
+	 *                         buscar en un rango ejempolo: a > 1 and a < 5 --> 1
+	 *                         seria value y 5 seria value2
 	 *
-	 *            [3] = String comparator1 = (String) varibles[j + 3];
-	 *            comparador 1 ejemplo: a comparator1 1 and a < 5
+	 *                         [3] = String comparator1 = (String) varibles[j + 3];
+	 *                         comparador 1 ejemplo: a comparator1 1 and a < 5
 	 *
-	 *            [4] = String comparator2 = (String) varibles[j + 4];
-	 *            comparador 2 ejemplo: a comparador1>1 and a comparador2<5 (el
-	 *            original: a > 1 and a < 5) *
-	 * @param variablesBetweenDates(en
-	 *            este caso solo para mysql) [0] = String variable = (String)
-	 *            varibles[k]; el nombre de la variable que hace referencia a
-	 *            una fecha
+	 *                         [4] = String comparator2 = (String) varibles[j + 4];
+	 *                         comparador 2 ejemplo: a comparador1>1 and a
+	 *                         comparador2<5 (el original: a > 1 and a < 5) *
+	 * @param                  variablesBetweenDates(en este caso solo para mysql)
+	 *                         [0] = String variable = (String) varibles[k]; el
+	 *                         nombre de la variable que hace referencia a una fecha
 	 *
-	 *            [1] = Object object1 = varibles[k + 2]; fecha 1 a
-	 *            comparar(deben ser dates)
+	 *                         [1] = Object object1 = varibles[k + 2]; fecha 1 a
+	 *                         comparar(deben ser dates)
 	 *
-	 *            [2] = Object object2 = varibles[k + 3]; fecha 2 a
-	 *            comparar(deben ser dates)
+	 *                         [2] = Object object2 = varibles[k + 3]; fecha 2 a
+	 *                         comparar(deben ser dates)
 	 *
-	 *            esto hace un between entre las dos fechas.
+	 *                         esto hace un between entre las dos fechas.
 	 *
 	 * @return lista con los objetos que se necesiten
 	 * @throws Exception
@@ -650,7 +662,7 @@ public class ClienteLogic implements IClienteLogic {
 	public List<ClienteDTO> listaClientesDTOConCiudad() throws Exception {
 		List<ClienteDTO> lista = null;
 		try {
-			List<Cliente> listaClientes = getCliente();
+			List<Cliente> listaClientes = obtenerTodosLosClientes();
 			lista = new ArrayList<ClienteDTO>();
 			for (Cliente cliente : listaClientes) {
 				ClienteDTO clienteDTO = new ClienteDTO();
@@ -665,11 +677,11 @@ public class ClienteLogic implements IClienteLogic {
 				Ciudad ciudad = ciudadLogic.getCiudad(cliente.getCiudad().getCiudId());
 				Departamento departamento = departamentoLogic.getDepartamento(ciudad.getDepartamento().getDepaId());
 				Pais pais = paisLogic.getPais(departamento.getPais().getPaisId());
-				
-				clienteDTO.setCiudadDepartamentoPais(ciudad.getNombreCiudad().toUpperCase()+" - "
-							+departamento.getNombreDepartamento().toUpperCase()+" - "
-							+pais.getNombrePais().toUpperCase());
-				
+
+				clienteDTO.setCiudadDepartamentoPais(ciudad.getNombreCiudad().toUpperCase() + " - "
+						+ departamento.getNombreDepartamento().toUpperCase() + " - "
+						+ pais.getNombrePais().toUpperCase());
+
 				lista.add(clienteDTO);
 			}
 		} catch (Exception e) {
@@ -677,6 +689,108 @@ public class ClienteLogic implements IClienteLogic {
 			throw e;
 		}
 		return lista;
+	}
+
+	/**
+	 * Se crea con la finalidad de validar los datos de los atributos de la entidad
+	 * Cliente
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 29, 2020
+	 * @since 1.8
+	 * @param cliente
+	 * @param esCreacion
+	 * @throws Exception
+	 *
+	 */
+	@Transactional(readOnly = true)
+	private void validarDatosRequeridosCliente(Cliente cliente, boolean esCreacion) throws Exception {
+		// Validar que el cliente venga instanciado
+		if (ValidacionUtils.esNulo(cliente)) {
+			throw new Exception("No ha llegado datos del cliente");
+		}
+
+		// Validar que el usuario haya ingresado el nombre del usuario
+		if (ValidacionUtils.cadenaNulaOVacia(cliente.getNombreContacto())) {
+			throw new Exception("Nombre de Contacto es un dato requerido");
+		}
+
+		// Validar que se haya seleccionado la ciudad de ubicación
+		if (ValidacionUtils.esNulo(cliente.getCiudad())) {
+			throw new Exception("No se ha seleccionado la Ubicación del Cliente (Ciudad)");
+		}
+
+		// Validar que se haya instanciado el Usuario Creador del registro
+		if (ValidacionUtils.esNulo(cliente.getUsuarioByUsuarioCreacion())) {
+			throw new Exception("No se ha definido el usuario para la trazabilidad de creación");
+		}
+
+		if (!esCreacion) {
+			// Validar si es una modificación entonces el cliente debe tener un id asignado
+			if (ValidacionUtils.esNulo(cliente.getClieId())) {
+				throw new Exception("No se puede modificar un cliente que no tiene asignado un Id");
+			}
+
+			if (ValidacionUtils.esNulo(cliente.getUsuarioByUsuarioModificacion())) {
+				throw new Exception("No se ha definido el usuario para la trazabilidad de modificación");
+			}
+		}
+
+	}
+
+	/**
+	 * Validar los tamaños de los atributos tipo String
+	 *
+	 *
+	 * @author Daniel Pareja Londoño
+	 * @version ene. 29, 2020
+	 * @since 1.8
+	 * @param cliente
+	 * @throws Exception
+	 *
+	 */
+	@Transactional(readOnly = true)
+	private void validarTamanoCamposCadena(Cliente cliente) throws Exception {
+		// Validar nombre empresa
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getNombreEmpresa())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getNombreEmpresa(), 200)) {
+			throw new Exception("El tamaño del campo Nombre Empresa es 200 caracteres");
+		}
+		// Validar NIT
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getNit())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getNit(), 30)) {
+			throw new Exception("El tamaño del campo NIT es de 30 caracteres");
+		}
+		// Validar Teléfono Contacto
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getTelefonoContacto())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getTelefonoContacto(), 20)) {
+			throw new Exception("El tamaño del campo Teléfono es de 30 caracteres");
+		}
+		// Validar Direccion Contacto
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getDireccionContacto())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getDireccionContacto(), 200)) {
+			throw new Exception("El tamaño del campo Dirección Contacto es 200 caracteres");
+		}
+		// Validar Nombre Contacto
+		if (ValidacionUtils.cadenaSuperaTamano(cliente.getNombreContacto(), 200)) {
+			throw new Exception("El tamaño del campo Nombre Contacto es 200 caracteres");
+		}
+
+		// Validar Celular Contacto
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getCelularContacto())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getCelularContacto(), 200)) {
+			throw new Exception("El tamaño del campo Celular Contacto es 200 caracteres");
+		}
+		// Validar Enlace Web
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getEnlaceWeb())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getEnlaceWeb(), 200)) {
+			throw new Exception("El tamaño del campo Enlace Web es 200 caracteres");
+		}
+		// Validar Email Contacto
+		if (!ValidacionUtils.cadenaNulaOVacia(cliente.getEmailContacto())
+				&& ValidacionUtils.cadenaSuperaTamano(cliente.getEmailContacto(), 200)) {
+			throw new Exception("El tamaño del campo Email Contacto es 200 caracteres");
+		}
 	}
 
 }
