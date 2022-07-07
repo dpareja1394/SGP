@@ -237,7 +237,7 @@
 		<dependency>
 			<groupId>com.jamonapi</groupId>
 			<artifactId>jamon</artifactId>
-			<version>2.79</version>
+			<version>2.80</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>hazelcast-all</artifactId>
